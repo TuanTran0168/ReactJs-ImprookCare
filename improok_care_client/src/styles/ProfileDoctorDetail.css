@@ -1,0 +1,324 @@
+div.Profile_Doctor_Detail_Content {
+    max-width: 70rem;
+    display: flex;
+    flex-direction: column;
+    margin-left: auto;
+    margin-right: auto;
+    flex-wrap: wrap;
+    padding-top: 2rem;
+}
+
+div.Profile_Doctor_Detail_Header {
+    display: flex;
+}
+
+div.Profile_Doctor_Avatar {
+    width: 30%;
+}
+
+div.Profile_Doctor_Avatar>img {
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+}
+
+div.Profile_Doctor_Info {
+    display: flex;
+    flex-direction: column;
+    width: 70%;
+}
+
+div.Profile_Doctor_Detail_Footer {
+    margin-top: 2rem;
+}
+
+div.Phonenumber {
+    display: flex;
+    gap: 2rem
+}
+
+div.Phonenumber>div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 30%;
+}
+
+div.Phonenumber>button {
+    width: 100%;
+    background-color: #1975dc;
+    border-radius: .5rem;
+}
+
+div.Phonenumber>button>a {
+    text-decoration: none;
+    color: white;
+    font-weight: 700;
+}
+
+div.Profile_Doctor_Detail_Body {
+    margin-top: 2rem;
+}
+
+div.googleMapAPI {
+    width: 100%;
+    margin-top: 5rem;
+}
+
+div.Profile_Doctor_Comment {
+    margin-top: 2rem;
+}
+
+div.Profile_Doctor_Rating {
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+div.User_Comment {
+    display: flex;
+}
+
+
+.Comment_List {
+    height: 100%;
+    /* overflow: auto;
+    margin-bottom: 3rem; */
+}
+
+div.Comment_Sort_Group {
+    display: flex;
+    gap: 2rem;
+    margin-bottom: 1rem;
+}
+
+div.Comment_Sort_Select {
+    display: flex;
+    gap: 2rem;
+    width: 80%;
+}
+
+div.Comment_Sort_Date {
+    display: flex;
+    width: 45%;
+}
+
+div.Comment_Sort_Rating {
+    display: flex;
+    width: 45%;
+}
+
+button.Comment_Sort_Butt {
+    display: inline-block;
+    outline: 0;
+    appearance: none;
+    padding: 0px 12px;
+    border: 0px solid transparent;
+    border-radius: 4px;
+    text-decoration: none;
+    cursor: pointer;
+    background-color: rgb(9, 128, 76);
+    box-shadow: rgb(19 170 82 / 40%) 0px 2px 3px;
+    color: rgb(255, 255, 255);
+    font-size: 14px;
+    font-weight: 400;
+    height: 36px;
+    transition: all 150ms ease-in-out 0s;
+}
+
+div.Comment_Area {
+    height: 1200px;
+    /* background-color: red; */
+}
+
+div.list-group>div.list-group-item {
+    height: 20% !important;
+}
+
+div.list-group {
+    height: 100% !important;
+}
+
+div.User_Comment_Info {
+    display: flex;
+    height: 100% !important;
+}
+
+div.User_Comment_Avatar {
+    width: 30%;
+    overflow: hidden;
+}
+
+div.User_Comment_Content {
+    width: 70%;
+}
+
+button.Cancel_Comment_Butt {
+    outline: 0;
+    grid-gap: 8px;
+    align-items: center;
+    background-color: #1975dc;
+    color: #000;
+    border: 1px solid #000;
+    border-radius: 4px;
+    cursor: pointer;
+    display: inline-flex;
+    flex-shrink: 0;
+    font-size: 16px;
+    gap: 8px;
+    justify-content: center;
+    line-height: 1.5;
+    overflow: hidden;
+    padding: 12px 16px;
+    text-decoration: none;
+    text-overflow: ellipsis;
+    transition: all .14s ease-out;
+    white-space: nowrap;
+}
+
+button.Cancel_Comment_Butt:hover {
+    box-shadow: 4px 4px 0 #000;
+    transform: translate(-4px, -4px);
+}
+
+button.Cancel_Comment_Butt:focus-visible {
+    outline-offset: 1px;
+}
+
+button.Update_Comment_Butt {
+    outline: 0 !important;
+    grid-gap: 8px !important;
+    align-items: center !important;
+    background-color: rgb(16, 230, 159) !important;
+    color: #000 !important;
+    border: 1px solid #000 !important;
+    border-radius: 4px !important;
+    cursor: pointer !important;
+    display: inline-flex !important;
+    flex-shrink: 0 !important;
+    font-size: 16px !important;
+    gap: 8px !important;
+    justify-content: center !important;
+    line-height: 1.5 !important;
+    overflow: hidden !important;
+    padding: 12px 16px !important;
+    text-decoration: none !important;
+    text-overflow: ellipsis !important;
+    transition: all .14s ease-out !important;
+    white-space: nowrap !important;
+}
+
+button.Update_Comment_Butt:hover {
+    box-shadow: 4px 4px 0 #000 !important;
+    transform: translate(-4px, -4px) !important;
+}
+
+button.Update_Comment_Butt:focus-visible {
+    outline-offset: 1px !important;
+}
+
+button.Edit_Comment_Butt {
+    outline: 0;
+    grid-gap: 8px;
+    align-items: center;
+    background-color: #1975dc;
+    color: #000;
+    border: 1px solid #000;
+    border-radius: 4px;
+    cursor: pointer;
+    display: inline-flex;
+    flex-shrink: 0;
+    font-size: 16px;
+    gap: 8px;
+    justify-content: center;
+    line-height: 1.5;
+    overflow: hidden;
+    padding: 12px 16px;
+    text-decoration: none;
+    text-overflow: ellipsis;
+    transition: all .14s ease-out;
+    white-space: nowrap;
+}
+
+button.Edit_Comment_Butt:hover {
+    box-shadow: 4px 4px 0 #000;
+    transform: translate(-4px, -4px);
+}
+
+button.Edit_Comment_Butt:focus-visible {
+    outline-offset: 1px;
+}
+
+div.User_Message_Detail_Header {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+div.User_Message_Detail_Header>button {
+    background-color: transparent;
+    border: none;
+    color: #1975dc;
+}
+
+div.User_Message_Detail_Inner {
+    position: fixed;
+    bottom: 0;
+    padding: 2rem;
+    right: 5rem;
+    z-index: 99999;
+    background-color: white;
+    opacity: 1;
+    box-shadow: 8px 8px 20px rgba(0, 0, 0, 1);
+    border-top-left-radius: 1rem;
+    border-top-right-radius: 1rem;
+}
+
+div.User_Send_Message {
+    margin-top: 2rem;
+}
+
+div.User_Send_Message>div {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+}
+
+div.User_Send_Message>div>input {
+    width: 80%;
+    height: 3rem;
+}
+
+div.User_Send_Message>div>button {
+    width: 20%;
+    height: 3rem;
+    outline: 0;
+    grid-gap: 8px;
+    align-items: center;
+    background-color: #1975dc;
+    color: #000;
+    border: 1px solid #000;
+    border-radius: 4px;
+    cursor: pointer;
+    display: inline-flex;
+    flex-shrink: 0;
+    font-size: 16px;
+    gap: 8px;
+    justify-content: center;
+    line-height: 1.5;
+    overflow: hidden;
+    padding: 12px 16px;
+    text-decoration: none;
+    text-overflow: ellipsis;
+    transition: all .14s ease-out;
+    white-space: nowrap;
+}
+
+div.Profile_Doctor_Total_Rating {
+    display: flex;
+    gap: 0.5rem;
+}
+
+div.User_Message_Content {
+    height: 22rem;
+    overflow: auto;
+}

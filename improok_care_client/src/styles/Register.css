@@ -1,0 +1,271 @@
+div.Register_Wrapper {
+    background-color: #abe3ef;
+    margin-top: 1rem;
+    min-height: 730px;
+}
+
+div.Register_Content {
+    width: 1040px;
+    margin: auto;
+}
+
+div.Register_Form {
+    padding-top: 110px;
+    /* padding-left: 100px; */
+    display: flex;
+    justify-content: space-around;
+    gap: 5rem;
+    max-width: 1040px;
+    align-items: center;
+    max-height: 500px;
+}
+
+div.Register_Left {
+    width: 40%;
+}
+
+div.Register_Left>div {
+    text-align: center;
+    background-color: #ff424f;
+    max-width: 600px;
+}
+
+div.Register_Left>img {
+    max-height: 500px;
+    padding-top: 0.3rem;
+    margin-right: 2rem;
+}
+
+div.Register_Right {
+    width: 60%;
+}
+
+div.Register_Detail {
+    width: 450px;
+    min-height: 482px;
+    background-color: transparent;
+    border-radius: 4px;
+    box-shadow: 8px 8px 20px rgba(0, 0, 0, 1);
+}
+
+div.Register_Header {
+    width: 100%;
+    text-align: center;
+    padding: 1.375rem;
+}
+
+div.Register_Header>div {
+    font-size: 1.25rem;
+    font-weight: bold;
+}
+
+div.Register_Fill {
+    padding: 0 30px 30px;
+    overflow: hidden;
+}
+
+div.Register_User {
+    margin-bottom: 10px;
+}
+
+div.Register_User_Input {
+    box-sizing: border-box;
+    width: 100%;
+    height: 2.5rem;
+    overflow: hidden;
+    border: 1px solid rgba(0, 0, 0, .14);
+    border-radius: 2px;
+    box-shadow: inset 0 2px 0 rgba(0, 0, 0, .02);
+    display: flex;
+    align-items: center;
+}
+
+div.Register_User_Input>input {
+    padding: 0.75rem;
+    outline: none;
+    border: 0;
+    flex: 1;
+    flex-shrink: 0;
+    filter: none;
+    width: 100%;
+}
+
+div.Register_User_Gender {
+    display: flex;
+    gap: 10rem;
+}
+
+div.Register_Password {
+    margin-bottom: 10px;
+}
+
+div.Register_Password_Input {
+    box-sizing: border-box;
+    width: 100%;
+    height: 2.5rem;
+    overflow: hidden;
+    border: 1px solid rgba(0, 0, 0, .14);
+    border-radius: 2px;
+    box-shadow: inset 0 2px 0 rgba(0, 0, 0, .02);
+    display: flex;
+    align-items: center;
+}
+
+div.Register_Password_Input>input {
+    padding: 0.75rem;
+    outline: none;
+    border: 0;
+    flex: 1;
+    flex-shrink: 0;
+    filter: none;
+    width: 100%;
+}
+
+div.Register_Password_Input>button {
+    border: none;
+    background-color: transparent;
+    padding-right: 10px;
+}
+
+/*==========================*/
+
+div.Password_Confirm {
+    margin-bottom: 10px;
+}
+
+div.Password_Confirm_Input {
+    box-sizing: border-box;
+    width: 100%;
+    height: 2.5rem;
+    overflow: hidden;
+    border: 1px solid rgba(0, 0, 0, .14);
+    border-radius: 2px;
+    box-shadow: inset 0 2px 0 rgba(0, 0, 0, .02);
+    display: flex;
+    align-items: center;
+}
+
+div.Password_Confirm_Input>input {
+    padding: 0.75rem;
+    outline: none;
+    border: 0;
+    flex: 1;
+    flex-shrink: 0;
+    filter: none;
+    width: 100%;
+}
+
+div.Password_Confirm_Input>button {
+    border: none;
+    background-color: transparent;
+    padding-right: 10px;
+}
+
+div.Separate {
+    margin: 0;
+    padding: 0.25rem 0 0;
+    font-size: .75rem;
+    color: #ff424f;
+    min-height: 1rem;
+}
+
+Button.Register_Butt {
+    width: 100%;
+    color: #fff;
+    background-color: #183e9f;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, .09);
+    text-transform: uppercase;
+    height: 2.5rem;
+    min-width: 8.75rem;
+    cursor: pointer;
+    margin-bottom: 10px;
+    border: none;
+}
+
+/* div.Register_Help {
+    margin: 10px 0;
+    display: flex;
+    justify-content: space-between;
+} */
+
+/* div.Register_Help>a {
+    color: #05a;
+    font-size: .75rem;
+    text-decoration: none;
+    cursor: pointer;
+} */
+
+div.Register_Or {
+    padding-bottom: 14px;
+    display: flex;
+    align-items: center;
+}
+
+div.Register_Or>span {
+    color: #ccc;
+    padding: 0 16px;
+    text-transform: uppercase;
+    font-size: .75rem;
+}
+
+div.Register_Or>div {
+    height: 1px;
+    width: 100%;
+    background-color: #dbdbdb;
+    flex: 1;
+}
+
+div.Register_Another {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin: 0 -5px;
+    align-items: center;
+}
+
+div.Register_Another>button {
+    width: 45%;
+    height: 30px;
+}
+
+div.Register_Policy {
+    margin-top: 1.5625rem;
+    font-size: 12px;
+    color: rgba(0, 0, 0, .87);
+    text-align: center;
+}
+
+div.Register_Policy>div {
+    padding: 0 1.5625rem;
+    margin-right: 0.3125rem;
+}
+
+div.Register_Policy>div a {
+    color: #183e9f;
+    cursor: pointer;
+    user-select: none;
+    text-decoration: none;
+}
+
+/* div.To_Login {
+    margin-bottom: 50px;
+} */
+
+/* div.To_Login>div {
+    font-size: .875rem;
+    white-space: pre;
+    padding-right: 4px;
+    color: rgba(0, 0, 0, .26);
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+} */
+
+/* div.To_Login>div>a {
+    color: #ee4d2d;
+    font-weight: 500;
+    text-decoration: none;
+    cursor: pointer;
+    font-size: .875rem;
+} */

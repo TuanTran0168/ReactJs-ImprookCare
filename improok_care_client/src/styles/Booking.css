@@ -1,0 +1,171 @@
+div.Booking_Content {
+    max-width: 80rem;
+    padding-top: 2rem;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+div.Booking_Content_1 {
+    background-image: linear-gradient(315deg, #4884ee 0%, #003366 74%);
+    margin-top: 2rem;
+    color: white;
+    margin-bottom: 3rem;
+}
+
+div.Booking_Content_1>div {
+    padding-top: 2rem;
+    padding-left: 5rem;
+    padding-bottom: 3rem;
+    padding-right: 5rem;
+}
+
+div.Booking_Content_1 h3 {
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+div.Booking_Content_1 h5 {
+    text-align: center;
+    font-weight: 600;
+    font-size: medium;
+    margin-bottom: 3rem;
+}
+
+div.Booking_Content_1_Content {
+    text-align: center;
+    position: relative;
+}
+
+div.Booking_Content_1_Content input {
+    width: 60%;
+    height: 2.8rem;
+    border-radius: 10rem;
+}
+
+div.Booking_Content_1_Content button {
+    position: absolute;
+    right: 20rem;
+    height: 2.5rem;
+    background-color: transparent;
+    border: none;
+}
+
+div.Booking_Content_2 {
+    margin-bottom: 9rem;
+}
+
+div.Doctor_List {
+    display: flex;
+    white-space: nowrap;
+    max-width: 90rem;
+    overflow-x: auto;
+    gap: 2rem;
+}
+
+div.Doctor_Item {
+    flex: 0 0 auto;
+    width: 20%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+    border: .05rem solid gray;
+    gap: 0.5rem;
+}
+
+div.Doctor_Item button>a {
+    text-decoration: none;
+    color: black;
+}
+
+div.Booking_Content_3 {
+    margin-bottom: 8rem;
+}
+
+div.Specialty_List {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+}
+
+div.Booking_Content_2_Header>h4 {
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+div.Booking_Content_3_Header>h3,
+div.Booking_Content_4_Header>h3 {
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+div.Booking_Content_3_Header>h5,
+div.Booking_Content_4_Header>h5 {
+    text-align: center;
+    font-weight: lighter;
+    color: gray;
+    font-size: medium;
+    margin-bottom: 3rem;
+}
+
+
+div.Specialty_Item {
+    width: 18%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+}
+
+div.Specialty_Item>img {
+    width: 40%;
+    margin-bottom: 1.25rem;
+}
+
+div.Booking_Content_4_Content {
+    display: flex;
+    gap: 3rem;
+}
+
+div.Booking_Content_4_LeftContent {
+    width: 50%;
+}
+
+div.Booking_Content_4_RightContent {
+    width: 50%;
+}
+
+div.Booking_Content_5 {
+    /* background-color: #06bcfb; */
+    background-image: linear-gradient(315deg, #4884ee 0%, #003366 74%);
+    color: white;
+    margin-top: 3rem;
+}
+
+div.Booking_Content_5 h3 {
+    font-weight: bold;
+}
+
+div.Booking_Content_5 ul {
+    list-style: none;
+    margin-bottom: 5rem;
+    margin-top: 2.5rem;
+}
+
+div.Booking_Content_5>div {
+    padding-top: 2rem;
+    padding-left: 5rem;
+    padding-bottom: 3rem;
+}
+
+button.Booking_Now {
+    margin-top: 1rem;
+    border-radius: 0.5rem;
+    padding: 0.5rem;
+    background-color: #183e9f;
+}
