@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { useParams, useSearchParams } from "react-router-dom";
+import { Link, useParams, useSearchParams } from "react-router-dom";
 import Apis, { authApi, endpoints } from "../configs/Apis";
+import "../styles/PaymentResult.css";
+import success from "../assests/images/success.png"
+import { Badge } from "react-bootstrap";
 
 function PaymentResult() {
   const [transactionRef, setTransactionRef] = useState("");
@@ -108,22 +111,25 @@ function PaymentResult() {
   }, [])
 
   return (
-    <div className="container">
-      <div className="header clearfix">
+    <div className="Payment_Result_Wrapper">
+      <div className="Payment_Result_Header">
         <h3 className="text-muted">KẾT QUẢ THANH TOÁN</h3>
+        <div class="Payment_Result_Image">
+          <img src={success} alt="success" width={"10%"} />
+        </div>
       </div>
-      <div className="table-responsive">
+      <div className="Payment_Result_Content">
         <div className="form-group">
           <label>Mã giao dịch thanh toán:</label>
           <label>{transactionRef}</label>
         </div>
         <div className="form-group">
           <label>Số tiền:</label>
-          <label>{amount}</label>
+          <label>{amount} VNĐ</label>
         </div>
         <div className="form-group">
           <label>Mô tả giao dịch:</label>
-          <label>{orderInfo}</label>
+          <label style={{ whiteSpace: 'normal' }}>{orderInfo}</label>
         </div>
         <div className="form-group">
           <label>Mã lỗi thanh toán:</label>
@@ -146,10 +152,13 @@ function PaymentResult() {
           <label>
             {signatureValid
               ? transactionStatus === "00"
-                ? "Thành công"
-                : "Không thành công"
-              : "invalid signature"}
+                ? <Badge bg="success">Thành công</Badge>
+                : <Badge bg="warning">Không thành công</Badge>
+              : <Badge bg="danger">Invalid Signature</Badge>}
           </label>
+        </div>
+        <div className="form-group">
+          <button><Link to="/">Quay lại trang chủ</Link></button>
         </div>
       </div>
       <p>&nbsp;</p>

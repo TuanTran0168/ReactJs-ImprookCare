@@ -72,7 +72,7 @@ const DoctorMessage = () => {
         setListMessage(prevList => [...prevList, payloadData], () => {
             console.log("List sau làm sạch");
             console.log(listMessage);
-          });
+        });
         // setListMessage(current => {
         //     return {...current, fakeListMessage}
         // })
@@ -100,8 +100,15 @@ const DoctorMessage = () => {
     }, [current_user.userId])
 
     const getUserSendMessageToDoctor = async (pd) => {
+        // setSelectedProfile(pd.profileDoctorId);
+        setSelectedProfile(pd.profileDoctorId, () => {
+            console.log(selectedProfile);
+        });
+        // setListMessage(prevList => [...prevList, payloadData], () => {
+        //     console.log("List sau làm sạch");
+        //     console.log(listMessage);
+        // });
         connect();
-        setSelectedProfile(pd.profileDoctorId)
         try {
             let res = await authApi().get(endpoints['get-user-send-message-to-doctor'](pd.profileDoctorId))
             setUserSendMessageToDoctor(res.data.content);
@@ -133,7 +140,7 @@ const DoctorMessage = () => {
     // }
 
     const viewDoctorMessage = (userId) => {
-        
+
         const process = async () => {
             try {
                 setLoading(true);

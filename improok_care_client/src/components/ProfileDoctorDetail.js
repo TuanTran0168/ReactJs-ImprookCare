@@ -86,8 +86,8 @@ const ProfileDoctorDetail = () => {
         setListMessage(prevList => [...prevList, payloadData], () => {
             console.log("List sau làm sạch");
             console.log(listMessage);
-          });
-        
+        });
+
     }
 
     const handleClick = (e) => {
@@ -332,7 +332,7 @@ const ProfileDoctorDetail = () => {
             if (stompClient) {
                 console.log("OK STOMP")
                 stompClient.send("/app/private-message", {}, JSON.stringify(myMess));
-            }    
+            }
             else
                 console.log("Chưa có kết nối")
             console.log(res.data);
