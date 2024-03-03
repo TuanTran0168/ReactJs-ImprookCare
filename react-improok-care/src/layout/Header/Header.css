@@ -1,0 +1,226 @@
+.Title {
+    color: #183e9f;
+}
+
+/* div.Header {
+    height: 100%;
+    padding-top: 0.75rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+} */
+
+div.Header {
+    /* box-shadow: 0px 0px 40px 0px #c0f4b9; */
+    width: 100%;
+    margin: 0px;
+    padding-top: 0.75rem;
+    background-color: #ffffff;
+    transition: all 0.3s;
+    transform-origin: 50% 50%;
+}
+
+.Header header {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 13px;
+}
+
+@keyframes toRight {
+    100% {
+        width: 0%;
+    }
+}
+
+div.Header1 .Link_Title {
+    position: relative;
+    text-decoration: none;
+}
+
+div.Header1 .Link_Title::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 100%;
+    width: 100%;
+    background-color: #ffffff;
+    animation: toRight 1s linear forwards;
+}
+
+div.Header1 .Link_Title h2 {
+    background: #183e9f;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: #fff;
+    font-size: 28px;
+    font-weight: 550;
+    margin: 0;
+}
+
+div.Header1 {
+    /* padding-left: 50px; */
+    width: 20%;
+    text-align: 'center';
+}
+
+div.Header1>a {
+    text-decoration: none;
+}
+
+div.Header1>a>img {
+    width: 70%;
+}
+
+div.Header2 {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 55%;
+}
+
+div.Header3 {
+    display: flex;
+    padding-right: 50px;
+    align-items: center;
+    justify-content: center;
+    gap: .75rem;
+    width: 27%;
+}
+
+button.Sign-in {
+    border: solid 1px #183e9f;
+    border-radius: 4px;
+    min-width: 100px;
+    min-height: 36px;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 21px;
+    cursor: pointer;
+}
+
+button.Sign-in>a,
+button.Admin>a,
+button.Doctor>a {
+    text-decoration: none;
+    color: #183e9f;
+}
+
+button.Log-in {
+    border: none;
+    border-radius: 4px;
+    color: rgba(255, 255, 255, 1);
+    background-color: #183e9f;
+    min-width: 100px;
+    min-height: 36px;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 21px;
+    cursor: pointer;
+}
+
+button.Log-in>a {
+    text-decoration: none;
+    color: #fff;
+}
+
+button.Log-out {
+    border: 1px solid orange;
+    border-radius: 4px;
+    color: rgba(255, 255, 255, 1);
+    background-color: fff;
+    color: red;
+    min-width: 100px;
+    min-height: 36px;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 21px;
+    cursor: pointer;
+}
+
+button.Admin,
+button.Doctor {
+    order: 1px solid orange;
+    border-radius: 4px;
+    color: rgba(255, 255, 255, 1);
+    background-color: fff;
+    color: red;
+    min-width: 100px;
+    min-height: 36px;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 21px;
+    cursor: pointer;
+}
+
+span.User-profile>a {
+    text-decoration: none;
+    font-weight: 500;
+}
+
+button.Little-menu {
+    border: none;
+    border-radius: 4px;
+    background-color: transparent;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 21px;
+    cursor: pointer;
+    float: left;
+    position: relative;
+}
+
+button.Little-menu:hover>ul {
+    display: block;
+}
+
+button.Little-menu>ul {
+    display: none;
+    list-style: none;
+    font-size: small;
+    text-align: left;
+    background-color: #fff;
+    z-index: 100;
+    position: absolute;
+    width: 200px;
+    height: 50px;
+    border-radius: 10px;
+    top: 30px;
+    right: -40px;
+    gap: 3rem;
+}
+
+button.Little-menu>ul:hover li {
+    display: block;
+}
+
+ul.Menu-bar {
+    display: inline;
+    float: right;
+    margin-bottom: 0;
+}
+
+ul.Menu-bar li {
+    display: inline-block;
+    list-style: none;
+    margin-left: 40px;
+}
+
+/* ul.Menu-bar li:hover {
+    color: #183e9f;
+    background: #183e9f;
+} */
+
+ul.Menu-bar li a {
+    text-decoration: none;
+    color: black;
+    font-weight: bold;
+    font-size: 15px;
+}
+
+ul.Menu-bar li span {
+    display: block;
+    font-weight: lighter;
+    font-size: 13px;
+}
