@@ -1,8 +1,8 @@
 div.Appointment {
     display: flex;
-    max-width: 80rem;
+    max-width: 85rem;
     flex-wrap: wrap;
-    padding-top: 2rem;
+    padding-top: 7rem;
     gap: 5rem;
     margin-left: auto;
     margin-right: auto;
@@ -10,32 +10,6 @@ div.Appointment {
 
 div.Appointment_Left {
     width: 20%;
-}
-
-div.Appointment_Left_Content>ul {
-    display: grid;
-    list-style: none;
-    background-color: #EEEEEE;
-}
-
-div.Appointment_Left_Content>ul>li {
-    display: flex;
-    height: 3rem;
-    align-items: center;
-    cursor: pointer;
-    gap: 0.75rem;
-}
-
-div.Appointment_Left_Content>ul>li:hover {
-    border-color: rgb(26 118 227);
-    cursor: pointer;
-    border-right-width: 4px;
-    border-radius: 3px;
-}
-
-div.Appointment_Left_Content>ul>li a {
-    text-decoration: none;
-    color: black;
 }
 
 div.Appointment_Middle {
@@ -228,4 +202,8 @@ div.Result_In4_2>span:first-child {
 div.Result_In4_1>span:nth-child(2),
 div.Result_In4_2>span:nth-child(2) {
     width: 60%;
+}
+
+div.Appointment_Right_Header {
+    color: #183e9f;
 }

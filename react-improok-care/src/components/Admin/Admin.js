@@ -21,7 +21,7 @@ import avatar_user from "../../assets/images/avatar-user.png"
 import medicine_image from "../../assets/images/medicine.png"
 import BarChart from "../../utils/Chart/BarChart";
 import PieChart from "../../utils/Chart/PieChart";
-
+import Pagination from "../../utils/Pagination"
 
 const Admin = () => {
     const [current_user,] = useContext(UserContext);
@@ -143,7 +143,6 @@ const Admin = () => {
 
     const tempStatsDataServicePriceUnpaid = [];
     const tempStatsLabelsServicePriceUnpaid = [];
-
 
     const handleImageChange = (event) => {
         const file = event.target.files[0];
@@ -885,7 +884,6 @@ const Admin = () => {
                 console.log(medicineId);
                 let form = new FormData();
 
-                console.log("For nhé cả nhà")
                 let count = 0
                 for (let field in newMedicine)
                     if (field !== "createdDate" && field !== "updatedDate" && field !== "deletedDate" && field !== "active" && field !== "categoryId" && field !== "avatar" && field !== "medicineId") {
@@ -893,7 +891,6 @@ const Admin = () => {
                         form.append(field, newMedicine[field]);
                         console.log("Đây là count " + count++);
                     }
-                console.log("Bye for nhé cả nhà")
                 form.append("medicineId", medicineId);
 
                 if (avatar.current.files[0] !== undefined)
@@ -1074,7 +1071,6 @@ const Admin = () => {
         }
     }
 
-
     let isLoad = 0;
 
     useEffect(() => {
@@ -1094,48 +1090,42 @@ const Admin = () => {
         switch (selectedOption) {
             case "overview":
                 return <>
-                    <div class="Overview_Stats">
-                        <div class="Stats_Booking">
+                    <div className="Overview_Stats">
+                        <div className="Stats_Booking">
                             <div>
                                 <BarChart labels={statsLabelsUserByBooking} titleLabel="Biểu đồ thống kê lượt Booking" data={statsDataUserByBooking} />
                             </div>
                         </div>
-                        <div class="Stats_Revenue">
-                            {/* <div>
-                                <PolarChart labels={statsLabelsServicePriceAllPaid} titleLabel="Biểu đồ thống kê số tiền khám của bác sĩ" data={statsDataServicePriceAllPaid} />
-                            </div> */}
+                        <div className="Stats_Revenue">
                             <div>
                                 <PieChart labels={statsLabelsMedicinePrescriptionAllPaid} titleLabel="Biểu đồ thống kê số tiền thuốc của bác sĩ" data={statsDataMedicinePrescriptionAllPaid} />
                             </div>
                         </div>
                     </div>
-                    {/* <div>
-                        <DoughnutChart labels={statsLabelsUserByBooking} titleLabel="Biểu đồ thống kê lượt Booking" data={statsDataUserByBooking} />
-                    </div> */}
                 </>
             case "alluser":
                 return <>
                     <div>
                         <div>
-                            <div class="Add_User">
+                            <div className="Add_User">
                                 <button onClick={() => handleOptionClick("adduser")}><HiPlus /> Thêm 1 người dùng mới</button>
                             </div>
-                            <div class="User_Search_Group">
-                                <div class="User_Search_Input">
-                                    <Form.Control class="User_Search_Lastname" defaultValue={searchLastname} name="searchFirstname" type="Text" onChange={(e) => setSearchLastname(e.target.value)} placeholder="Nhập họ và tên đệm..." />
-                                    <Form.Control class="User_Search_Firstname" defaultValue={searchFirstname} name="searchLastname" type="Text" onChange={(e) => setSearchFirstname(e.target.value)} placeholder="Nhập tên..." />
-                                    <Form.Select class="User_Search_Role" value={searchRole} name="searchRole" onChange={(e) => setSearchRole(e.target.value)}>
+                            <div className="User_Search_Group">
+                                <div className="User_Search_Input">
+                                    <Form.Control className="User_Search_Lastname" defaultValue={searchLastname} name="searchFirstname" type="Text" onChange={(e) => setSearchLastname(e.target.value)} placeholder="Nhập họ và tên đệm..." />
+                                    <Form.Control className="User_Search_Firstname" defaultValue={searchFirstname} name="searchLastname" type="Text" onChange={(e) => setSearchFirstname(e.target.value)} placeholder="Nhập tên..." />
+                                    <Form.Select className="User_Search_Role" value={searchRole} name="searchRole" onChange={(e) => setSearchRole(e.target.value)}>
                                         <option value={null}>TẤT CẢ ROLE</option>
                                         {Object.values(roles).map(r => <option key={r.roleId} value={r.roleId}>{r.roleName}</option>)}
                                     </Form.Select>
                                 </div>
-                                <button class="User_Search_Butt" onClick={loadUserPage}>Tìm kiếm</button>
+                                <button className="User_Search_Butt" onClick={loadUserPage}>Tìm kiếm</button>
                             </div>
                             <Table striped bordered hover>
                                 <thead>
                                     <tr>
+                                        {/* <th>#</th> */}
                                         <th>Ảnh đại diện</th>
-                                        <th>#</th>
                                         <th>Họ và tên đệm</th>
                                         <th>Tên</th>
                                         <th>Tài khoản/Số điện thoại</th>
@@ -1147,13 +1137,13 @@ const Admin = () => {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {Object.values(userList).map(u => {
+                                    {Object.values(userList).map((u, index) => {
                                         const dateTimeString = u.birthday;
                                         const formattedDate = moment(dateTimeString).format('DD-MM-YYYY');
                                         return <>
                                             <tr key={u.userId}>
-                                                <td style={{ width: '8rem', height: '8rem' }}><img src={u.avatar} alt="avatar" width={'100%'} /></td>
-                                                <td>{u.userId}</td>
+                                                {/* <td>{index + 1}</td> */}
+                                                <td><div style={{ width: "90px", height: "90px", overflow: 'hidden' }}><img src={u.avatar} alt="avatar" style={{ width: "100%", height: "100%", objectFit: "cover", borderRadius: "45px" }} /></div></td>
                                                 <td>{u.lastname}</td>
                                                 <td>{u.firstname}</td>
                                                 <td>{u.username}</td>
@@ -1171,60 +1161,63 @@ const Admin = () => {
                                     })}
                                 </tbody>
                             </Table>
-                            <div className="Page_Nav">
+                            {/* <div className="Page_Nav">
                                 {pages.map((page) => (
                                     <button id={`${page}`} key={page} onClick={() => handlePageChange(page)}
                                         className={page === selectedPage ? 'active' : ''}>
                                         {page}
                                     </button>
                                 ))}
-                            </div>
-                            {/* <PageNavigation totalPages={totalPages} onClick={loadUserPage} /> */}
+                            </div> */}
+                            <Pagination pages={pages}
+                                selectedPage={selectedPage}
+                                handlePageChange={handlePageChange} />
                         </div>
                     </div>
+                    {/* <ListUser handleOptionClick={handleOptionClick} /> */}
                 </>
             case "adduser":
                 return <>
                     <div>
                         <div>
-                            <div class="Add_User_Header">
+                            <div className="Add_User_Header">
                                 <h4 className="text-primary">Thông tin người dùng</h4>
                             </div>
-                            <div class="Add_User_Body">
-                                <div class="Add_User_UserName">
+                            <div className="Add_User_Body">
+                                <div className="Add_User_UserName">
                                     <Form.Label style={{ width: "20%" }}>Tên đăng nhập</Form.Label>
                                     <Form.Control type="text" onChange={(e) => change(e, "username")} placeholder="Tên đăng nhập" required />
                                 </div>
-                                <div class="Add_User_Password">
+                                <div className="Add_User_Password">
                                     <Form.Label style={{ width: "20%" }}>Mật khẩu</Form.Label>
                                     <Form.Control type="text" onChange={(e) => change(e, "password")} placeholder="Mật khẩu" required />
                                 </div>
-                                <div class="Add_User_Name">
-                                    <div class="Add_Lastname">
+                                <div className="Add_User_Name">
+                                    <div className="Add_Lastname">
                                         <Form.Label style={{ width: "78%" }}>Họ và tên đệm</Form.Label>
                                         <Form.Control type="Text" onChange={(e) => change(e, "lastname")} placeholder="Họ và tên đệm" required />
                                     </div>
-                                    <div class="Add_Firstname">
+                                    <div className="Add_Firstname">
                                         <Form.Label style={{ width: "78%" }}>Tên</Form.Label>
                                         <Form.Control type="Text" onChange={(e) => change(e, "firstname")} placeholder="Tên" required />
                                     </div>
                                 </div>
-                                <div class="Add_User_Gender">
+                                <div className="Add_User_Gender">
                                     <Form.Label style={{ width: "16%" }}>Giới tính</Form.Label>
-                                    <div class="Add_User_Gender_Tick">
+                                    <div className="Add_User_Gender_Tick">
                                         <Form.Check type="radio" label="Nam" name="genderOption" defaultChecked onChange={() => setGender(true)} />
                                         <Form.Check type="radio" label="Nữ" name="genderOption" onChange={() => setGender(false)} />
                                     </div>
                                 </div>
-                                <div class="Add_User_Avatar">
+                                <div className="Add_User_Avatar">
                                     <Form.Label style={{ width: "16%" }}>Ảnh đại diện</Form.Label>
-                                    <div class="Avatar_Choice">
+                                    <div className="Avatar_Choice">
                                         {selectedImage ? (
                                             <div>
                                                 <img src={selectedImage} alt="Selected" width="100%" />
                                             </div>
                                         ) : (
-                                            <div class="Avatar_Null">
+                                            <div className="Avatar_Null">
                                                 <span>Vui lòng chọn ảnh</span>
                                                 <img src={avatar_user} alt="user avatar" />
                                             </div>
@@ -1232,11 +1225,11 @@ const Admin = () => {
                                         <Form.Control type="File" ref={avatar} onChange={handleImageChange} width={'50%'} />
                                     </div>
                                 </div>
-                                <div class="Add_User_Birthday">
+                                <div className="Add_User_Birthday">
                                     <Form.Label style={{ width: "20%" }}>Ngày sinh</Form.Label>
                                     <Form.Control type="Date" id="doB" defaultValue={currentFormattedDate} />
                                 </div>
-                                <div class="Add_User_Button">
+                                <div className="Add_User_Button">
                                     <button type="button">Hủy</button>
                                     <button type="button" onClick={(e) => addUser(e)}>Thêm</button>
                                 </div>
@@ -1248,23 +1241,23 @@ const Admin = () => {
                 return <>
                     <div>
                         <div>
-                            <div class="Update_User_Header">
+                            <div className="Update_User_Header">
                                 <h4 className="text-primary">Thông tin người dùng</h4>
                             </div>
-                            <div class="Update_User_Body">
-                                <div class="Update_User_Name">
-                                    <div class="Update_Lastname">
+                            <div className="Update_User_Body">
+                                <div className="Update_User_Name">
+                                    <div className="Update_Lastname">
                                         <Form.Label style={{ width: "78%" }}>Họ và tên đệm</Form.Label>
                                         <Form.Control type="Text" defaultValue={userUpdate.lastname} onChange={(e) => updateChange(e, "lastname")} placeholder="Họ và tên đệm" required />
                                     </div>
-                                    <div class="Update_Firstname">
+                                    <div className="Update_Firstname">
                                         <Form.Label style={{ width: "78%" }}>Tên</Form.Label>
                                         <Form.Control type="Text" defaultValue={userUpdate.firstname} onChange={(e) => updateChange(e, "firstname")} placeholder="Tên" required />
                                     </div>
                                 </div>
-                                <div class="Update_User_Gender">
+                                <div className="Update_User_Gender">
                                     <Form.Label style={{ width: "16%" }}>Giới tính</Form.Label>
-                                    <div class="Update_User_Gender_Tick">
+                                    <div className="Update_User_Gender_Tick">
                                         {userUpdate.gender === true ? <>
                                             <Form.Check type="radio" label="Nam" name="genderOption" defaultChecked onChange={() => setGender(true)} />
                                             <Form.Check type="radio" label="Nữ" name="genderOption" onChange={() => setGender(false)} />
@@ -1274,16 +1267,16 @@ const Admin = () => {
                                         </>}
                                     </div>
                                 </div>
-                                <div class="Update_User_Avatar">
+                                <div className="Update_User_Avatar">
                                     <Form.Label style={{ width: "16%" }}>Ảnh đại diện</Form.Label>
-                                    <div class="Update_Avatar_Choice">
+                                    <div className="Update_Avatar_Choice">
                                         <div>
-                                            {selectedImage ? <img src={selectedImage} alt="Selected" width={"60%"} /> : <img src={userUpdate.avatar} alt="Selected" width="60%" />}
+                                            {selectedImage ? <img src={selectedImage} alt="Selected" width={"100%"} /> : <img src={userUpdate.avatar} alt="Selected" width="100%" />}
                                         </div>
                                         <Form.Control type="File" ref={avatar} onChange={handleImageChange} width={'50%'} />
                                     </div>
                                 </div>
-                                <div class="Update_User_Birthday">
+                                <div className="Update_User_Birthday">
                                     <Form.Label style={{ width: "20%" }}>Ngày sinh</Form.Label>
                                     {(() => {
                                         const formattedBirthDate = new Date(userUpdate.birthday);
@@ -1296,13 +1289,13 @@ const Admin = () => {
                                         );
                                     })()}
                                 </div>
-                                <div class="Update_User_Role">
+                                <div className="Update_User_Role">
                                     <Form.Label style={{ width: "20%" }}>Vai trò</Form.Label>
                                     <Form.Select defaultValue={userUpdate.roleId} onChange={(e) => handleRoleChange(e)}>
                                         {Object.values(roles).map(r => <option key={r.roleId} value={r.roleId}>{r.roleName}</option>)}
                                     </Form.Select>
                                 </div>
-                                <div class="Update_User_Button">
+                                <div className="Update_User_Button">
                                     <button type="button">Hủy</button>
                                     <button type="button" onClick={(e) => updateUser(e)}>Cập nhật</button>
                                 </div>
@@ -1314,26 +1307,26 @@ const Admin = () => {
                 return <>
                     <div>
                         <div>
-                            <div class="Medicine">
+                            <div className="Medicine">
                                 <button onClick={() => handleOptionClick("addmedicine")}><HiPlus /> Thêm 1 thuốc mới</button>
                             </div>
-                            <div class="Medicine_Search_Group">
-                                <div class="Medicine_Search_Input">
-                                    <Form.Control class="Medicine_Search_MedicineName" defaultValue={searchMedicineName} name="searchMedicineName" type="Text" onChange={(e) => setSearchMedicineName(e.target.value)} placeholder="Nhập tên thuốc..." />
-                                    <Form.Control class="Medicine_Search_FromPrice" defaultValue={searchFromPrice} name="searchFromPrice" type="Text" onChange={(e) => setSearchFromPrice(e.target.value)} placeholder="Nhập giá bắt đầu..." />
-                                    <Form.Control class="Medicine_Search_ToPrice" defaultValue={searchToPrice} name="searchToPrice" type="Text" onChange={(e) => setSearchToPrice(e.target.value)} placeholder="Nhập giá kết thúc..." />
-                                    <Form.Select class="Medicine_Search_Category" value={searchCategory} name="searchCategory" onChange={(e) => setSearchCategory(e.target.value)}>
+                            <div className="Medicine_Search_Group">
+                                <div className="Medicine_Search_Input">
+                                    <Form.Control className="Medicine_Search_MedicineName" defaultValue={searchMedicineName} name="searchMedicineName" type="Text" onChange={(e) => setSearchMedicineName(e.target.value)} placeholder="Nhập tên thuốc..." />
+                                    <Form.Control className="Medicine_Search_FromPrice" defaultValue={searchFromPrice} name="searchFromPrice" type="Text" onChange={(e) => setSearchFromPrice(e.target.value)} placeholder="Nhập giá bắt đầu..." />
+                                    <Form.Control className="Medicine_Search_ToPrice" defaultValue={searchToPrice} name="searchToPrice" type="Text" onChange={(e) => setSearchToPrice(e.target.value)} placeholder="Nhập giá kết thúc..." />
+                                    <Form.Select className="Medicine_Search_Category" value={searchCategory} name="searchCategory" onChange={(e) => setSearchCategory(e.target.value)}>
                                         <option value={null}>TẤT CẢ DANH MỤC</option>
                                         {Object.values(medicineCategories).map(mc => <option key={mc.categoryId} value={mc.categoryId}>{mc.categoryName}</option>)}
                                     </Form.Select>
                                 </div>
-                                <button class="Medicine_Search_Butt" onClick={loadMedicinePage}>Tìm kiếm</button>
+                                <button className="Medicine_Search_Butt" onClick={loadMedicinePage}>Tìm kiếm</button>
                             </div>
                             <Table striped bordered hover>
                                 <thead>
                                     <tr>
                                         <th>Ảnh đại diện</th>
-                                        <th>#</th>
+                                        {/* <th>#</th> */}
                                         <th>Tên thuốc</th>
                                         <th>Mô tả</th>
                                         <th>Thành phần</th>
@@ -1347,8 +1340,8 @@ const Admin = () => {
                                     {Object.values(medicineList).map(m => {
                                         return <>
                                             <tr key={m.medicineId}>
-                                                <td style={{ width: '11%' }}><img src={m.avatar} alt="avatar" width={'100%'} /></td>
-                                                <td>{m.medicineId}</td>
+                                                <td><div style={{ width: "90px", height: "90px", overflow: 'hidden' }}><img src={m.avatar} alt="avatar" style={{ width: "100%", height: "100%", objectFit: "cover" }} /></div></td>
+                                                {/* <td>{m.medicineId}</td> */}
                                                 <td>{m.medicineName}</td>
                                                 <td>{m.description}</td>
                                                 <td>{m.ingredients}</td>
@@ -1365,15 +1358,17 @@ const Admin = () => {
                                     })}
                                 </tbody>
                             </Table>
-                            <div className="Page_Nav">
+                            {/* <div className="Page_Nav">
                                 {medicinePages.map((page) => (
                                     <button id={`${page}`} key={page} onClick={() => handleMedicinePageChange(page)}
                                         className={page === selectedPage ? 'active' : ''}>
                                         {page}
                                     </button>
                                 ))}
-                            </div>
-                            {/* <PageNavigation totalPages={totalPages} onClick={loadUserPage} /> */}
+                            </div> */}
+                            <Pagination pages={medicinePages}
+                                selectedPage={selectedPage}
+                                handlePageChange={handleMedicinePageChange} />
                         </div>
                     </div>
                 </>
@@ -1381,12 +1376,12 @@ const Admin = () => {
                 return <>
                     <div>
                         <div>
-                            <div class="Medicine_Category_Header">
+                            <div className="Medicine_Category_Header">
                                 <h4 className="text-primary">Thông tin danh mục thuốc</h4>
                             </div>
-                            <div class="Medicine_Catagory">
+                            <div className="Medicine_Catagory">
                                 <Form.Label style={{ width: "78%" }}>Thêm danh mục thuốc</Form.Label>
-                                <div class="Add_Medicine_Category">
+                                <div className="Add_Medicine_Category">
                                     <Form.Control type="text" defaultValue={medicineCategoryName} onChange={(e) => setMedicineCategoryName(e.target.value)} placeholder="Tên danh mục thuốc" required />
                                     <Button variant="secondary" onClick={(e) => {
                                         addMedicineCategory(e);
@@ -1408,7 +1403,7 @@ const Admin = () => {
                                             <td style={{ width: '20%' }}>{c.categoryId}</td>
                                             <td style={{ width: '40%' }}>
                                                 {editingIndex === index ? (
-                                                    <input
+                                                    <input className="category_name"
                                                         type="text"
                                                         defaultValue={c.categoryName}
                                                         onChange={(e) => setEditCategoryName(e.target.value)}
@@ -1438,15 +1433,17 @@ const Admin = () => {
                                     ))}
                                 </tbody>
                             </Table>
-                            <div className="Page_Nav">
+                            {/* <div className="Page_Nav">
                                 {categoryMedicinePages.map((page) => (
                                     <button id={`${page}`} key={page} onClick={() => handleCategoryMedicinePageChange(page)}
                                         className={page === selectedPage ? 'active' : ''}>
                                         {page}
                                     </button>
                                 ))}
-                            </div>
-                            {/* <PageNavigation totalPages={totalPages} onClick={loadUserPage} /> */}
+                            </div> */}
+                            <Pagination pages={categoryMedicinePages}
+                                selectedPage={selectedPage}
+                                handlePageChange={handleCategoryMedicinePageChange} />
                         </div>
                     </div>
                 </>
@@ -1454,45 +1451,45 @@ const Admin = () => {
                 return <>
                     <div>
                         <div>
-                            <div class="Add_Medicine_Header">
+                            <div className="Add_Medicine_Header">
                                 <h4 className="text-primary">Thông tin thuốc</h4>
                             </div>
-                            <div class="Add_Medicine_Body">
-                                <div class="Add_Medicine_MedicineName">
+                            <div className="Add_Medicine_Body">
+                                <div className="Add_Medicine_MedicineName">
                                     <Form.Label style={{ width: "20%" }}>Tên thuốc</Form.Label>
                                     <Form.Control type="text" onChange={(e) => changeMedicine(e, "medicineName")} placeholder="Tên thuốc" required />
                                 </div>
-                                <div class="Add_Medicine_Description">
+                                <div className="Add_Medicine_Description">
                                     <Form.Label style={{ width: "20%" }}>Mô tả</Form.Label>
                                     <Form.Control as="textarea" onChange={(e) => changeMedicine(e, "description")} placeholder="Mô tả" required />
                                 </div>
-                                <div class="Add_Medicine_Ingredient">
+                                <div className="Add_Medicine_Ingredient">
                                     <Form.Label style={{ width: "20%" }}>Thành phần</Form.Label>
                                     <Form.Control type="Text" onChange={(e) => changeMedicine(e, "ingredients")} placeholder="Thành phần" required />
                                 </div>
-                                <div class="Add_Medicine_Dosage">
+                                <div className="Add_Medicine_Dosage">
                                     <Form.Label style={{ width: "20%" }}>Liều lượng</Form.Label>
                                     <Form.Control type="Text" onChange={(e) => changeMedicine(e, "dosage")} placeholder="Liều lượng" required />
                                 </div>
-                                <div class="Add_Medicine_UnitPrice">
+                                <div className="Add_Medicine_UnitPrice">
                                     <Form.Label style={{ width: "20%" }}>Đơn giá</Form.Label>
                                     <Form.Control type="Text" onChange={(e) => changeMedicine(e, "unitPrice")} placeholder="Đơn giá" required />
                                 </div>
-                                <div class="Add_Medicine_Category">
+                                <div className="Add_Medicine_Category">
                                     <Form.Label style={{ width: "20%" }}>Loại thuốc</Form.Label>
                                     <Form.Select onChange={(e) => handleCategoryChange(e)}>
                                         {Object.values(categories).map(c => <option key={c.categoryId} value={c.categoryId}>{c.categoryName}</option>)}
                                     </Form.Select>
                                 </div>
-                                <div class="Add_Medicine_Avatar">
+                                <div className="Add_Medicine_Avatar">
                                     <Form.Label style={{ width: "16%" }}>Ảnh đại diện</Form.Label>
-                                    <div class="Avatar_Choice">
+                                    <div className="Avatar_Choice">
                                         {selectedImage ? (
                                             <div>
                                                 <img src={selectedImage} alt="Selected" width="100%" />
                                             </div>
                                         ) : (
-                                            <div class="Avatar_Null">
+                                            <div className="Avatar_Null">
                                                 <span>Vui lòng chọn ảnh</span>
                                                 <img src={medicine_image} alt="medicine avatar" />
                                             </div>
@@ -1500,7 +1497,7 @@ const Admin = () => {
                                         <Form.Control type="File" ref={avatar} onChange={handleImageChange} width={'50%'} />
                                     </div>
                                 </div>
-                                <div class="Add_Medicine_Button">
+                                <div className="Add_Medicine_Button">
                                     <button type="button">Hủy</button>
                                     <button type="button" onClick={(e) => addMedicine(e)}>Thêm</button>
                                 </div>
@@ -1512,52 +1509,52 @@ const Admin = () => {
                 return <>
                     <div>
                         <div>
-                            <div class="Update_Medicine_Header">
+                            <div className="Update_Medicine_Header">
                                 <h4 className="text-primary">Thông tin thuốc</h4>
                             </div>
-                            <div class="Update_Medicine_Body">
-                                <div class="Update_Medicine_MedicineName">
+                            <div className="Update_Medicine_Body">
+                                <div className="Update_Medicine_MedicineName">
                                     <Form.Label style={{ width: "20%" }}>Tên thuốc</Form.Label>
                                     <Form.Control type="text" defaultValue={newMedicine.medicineName} onChange={(e) => updateMedicineChange(e, "medicineName")} placeholder="Tên thuốc" required />
                                 </div>
-                                <div class="Update_Medicine_Description">
+                                <div className="Update_Medicine_Description">
                                     <Form.Label style={{ width: "20%" }}>Mô tả</Form.Label>
                                     <Form.Control as="textarea" defaultValue={newMedicine.description} onChange={(e) => updateMedicineChange(e, "description")} placeholder="Mô tả" required />
                                 </div>
-                                <div class="Update_Medicine_Ingredient">
+                                <div className="Update_Medicine_Ingredient">
                                     <Form.Label style={{ width: "20%" }}>Thành phần</Form.Label>
                                     <Form.Control type="Text" defaultValue={newMedicine.ingredients} onChange={(e) => updateMedicineChange(e, "ingredients")} placeholder="Thành phần" required />
                                 </div>
-                                <div class="Update_Medicine_Dosage">
+                                <div className="Update_Medicine_Dosage">
                                     <Form.Label style={{ width: "20%" }}>Liều lượng</Form.Label>
                                     <Form.Control type="Text" defaultValue={newMedicine.dosage} onChange={(e) => updateMedicineChange(e, "dosage")} placeholder="Liều lượng" required />
                                 </div>
-                                <div class="Update_Medicine_UnitPrice">
+                                <div className="Update_Medicine_UnitPrice">
                                     <Form.Label style={{ width: "20%" }}>Đơn giá</Form.Label>
                                     <Form.Control type="Text" defaultValue={newMedicine.unitPrice} onChange={(e) => updateMedicineChange(e, "unitPrice")} placeholder="Đơn giá" required />
                                 </div>
-                                <div class="Update_Medicine_Category">
+                                <div className="Update_Medicine_Category">
                                     <Form.Label style={{ width: "20%" }}>Loại thuốc</Form.Label>
                                     <Form.Select onChange={(e) => handleCategoryChange(e)}>
                                         {Object.values(categories).map(c => <option key={c.categoryId} value={c.categoryId}>{c.categoryName}</option>)}
                                     </Form.Select>
                                 </div>
-                                <div class="Update_Medicine_Avatar">
+                                <div className="Update_Medicine_Avatar">
                                     <Form.Label style={{ width: "16%" }}>Ảnh đại diện</Form.Label>
-                                    <div class="Avatar_Choice">
+                                    <div className="Avatar_Choice">
                                         {selectedImage ? (
-                                            <div>
-                                                <img src={selectedImage} alt="Selected" width="100%" />
+                                            <div style={{ width: "140px", height: "140px", overflow: 'hidden', borderRadius: "70px" }}>
+                                                <img src={selectedImage} alt="Selected" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
                                             </div>
                                         ) : (
-                                            <div>
-                                                <img src={newMedicine.avatar} alt="Selected" width="100%" />
+                                            <div style={{ width: "140px", height: "140px", overflow: 'hidden', borderRadius: "70px" }}>
+                                                <img src={newMedicine.avatar} alt="Selected" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
                                             </div>
                                         )}
                                         <Form.Control type="File" ref={avatar} onChange={handleImageChange} width={'50%'} />
                                     </div>
                                 </div>
-                                <div class="Update_Medicine_Button">
+                                <div className="Update_Medicine_Button">
                                     <button type="button">Hủy</button>
                                     <button type="button" onClick={(e) => updateMedicine(e)}>Cập nhật</button>
                                 </div>
@@ -1568,7 +1565,7 @@ const Admin = () => {
             case "collab":
                 return <>
                     <div>
-                        <div class="Tab_List">
+                        <div className="Tab_List">
                             <ul>
                                 <li className={selectedCollabOption === "new" ? "active" : ""}
                                     onClick={() => handleCollabOptionClick("new")}
@@ -1617,14 +1614,17 @@ const Admin = () => {
                                                     })}
                                                 </tbody>
                                             </Table>
-                                            <div className="Page_Nav">
+                                            {/* <div className="Page_Nav">
                                                 {collabDoctorPages.map((page) => (
                                                     <button id={`${page}`} key={page} onClick={() => handleCollabDoctorPageChange(page)}
                                                         className={page === selectedPage ? 'active' : ''}>
                                                         {page}
                                                     </button>
                                                 ))}
-                                            </div>
+                                            </div> */}
+                                            <Pagination pages={collabDoctorPages}
+                                                selectedPage={selectedPage}
+                                                handlePageChange={handleCollabDoctorPageChange} />
                                         </div>
                                     </div>
                                 </>
@@ -1659,14 +1659,9 @@ const Admin = () => {
                                                     })}
                                                 </tbody>
                                             </Table>
-                                            <div className="Page_Nav">
-                                                {collabDoctorPages.map((page) => (
-                                                    <button id={`${page}`} key={page} onClick={() => handleCollabDoctorPageChange(page)}
-                                                        className={page === selectedPage ? 'active' : ''}>
-                                                        {page}
-                                                    </button>
-                                                ))}
-                                            </div>
+                                            <Pagination pages={collabDoctorPages}
+                                                selectedPage={selectedPage}
+                                                handlePageChange={handleCollabDoctorPageChange} />
                                         </div>
                                     </div>
                                 </>
@@ -1701,14 +1696,9 @@ const Admin = () => {
                                                     })}
                                                 </tbody>
                                             </Table>
-                                            <div className="Page_Nav">
-                                                {collabDoctorPages.map((page) => (
-                                                    <button id={`${page}`} key={page} onClick={() => handleCollabDoctorPageChange(page)}
-                                                        className={page === selectedPage ? 'active' : ''}>
-                                                        {page}
-                                                    </button>
-                                                ))}
-                                            </div>
+                                            <Pagination pages={collabDoctorPages}
+                                                selectedPage={selectedPage}
+                                                handlePageChange={handleCollabDoctorPageChange} />
                                         </div>
                                     </div>
                                 </>
@@ -1718,20 +1708,20 @@ const Admin = () => {
                 </>
             case "revenue":
                 return <>
-                    <div class="Stats_Revenue_Detail">
-                        <div class="Stats_Service_Price">
-                            <div class="Stats_Service_Price_Paid">
+                    <div className="Stats_Revenue_Detail">
+                        <div className="Stats_Service_Price">
+                            <div className="Stats_Service_Price_Paid">
                                 <BarChart labels={statsLabelsServicePricePaid} titleLabel="Biểu đồ thống kê số tiền khám đã trả" data={statsDataServicePricePaid} />
                             </div>
-                            <div class="Stats_Service_Price_Unpaid">
+                            <div className="Stats_Service_Price_Unpaid">
                                 <BarChart labels={statsLabelsServicePriceUnpaid} titleLabel="Biểu đồ thống kê số tiền khám chưa trả" data={statsDataServicePriceUnpaid} />
                             </div>
                         </div>
-                        <div class="Stats_Medicine_Prescription">
-                            <div class="Stats_Medicine_Prescription_Paid">
+                        <div className="Stats_Medicine_Prescription">
+                            <div className="Stats_Medicine_Prescription_Paid">
                                 <BarChart labels={statsLabelsMedicinePrescriptionPaid} titleLabel="Biểu đồ thống kê số tiền thuốc đã trả" data={statsDataMedicinePrescriptionPaid} />
                             </div>
-                            <div class="Stats_Medicine_Prescription_Unpaid">
+                            <div className="Stats_Medicine_Prescription_Unpaid">
                                 <BarChart labels={statsLabelsMedicinePrescriptionUnpaid} titleLabel="Biểu đồ thống kê số tiền thuốc chưa trả" data={statsDataMedicinePrescriptionUnpaid} />
                             </div>
                         </div>
@@ -1761,9 +1751,9 @@ const Admin = () => {
                 <Spinner />
             ) : (
                 <>
-                    <div class="Admin_Wrapper">
-                        <div class="Admin_Content">
-                            <div class="Admin_Content_Left">
+                    <div className="Admin_Wrapper">
+                        <div className="Admin_Content">
+                            <div className="Admin_Content_Left">
                                 <Paper style={{ maxHeight: '50rem', height: '42rem', overflow: 'auto' }}>
                                     <Box sx={{ p: 2 }}>
                                         <List
@@ -1777,7 +1767,7 @@ const Admin = () => {
                                                 </ListItemIcon>
                                                 <ListItemText primary="Tổng quan" onClick={() => handleOptionClick("overview")} />
                                             </ListItemButton>
-                                            <div class="System_Management">
+                                            <div className="System_Management">
                                                 <ListItemText primary={<Typography variant="body2" style={{ fontSize: '0.85rem', fontWeight: 'bold', marginLeft: '3rem', color: '#009FFD' }}>
                                                     QUẢN LÝ HỆ THỐNG
                                                 </Typography>} />
@@ -1851,7 +1841,7 @@ const Admin = () => {
                                                     </List>
                                                 </Collapse>
                                             </div>
-                                            <div class="Utilities_Service">
+                                            <div className="Utilities_Service">
                                                 <ListItemText primary={<Typography variant="body2" style={{ fontSize: '0.85rem', fontWeight: 'bold', marginLeft: '3rem', color: '#009FFD' }}>
                                                     DỊCH VỤ TIỆN ÍCH
                                                 </Typography>} />
@@ -1884,7 +1874,7 @@ const Admin = () => {
                                 </Paper>
                             </div>
                             <div></div>
-                            <div class="Admin_Content_Right">
+                            <div className="Admin_Content_Right">
                                 {renderContent()}
                             </div>
                         </div>

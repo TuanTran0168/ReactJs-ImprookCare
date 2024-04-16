@@ -24,9 +24,9 @@ const PhoneVerification = () => {
 
     const [verificationInfo, setVerificationInfo] = useState(null)
 
-    const handleCodeChange = (evt) => {
-        setCode(evt.target.value);
-    };
+    // const handleCodeChange = (evt) => {
+    //     setCode(evt.target.value);
+    // };
 
     const handleCheck = (evt) => {
         setCheck(evt.target.checked);
@@ -49,6 +49,7 @@ const PhoneVerification = () => {
                 setLoading(false);
 
             } catch (error) {
+                console.log(error);
                 if (error.response.data === "Số điện thoại " + phonenumber + " đã được đăng ký") {
                     toast.warning(error.response.data);
                     console.log(error.code);
@@ -62,7 +63,6 @@ const PhoneVerification = () => {
         }
         process();
     }
-
 
     const verification = (evt) => {
         evt.preventDefault();
@@ -146,7 +146,7 @@ const PhoneVerification = () => {
                             <div className="PhoneVerification_Form">
                                 <div className="PhoneVerification_Detail">
                                     <div className="PhoneVerification_Header">
-                                        <div>XÁC THỰC NGƯỜI DÙNG</div>
+                                        <div>XÁC THỰC SỐ ĐIỆN THOẠI</div>
                                     </div>
                                     <div className="PhoneVerification_Fill">
                                         {/* <div className="PhoneVerification_User">
@@ -177,7 +177,7 @@ const PhoneVerification = () => {
                                         {/* <button type="button" className="PhoneVerification_Butt" onClick={toRegister}>Register</button>
                                         <button className="PhoneVerification_Butt">Đăng ký</button> */}
                                         {/* {loading === true ? <Spinner /> : <button type="button" className="PhoneVerification_Butt" onClick={verification}>Xác thực</button>} */}
-                                        <Form>
+                                        <Form onSubmit={verification}>
                                             <InputGroup className="mb-3 PhoneVerification_Warning">
                                                 <div className="PhoneVerification_User_OTP">
                                                     <InputGroup className="PhoneVerification_User_Input">
@@ -208,9 +208,14 @@ const PhoneVerification = () => {
                                                     aria-describedby="basic-addon1"
                                                     required
                                                     defaultValue={code}
-                                                    onChange={(e) => setCode(e.target.value)}
-                                                />
+                                                    onChange={(e) => setCode(e.target.value)} />
                                             </InputGroup>
+                                            <div className="PhoneVerification_User">
+                                                <div className="PhoneVerification_User_PolicyCheck">
+                                                    <span><input type="checkbox" onChange={handleCheck} /> Tôi đã đọc và đồng ý với
+                                                        các điều khoản và điều kiện sử dụng</span>
+                                                </div>
+                                            </div>
                                             <div className="Separate"></div>
                                             {loading === true ? <Spinner /> : <button type="submit" className="PhoneVerification_Butt">Xác thực</button>}
                                         </Form>

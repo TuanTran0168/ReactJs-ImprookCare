@@ -1,5 +1,5 @@
 import { useContext, useEffect, useRef, useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { UserContext } from "../../App";
 import "./Doctor.css";
 import { Form, Image } from "react-bootstrap";
@@ -8,9 +8,7 @@ import cookie from "react-cookies";
 import { toast } from "react-toastify";
 import avatar_user from "../../assets/images/user.png"
 import Moment from "react-moment";
-import { FaCalendarCheck, FaInfoCircle } from "react-icons/fa";
-import { MdEditCalendar, MdLogout, MdMessage } from "react-icons/md";
-import { ImProfile } from "react-icons/im";
+import DoctorMenu from "../../layout/DoctorLayout/DoctorMenu";
 
 const Doctor = () => {
     const [current_user, dispatch] = useContext(UserContext);
@@ -29,7 +27,7 @@ const Doctor = () => {
 
     const doctorAuth = (current_user) => {
         if (isDoctor === 0) {
-            if (current_user !== null && current_user.roleId.roleId !== 2) {
+            if (current_user !== null && current_user?.roleId.roleId !== 2) {
                 toast.error("Bạn không có quyền truy cập!")
                 isDoctor = 1;
                 nav('/');
@@ -42,42 +40,35 @@ const Doctor = () => {
         doctorAuth(current_user)
     }, [current_user])
 
-    const [current_avatar, setCurrent_avatar] = useState(current_user.avatar);
-    const [current_birthday, setCurrent_birthday] = useState(current_user.birthday);
-    const [birthday, setBirthday] = useState(null)
-    const [gender, setGender] = useState(null)
+    const [current_avatar, setCurrent_avatar] = useState(current_user?.avatar);
+    const [current_birthday, setCurrent_birthday] = useState(current_user?.birthday);
+    const [birthday, setBirthday] = useState(null);
+    const [gender, setGender] = useState(null);
     const avatar = useRef();
     const nav = useNavigate();
     const [loading, setLoading] = useState(true)
     const [user, setUser] = useState({
-        "firstname": current_user.firstname,
-        "lastname": current_user.lastname,
-        "userId": current_user.userId,
-        "birthday": current_user.birthday,
-        "gender": current_user.gender,
-        "avatar": current_user.avatar
-    })
-    const [checkPersonalInfo, setCheckPersonalInfo] = useState(true)
+        "firstname": current_user?.firstname,
+        "lastname": current_user?.lastname,
+        "userId": current_user?.userId,
+        "birthday": current_user?.birthday,
+        "gender": current_user?.gender,
+        "avatar": current_user?.avatar
+    });
+    const [checkPersonalInfo, setCheckPersonalInfo] = useState(true);
     const formattedBirthday = (
         <Moment locale="vi" format="DD/MM/YYYY">
-            {current_user.birthday}
+            {current_user?.birthday}
         </Moment>
     );
 
-    const formattedDate = new Date(current_user.birthday);
+    const formattedDate = new Date(current_user?.birthday);
     formattedDate.setHours(formattedDate.getHours() + 7);
     const formattedDateTime = formattedDate.toISOString().substring(0, 10);
     // console.log(typeof (current_birthday))
     // console.log(typeof (current_user.birthday))
     // const formattedDate = current_user.birthDate.toISOString();
     // const formattedDate = new Date(current_birthday).toISOString();
-
-    const logout = () => {
-        dispatch({
-            "type": "logout"
-        })
-        nav("/")
-    }
 
     const updateClick = () => {
         setCheckPersonalInfo(!checkPersonalInfo);
@@ -154,8 +145,8 @@ const Doctor = () => {
                     setLoading(false);
                 }
                 setCheckPersonalInfo(!checkPersonalInfo);
-            } catch (ex) {
-                console.log(ex)
+            } catch (error) {
+                console.log(error)
             }
         }
         process();
@@ -190,45 +181,38 @@ const Doctor = () => {
             <div className="Doctor">
                 <div className="Doctor_Left">
                     <div className="Doctor_Left_Content">
-                        <ul>
-                            <li><FaInfoCircle /><Link to="/doctor">Thông tin cá nhân</Link></li>
-                            <li><MdEditCalendar /><Link to="/schedule">Đăng ký lịch khám</Link></li>
-                            <li><FaCalendarCheck /><Link to="/bookingmanagement">Lịch hẹn</Link></li>
-                            <li><ImProfile /><Link to="/profiledoctor">Hồ sơ</Link></li>
-                            <li><MdMessage /><Link to="/doctormessage">Tin nhắn</Link></li>
-                            <li onClick={logout}><MdLogout />Đăng xuất</li>
-                        </ul>
+                        <DoctorMenu />
                     </div>
                 </div>
                 <div className="Doctor_Right">
                     {checkPersonalInfo === true ?
                         <>
                             <section>
-                                <div className="Doctor_Right_Header"><h2 className="text-center text-success">Thông tin cá nhân của {current_user.firstname}</h2></div>
+                                <div className="Doctor_Right_Header"><h2 className="text-center">Thông tin cá nhân của {current_user?.firstname}</h2></div>
                                 <div className="Doctor_Right_Content">
                                     <div className="Doctor_Avatar">
                                         {current_avatar === null ? <>
-                                            <Image className="user_Avatar" src={avatar_user} style={{ width: "20%" }} alt="Not Found" rounded />
+                                            <div className="user_Avatar"><Image src={avatar_user} style={{ width: "100%", height: "100%", objectFit: "cover" }} alt="Not Found" rounded /></div>
                                         </> : <>
-                                            <Image className="user_Avatar" src={current_user.avatar} style={{ width: "20%" }} alt="Not Found" rounded />
+                                            <div className="user_Avatar"><Image src={current_user?.avatar} style={{ width: "100%", height: "100%", objectFit: "cover" }} alt="Not Found" rounded /></div>
                                         </>}
                                         <Form.Control className="avatar_input" accept=".jpg, .jpeg, .png, .gif, .bmp" style={{ width: "10%", marginLeft: 'auto', marginRight: 'auto' }} onChange={(e) => updateAvatar(e.target.files)} type="file" ref={avatar} />
                                     </div>
                                     <div className="Doctor_LastName">
                                         <Form.Label style={{ width: "30%" }}>Họ và tên đệm</Form.Label>
-                                        <Form.Control value={current_user.lastname} type="text" disabled />
+                                        <Form.Control value={current_user?.lastname} type="text" disabled />
                                     </div>
                                     <div className="Doctor_FirstName">
                                         <Form.Label style={{ width: "30%" }}>Tên</Form.Label>
-                                        <Form.Control value={current_user.firstname} type="text" disabled />
+                                        <Form.Control value={current_user?.firstname} type="text" disabled />
                                     </div>
                                     <div className="Doctor_Email">
                                         <Form.Label style={{ width: "30%" }}>Email</Form.Label>
-                                        <Form.Control value={current_user.email} type="email" disabled />
+                                        <Form.Control value={current_user?.email} type="email" disabled />
                                     </div>
                                     <div className="Doctor_Gender">
                                         <Form.Label style={{ width: "30%" }}>Giới tính</Form.Label>
-                                        <Form.Control value={current_user.gender === true ? "Nam" : "Nữ"} type="Text" disabled />
+                                        <Form.Control value={current_user?.gender === true ? "Nam" : "Nữ"} type="Text" disabled />
                                     </div>
                                     <div className="Doctor_Birthday">
                                         <Form.Label style={{ width: "30%" }}>Ngày sinh</Form.Label>
@@ -245,28 +229,32 @@ const Doctor = () => {
                             </section>
                         </> : <>
                             <section>
-                                <div className="Doctor_Right_Header"><h2 className="text-center text-success">Thông tin cá nhân của {current_user.firstname}</h2></div>
+                                <div className="Doctor_Right_Header"><h2 className="text-center">Thông tin cá nhân của {current_user?.firstname}</h2></div>
                                 <div className="Doctor_Right_Content">
                                     <div className="Doctor_Avatar">
-                                        <div><Image className="user_Avatar" src={current_user.avatar} style={{ width: "35%" }} alt="Not Found" rounded /></div>
+                                        {current_avatar === null ? <>
+                                            <div className="user_Avatar"><Image src={avatar_user} style={{ width: "100%", height: "100%", objectFit: "cover" }} alt="Not Found" rounded /></div>
+                                        </> : <>
+                                            <div className="user_Avatar"><Image src={current_user?.avatar} style={{ width: "100%", height: "100%", objectFit: "cover" }} alt="Not Found" rounded /></div>
+                                        </>}
                                         <Form.Control className="avatar_input" accept=".jpg, .jpeg, .png, .gif, .bmp" style={{ width: "10%", marginLeft: 'auto', marginRight: 'auto' }} type="file" ref={avatar} />
                                     </div>
                                     <div className="Doctor_LastName">
                                         <Form.Label style={{ width: "30%" }}>Họ và tên đệm</Form.Label>
-                                        <Form.Control defaultValue={current_user.lastname} onChange={(e) => change(e, "lastname")} type="text" placeholder="Họ và tên đệm" required />
+                                        <Form.Control defaultValue={current_user?.lastname} onChange={(e) => change(e, "lastname")} type="text" placeholder="Họ và tên đệm" required />
                                     </div>
                                     <div className="Doctor_FirstName">
                                         <Form.Label style={{ width: "30%" }}>Tên</Form.Label>
-                                        <Form.Control defaultValue={current_user.firstname} onChange={(e) => change(e, "firstname")} type="text" placeholder="Tên" required />
+                                        <Form.Control defaultValue={current_user?.firstname} onChange={(e) => change(e, "firstname")} type="text" placeholder="Tên" required />
                                     </div>
                                     <div className="Doctor_Email">
                                         <Form.Label style={{ width: "30%" }}>Email</Form.Label>
-                                        <Form.Control defaultValue={current_user.email} type="email" placeholder="Email" required />
+                                        <Form.Control defaultValue={current_user?.email} type="email" placeholder="Email" required />
                                     </div>
                                     <div className="Doctor_Gender">
                                         <Form.Label style={{ width: "22%" }}>Giới tính</Form.Label>
                                         <div className="Doctor_Gender_Tick">
-                                            {current_user.gender === true ? <>
+                                            {current_user?.gender === true ? <>
                                                 <Form.Check type="radio" label="Nam" name="radioOption" defaultChecked onChange={() => setGender(true)} />
                                                 <Form.Check type="radio" label="Nữ" name="radioOption" onChange={() => setGender(false)} />
                                             </> : <>
@@ -276,12 +264,8 @@ const Doctor = () => {
                                         </div>
                                     </div>
                                     <div className="Doctor_Birthday">
-                                        <Form.Label style={{ width: "22%" }}>Ngày sinh</Form.Label>
-                                        <div className="Doctor_Birthday_Tick">
-                                            <input
-                                                type="date" defaultValue={formattedDateTime} id="dateInput"
-                                            />
-                                        </div>
+                                        <Form.Label style={{ width: "30%" }}>Ngày sinh</Form.Label>
+                                        <input type="date" defaultValue={formattedDateTime} id="dateInput" />
                                     </div>
                                     <div className="Update_Button">
                                         <button type="button" onClick={updateClick}>Hủy</button>

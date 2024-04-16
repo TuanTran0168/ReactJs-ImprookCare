@@ -1,13 +1,13 @@
 div.CollabDoctor_Content {
     max-width: 80rem;
-    padding-top: 2rem;
+    padding-top: 5rem;
     margin-left: auto;
     margin-right: auto;
 }
 
 div.CollabDoctor_Content_1 {
     margin-top: 2rem;
-    margin-bottom: 3rem;
+    margin-bottom: 2rem;
     display: flex;
     align-items: center;
 }
@@ -69,7 +69,7 @@ div.CollabDoctor_Content_1_Header>div:nth-child(3)>button>a {
 div.CollabDoctor_Content_2 {
     display: flex;
     gap: 2.5rem;
-    margin-top: 5rem;
+    margin-top: 2rem;
 }
 
 div.CollabDoctor_Content_2_Detail_1>div {
@@ -298,9 +298,10 @@ div.CollabDoctor_Content_6_Content {
 div.CollabDoctor_Content_7 {
     /* background-color: #06bcfb; */
     /* background-image: linear-gradient(315deg, #4884ee 0%, #003366 74%); */
-    background-color: #ffffff;
-    background-image: linear-gradient(360deg, #ffffff 0%, #91a6ff 74%);
-    color: #183e9f;
+    /* background-color: #ffffff;
+    background-image: linear-gradient(360deg, #ffffff 0%, #91a6ff 74%); */
+    background: #183e9f;
+    color: white;
     margin-top: 3rem;
 }
 

@@ -1,0 +1,17 @@
+div.video_call_wrapper {
+    display: flex;
+    max-width: 85rem;
+    flex-wrap: wrap;
+    padding-top: 7rem;
+    gap: 5rem;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+div.video_call_header {
+    background: red;
+}
+
+div.video_call_content {
+    background: yellow;
+}

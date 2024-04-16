@@ -1,8 +1,8 @@
 div.PersonalPage {
     display: flex;
-    max-width: 80rem;
+    max-width: 85rem;
     flex-wrap: wrap;
-    padding-top: 2rem;
+    padding-top: 7rem;
     gap: 5rem;
     margin-left: auto;
     margin-right: auto;
@@ -12,34 +12,8 @@ div.PersonalPage_Left {
     width: 20%;
 }
 
-div.PersonalPage_Left_Content>ul {
-    display: grid;
-    list-style: none;
-    background-color: #EEEEEE;
-}
-
-div.PersonalPage_Left_Content>ul>li {
-    display: flex;
-    height: 3rem;
-    align-items: center;
-    cursor: pointer;
-    gap: 0.75rem;
-}
-
-div.PersonalPage_Left_Content>ul>li:hover {
-    border-color: rgb(26 118 227);
-    cursor: pointer;
-    border-right-width: 4px;
-    border-radius: 3px;
-}
-
-div.PersonalPage_Left_Content>ul>li a {
-    text-decoration: none;
-    color: black;
-}
-
 div.PersonalPage_Right {
-    width: 70%;
+    width: 74%;
 }
 
 div.Personal_Avatar {
@@ -50,6 +24,10 @@ div.Personal_Avatar {
 .user_Avatar {
     margin-left: auto;
     margin-right: auto;
+    width: 120px;
+    height: 120px;
+    overflow: hidden;
+    border-radius: 60px;
 }
 
 div.Personal_FirstName,
@@ -61,6 +39,7 @@ div.Personal_Birthday {
     display: flex;
     gap: 3rem;
     margin-bottom: 1.25rem;
+    align-items: center;
 }
 
 div.Personal_Gender_Tick {
@@ -69,8 +48,10 @@ div.Personal_Gender_Tick {
     height: 2.4rem;
 }
 
-div.Personal_Birthday_Tick {
+div.Personal_Birthday>input {
+    width: 100%;
     border: var(--bs-border-width) solid var(--bs-border-color);
+    padding: 0.25rem;
 }
 
 div.Change_Button {
@@ -116,4 +97,8 @@ div.Update_Button button:hover {
 
 div.Update_Button button:focus-visible {
     outline-offset: 1px;
+}
+
+div.PersonalPage_Right_Header>h2{
+    color: #183e9f;
 }

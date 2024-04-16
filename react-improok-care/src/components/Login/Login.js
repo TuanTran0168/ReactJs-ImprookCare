@@ -87,8 +87,7 @@ const Login = () => {
                                                 aria-describedby="basic-addon1"
                                                 required
                                                 value={username}
-                                                onChange={e => setUsername(e.target.value)}
-                                            />
+                                                onChange={e => setUsername(e.target.value)} />
                                         </InputGroup>
                                         <div className="Separate"></div>
                                         <InputGroup className="mb-3">
@@ -100,8 +99,7 @@ const Login = () => {
                                                 aria-describedby="basic-addon1"
                                                 required
                                                 value={password}
-                                                onChange={e => setPassword(e.target.value)}
-                                            />
+                                                onChange={e => setPassword(e.target.value)} />
                                             <button className="Show_Pass" type="button" onClick={toggleShowPassword}>
                                                 {showPassword ? <Visibility /> : <VisibilityOff />}
                                             </button>
@@ -130,7 +128,7 @@ const Login = () => {
                                 <div className="To_Register">
                                     <div>
                                         Bạn mới biết đến I'MPROOK Care?
-                                        <Link to="/register"> Đăng ký</Link>
+                                        <Link to="/phoneverification"> Đăng ký</Link>
                                     </div>
                                 </div>
                             </div>

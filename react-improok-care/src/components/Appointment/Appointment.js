@@ -1,29 +1,17 @@
 import { useContext, useEffect, useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
 import { UserContext } from "../../App";
 import "./Appointment.css";
 import { authApi, endpoints } from "../../configs/Apis";
 import printer from "../../assets/images/printer.png"
-import { Badge, Form } from "react-bootstrap";
+import { Badge } from "react-bootstrap";
 import schedule from "../../assets/images/schedule.png"
-import { set } from "date-fns";
-import { FaCalendar, FaHistory, FaInfoCircle } from "react-icons/fa";
-import { ImProfile } from "react-icons/im";
-import { MdLogout, MdMessage } from "react-icons/md";
+import UserMenu from "../../layout/UserMenu/UserMenu";
 
 const Appointment = () => {
     const [current_user, dispatch] = useContext(UserContext);
-    const nav = useNavigate();
     const [booking, setBooking] = useState([]);
     const [bookingDetail, setBookingDetail] = useState(null);
     const [selectedBooking, setSelectedBooking] = useState('');
-
-    const logout = () => {
-        dispatch({
-            "type": "logout"
-        })
-        nav("/");
-    }
 
     const loadUserBooking = async () => {
         try {
@@ -72,7 +60,6 @@ const Appointment = () => {
                         'Content-Type': 'text/plain'
                     }
                 })
-
                 console.log(res.data);
             } catch (error) {
                 console.log(error);
@@ -86,14 +73,7 @@ const Appointment = () => {
             <div className="Appointment">
                 <div className="Appointment_Left">
                     <div className="Appointment_Left_Content">
-                        <ul>
-                            <li><FaInfoCircle /><Link to="/personal">Thông tin cá nhân</Link></li>
-                            <li><FaCalendar /><Link to="/appointment">Lịch khám</Link></li>
-                            <li><FaHistory /><Link to="/history">Lịch sử khám</Link></li>
-                            <li><ImProfile /><Link to="/profile">Hồ sơ</Link></li>
-                            <li><MdMessage /><Link to="/message">Tin nhắn</Link></li>
-                            <li onClick={logout}><MdLogout />Đăng xuất</li>
-                        </ul>
+                        <UserMenu />
                     </div>
                 </div>
                 <div className="Appointment_Middle">
@@ -140,6 +120,7 @@ const Appointment = () => {
                 </div>
                 <div className="Appointment_Right">
                     <section>
+                        <div className="Appointment_Right_Header"><h3 className="text-center mb-4">Thông tin lịch khám</h3></div>
                         <div className="Appointment_Right_Content">
                             {bookingDetail === null ? <>
                                 <div className="Appointment_Null">

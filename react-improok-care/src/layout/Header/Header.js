@@ -1,5 +1,4 @@
-import { useContext, useEffect, useState } from "react";
-// import Apis, { endpoints } from "../configs/Apis";
+import { useContext, useState } from "react";
 import "./Header.css"
 import { useNavigate, Link } from "react-router-dom"
 import { Dropdown, Image, NavDropdown } from "react-bootstrap";
@@ -7,13 +6,12 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { UserContext } from "../../App";
 import { FaHome, FaInfoCircle, FaHistory } from "react-icons/fa";
 import { MdSecurity, MdLogout, MdAccountCircle, MdAdminPanelSettings } from "react-icons/md";
-// import logo from "../../assets/images/tech-health-care.png"
 
 const Header = () => {
     // const [currentUser,] = useContext(UserContext);
     const [user, dispatch] = useContext(UserContext);
     const nav = useNavigate();
-    const [loading, setLoading] = useState(true)
+    const [loading, setLoading] = useState(true);
 
     const logout = () => {
         dispatch({
@@ -22,19 +20,38 @@ const Header = () => {
         nav("/")
     }
 
+    const handleItemClick = (to) => {
+        window.location.href = to;
+    }
+
+    const handleAdminClick = () => {
+        window.location.href = "/improok/admin";
+    };
+
+    const handleDoctorClick = () => {
+        window.location.href = "/improok/doctor";
+    };
+
+    const menuItems = [
+        { to: "/improok", text: "Về trang chủ", icon: <FaHome /> },
+        { to: "/improok/personal", text: "Thông tin cá nhân", icon: <FaInfoCircle /> },
+        { to: "/improok/history", text: "Lịch sử khám bệnh", icon: <FaHistory /> },
+        { to: "/improok/changepassword", text: "Thay đổi mật khẩu", icon: <MdSecurity /> }
+    ];
+
     return (<>
         <div className="Header">
             <header>
                 <div className="Header1">
                     {/* <Link to="/" className="Link_Title"><h2 className="Title">IM'PROOK CARE.</h2></Link> */}
-                    <a href="/" className="Link_Title"><h2 className="Title" style={{ textAlign: 'center' }}>IM'PROOK CARE.</h2></a>
+                    <a href="/improok" className="Link_Title"><h2 className="Title" style={{ textAlign: 'center' }}><span style={{ color: '#fff', background: '#22c55e', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>I'MPROOK</span> <span style={{ color: '#fff', background: '#1a76e3', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>CARE.</span></h2></a>
                     {/* <Link to="/">
                     <img src={logo} alt="IMPROOKCARE" />
                 </Link> */}
                 </div>
                 <div className="Header2">
                     <ul className="Menu-bar">
-                        <li>
+                        <li className="Hover">
                             <Link to="/booking">Đặt khám</Link>
                             <span>Đặt khám ngay</span>
                         </li>
@@ -49,7 +66,7 @@ const Header = () => {
                         <li>
                             <Dropdown>
                                 <NavDropdown title='Hợp tác bác sĩ ' id="basic-nav-dropdown">
-                                    <NavDropdown.Item href="/collaboration">Đăng ký</NavDropdown.Item>
+                                    <NavDropdown.Item href="/improok/collaboration">Đăng ký</NavDropdown.Item>
                                 </NavDropdown>
                             </Dropdown>
                             <span>Đăng ký ngay</span>
@@ -64,21 +81,30 @@ const Header = () => {
                         <>
                             {/* <span class="User-profile"><a href="/">Chào {user.lastname} {user.firstname}</a></span> */}
                             <Dropdown style={{ display: 'flex', gap: '0.75rem', justifyContent: 'center', alignItems: 'center' }}>
-                                <Image src={user?.avatar} style={{ width: "13%" }} alt="Avatar" roundedCircle />
+                                <div className="avatar_container"><Image src={user?.avatar} alt="Avatar" roundedCircle /></div>
                                 <NavDropdown title={`Chào, ${user.lastname} ${user.firstname}!`} id="basic-nav-dropdown">
-                                    <NavDropdown.Item href="/" style={{ display: 'flex', gap: '0.75rem', alignItems: 'center' }}><FaHome />Về trang chủ</NavDropdown.Item>
-                                    <NavDropdown.Item href="/personal" style={{ display: 'flex', gap: '0.75rem', alignItems: 'center' }}><FaInfoCircle />Thông tin cá nhân</NavDropdown.Item>
-                                    <NavDropdown.Item href="/history" style={{ display: 'flex', gap: '0.75rem', alignItems: 'center' }}><FaHistory />Lịch sử khám bệnh</NavDropdown.Item>
-                                    <NavDropdown.Item href="/changepassword" style={{ display: 'flex', gap: '0.75rem', alignItems: 'center' }}><MdSecurity />Thay đổi mật khẩu</NavDropdown.Item>
+                                    {/* <NavDropdown.Item style={{ display: 'flex', gap: '0.75rem', alignItems: 'center' }} onClick={handleItemClick()}><Link to="/"><FaHome />Về trang chủ</Link></NavDropdown.Item>
+                                    <NavDropdown.Item style={{ display: 'flex', gap: '0.75rem', alignItems: 'center' }}><Link to="/personal"><FaInfoCircle />Thông tin cá nhân</Link></NavDropdown.Item>
+                                    <NavDropdown.Item style={{ display: 'flex', gap: '0.75rem', alignItems: 'center' }}><Link to="/history"><FaHistory />Lịch sử khám bệnh</Link></NavDropdown.Item>
+                                    <NavDropdown.Item style={{ display: 'flex', gap: '0.75rem', alignItems: 'center' }}><Link to="/changepassword"><MdSecurity />Thay đổi mật khẩu</Link></NavDropdown.Item> */}
+                                    {menuItems.map((item, index) => (
+                                        <NavDropdown.Item
+                                            key={index}
+                                            style={{ display: 'flex', gap: '0.75rem', alignItems: 'center' }}
+                                            onClick={() => handleItemClick(item.to)}
+                                        >
+                                            <Link to={item.to}>{item.icon}{item.text}</Link>
+                                        </NavDropdown.Item>
+                                    ))}
                                     {user.roleId.roleId === 1 ?
                                         <>
-                                            <NavDropdown.Item href="/admin" style={{ display: 'flex', gap: '0.75rem', alignItems: 'center' }}><MdAdminPanelSettings />Quản trị</NavDropdown.Item>
+                                            <NavDropdown.Item style={{ display: 'flex', gap: '0.75rem', alignItems: 'center' }} onClick={handleAdminClick}><Link to="/admin"><MdAdminPanelSettings />Quản trị</Link></NavDropdown.Item>
                                             {/* <button class="Admin"><Link to="/admin">Quản trị</Link></button> */}
                                         </> :
                                         <>
                                             {user.roleId.roleId === 2 ?
                                                 <>
-                                                    <NavDropdown.Item href="/doctor" style={{ display: 'flex', gap: '0.75rem', alignItems: 'center' }}><MdAccountCircle />Bác sĩ</NavDropdown.Item>
+                                                    <NavDropdown.Item style={{ display: 'flex', gap: '0.75rem', alignItems: 'center' }} onClick={handleDoctorClick}><Link to="/doctor"><MdAccountCircle />Bác sĩ</Link></NavDropdown.Item>
                                                     {/* <button class="Doctor"><Link to="/doctor">Bác sĩ</Link></button> */}
                                                 </> : <></>}
                                         </>
@@ -88,19 +114,9 @@ const Header = () => {
                             </Dropdown>
                         </>
                     }
-                    {/* <button class="Little-menu">
-                    <div><FaEllipsisV /></div>
-                    <ul>
-                        <li><FaLanguage /> Ngôn ngữ</li>
-                        <li><FaQuestionCircle /> Trợ giúp và phản hồi</li>
-                    </ul>
-                </button> */}
                 </div>
             </header>
         </div >
-        {/* <ul>
-            {users.map(u => <li key={u.userId}>{u.lastname}</li>)}
-        </ul> */}
     </>)
 }
 

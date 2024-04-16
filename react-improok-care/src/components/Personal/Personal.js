@@ -1,5 +1,4 @@
-import { useContext, useEffect, useRef, useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useContext, useRef, useState } from "react";
 import { UserContext } from "../../App";
 import "./Personal.css";
 import { Form, Image } from "react-bootstrap";
@@ -7,29 +6,26 @@ import { authApi, endpoints } from "../../configs/Apis";
 import cookie from "react-cookies";
 import { toast } from "react-toastify";
 import avatar_user from "../../assets/images/user.png"
-import Moment from "react-moment";
-import { FaCalendar, FaHistory, FaInfoCircle } from "react-icons/fa";
-import { ImProfile } from "react-icons/im";
-import { MdLogout, MdMessage } from "react-icons/md";
+// import Moment from "react-moment";
+import UserMenu from "../../layout/UserMenu/UserMenu";
 
 const Personal = () => {
     const [current_user, dispatch] = useContext(UserContext);
-    const [current_avatar, setCurrent_avatar] = useState(current_user.avatar);
+    const [current_avatar, setCurrent_avatar] = useState(current_user?.avatar);
     const [current_birthday, setCurrent_birthday] = useState('');
-    const [birthday, setBirthday] = useState(null)
-    const [gender, setGender] = useState(null)
+    const [birthday, setBirthday] = useState(null);
+    const [gender, setGender] = useState(null);
     const avatar = useRef();
-    const nav = useNavigate();
     const [loading, setLoading] = useState(true)
     const [user, setUser] = useState({
-        "firstname": current_user.firstname,
-        "lastname": current_user.lastname,
-        "userId": current_user.userId,
-        "birthday": current_user.birthday,
-        "gender": current_user.gender,
-        "avatar": current_user.avatar
+        "firstname": current_user?.firstname,
+        "lastname": current_user?.lastname,
+        "userId": current_user?.userId,
+        "birthday": current_user?.birthday,
+        "gender": current_user?.gender,
+        "avatar": current_user?.avatar
     })
-    const [checkPersonalInfo, setCheckPersonalInfo] = useState(true)
+    const [checkPersonalInfo, setCheckPersonalInfo] = useState(true);
 
     // const formattedBirthday = (
     //     <Moment locale="vi" format="DD/MM/YYYY">
@@ -37,7 +33,7 @@ const Personal = () => {
     //     </Moment>
     // );
 
-    const formattedDate = new Date(current_user.birthday);
+    const formattedDate = new Date(current_user?.birthday);
     formattedDate.setHours(formattedDate.getHours() + 7);
 
     const formattedDateTime = formattedDate.toISOString().substring(0, 10);
@@ -45,13 +41,6 @@ const Personal = () => {
     // console.log(typeof (current_user.birthday))
     // const formattedDate = current_user.birthDate.toISOString();
     // const formattedDate = new Date(current_birthday).toISOString();
-
-    const logout = () => {
-        dispatch({
-            "type": "logout"
-        })
-        nav("/")
-    }
 
     // useEffect(() => {
     //     const formattedDate = new Date(current_user.birthday).toISOString().substring(0, 10);
@@ -122,7 +111,7 @@ const Personal = () => {
                     setUser(update_User.data);
                     setLoading(false);
 
-                    console.log(current_user.birthday)
+                    console.log(current_user?.birthday)
                 } catch (err) {
                     // if (err.request.responeText === "Cập nhật thành công!")
                     //     setErr("Cập nhật thành công");
@@ -137,8 +126,8 @@ const Personal = () => {
                     setLoading(false);
                 }
                 setCheckPersonalInfo(!checkPersonalInfo);
-            } catch (ex) {
-                console.log(ex)
+            } catch (error) {
+                console.log(error)
             }
         }
         process();
@@ -173,49 +162,42 @@ const Personal = () => {
             <div className="PersonalPage">
                 <div className="PersonalPage_Left">
                     <div className="PersonalPage_Left_Content">
-                        <ul>
-                            <li><FaInfoCircle /><Link to="/personal">Thông tin cá nhân</Link></li>
-                            <li><FaCalendar /><Link to="/appointment">Lịch khám</Link></li>
-                            <li><FaHistory /><Link to="/history">Lịch sử khám</Link></li>
-                            <li><ImProfile /><Link to="/profile">Hồ sơ</Link></li>
-                            <li><MdMessage /><Link to="/message">Tin nhắn</Link></li>
-                            <li onClick={logout}><MdLogout />Đăng xuất</li>
-                        </ul>
+                        <UserMenu />
                     </div>
                 </div>
                 <div className="PersonalPage_Right">
                     {checkPersonalInfo === true ?
                         <>
                             <section>
-                                <div className="PersonalPage_Right_Header"><h2 className="text-center text-success">Thông tin cá nhân của {current_user.firstname}</h2></div>
+                                <div className="PersonalPage_Right_Header"><h2 className="text-center">Thông tin cá nhân của {current_user?.firstname}</h2></div>
                                 <div className="PersonalPage_Right_Content">
                                     <div className="Personal_Avatar">
                                         {current_avatar === null ? <>
-                                            <Image className="user_Avatar" src={avatar_user} style={{ width: "20%" }} alt="Not Found" rounded />
+                                            <div className="user_Avatar"><Image src={avatar_user} style={{ width: "100%", height: "100%", objectFit: "cover" }} alt="Not Found" rounded /></div>
                                         </> : <>
-                                            <Image className="user_Avatar" src={current_user.avatar} style={{ width: "20%" }} alt="Avatar" rounded />
+                                            <div className="user_Avatar"><Image src={current_user?.avatar} style={{ width: "100%", height: "100%", objectFit: "cover" }} alt="Avatar" rounded /></div>
                                         </>}
                                         <Form.Control className="avatar_input" accept=".jpg, .jpeg, .png, .gif, .bmp" style={{ width: "10%", marginLeft: 'auto', marginRight: 'auto' }} onChange={(e) => updateAvatar(e.target.files)} type="file" ref={avatar} />
                                     </div>
                                     <div className="Personal_LastName">
                                         <Form.Label style={{ width: "30%" }}>Họ và tên đệm</Form.Label>
-                                        <Form.Control value={current_user.lastname} type="text" disabled />
+                                        <Form.Control value={current_user?.lastname} type="text" disabled />
                                     </div>
                                     <div className="Personal_FirstName">
                                         <Form.Label style={{ width: "30%" }}>Tên</Form.Label>
-                                        <Form.Control value={current_user.firstname} type="text" disabled />
+                                        <Form.Control value={current_user?.firstname} type="text" disabled />
                                     </div>
                                     <div className="Personal_Email">
                                         <Form.Label style={{ width: "30%" }}>Email</Form.Label>
-                                        <Form.Control value={current_user.email} type="email" disabled />
+                                        <Form.Control value={current_user?.email} type="email" disabled />
                                     </div>
                                     <div className="Personal_Gender">
                                         <Form.Label style={{ width: "30%" }}>Giới tính</Form.Label>
-                                        <Form.Control value={current_user.gender === true ? "Nam" : "Nữ"} type="Text" disabled />
+                                        <Form.Control value={current_user?.gender === true ? "Nam" : "Nữ"} type="Text" disabled />
                                     </div>
                                     <div className="Personal_Birthday">
                                         <Form.Label style={{ width: "30%" }}>Ngày sinh</Form.Label>
-                                        {current_user.birthday === null ? <>
+                                        {current_user?.birthday === null ? <>
                                             <Form.Control value="Thiết lập ngày sinh" type="Text" disabled />
                                         </> : <>
                                             {/* <Moment locale="vi" format="DD/MM/YYYY">{current_user.birthday}</Moment> */}
@@ -229,28 +211,32 @@ const Personal = () => {
                             </section>
                         </> : <>
                             <section>
-                                <div className="PersonalPage_Right_Header"><h2 className="text-center text-success">Thông tin cá nhân của {current_user.firstname}</h2></div>
+                                <div className="PersonalPage_Right_Header"><h2 className="text-center">Thông tin cá nhân của {current_user?.firstname}</h2></div>
                                 <div className="PersonalPage_Right_Content">
                                     <div className="Personal_Avatar">
-                                        <div><Image className="user_Avatar" src={current_user.avatar} style={{ width: "20%" }} alt="Not Found" rounded /></div>
-                                        <Form.Control className="avatar_input" accept=".jpg, .jpeg, .png, .gif, .bmp" style={{ width: "10%", marginLeft: 'auto', marginRight: 'auto' }} type="file" ref={avatar} />
+                                        {current_avatar === null ? <>
+                                            <div className="user_Avatar"><Image src={avatar_user} style={{ width: "100%", height: "100%", objectFit: "cover" }} alt="Not Found" rounded /></div>
+                                        </> : <>
+                                            <div className="user_Avatar"><Image src={current_user?.avatar} style={{ width: "100%", height: "100%", objectFit: "cover" }} alt="Avatar" rounded /></div>
+                                        </>}
+                                        <Form.Control className="avatar_input" accept=".jpg, .jpeg, .png, .gif, .bmp" style={{ width: "10%", marginLeft: 'auto', marginRight: 'auto' }} onChange={(e) => updateAvatar(e.target.files)} type="file" ref={avatar} />
                                     </div>
                                     <div className="Personal_LastName">
                                         <Form.Label style={{ width: "30%" }}>Họ và tên đệm</Form.Label>
-                                        <Form.Control defaultValue={current_user.lastname} onChange={(e) => change(e, "lastname")} type="text" placeholder="Họ và tên đệm" required />
+                                        <Form.Control defaultValue={current_user?.lastname} onChange={(e) => change(e, "lastname")} type="text" placeholder="Họ và tên đệm" required />
                                     </div>
                                     <div className="Personal_FirstName">
                                         <Form.Label style={{ width: "30%" }}>Tên</Form.Label>
-                                        <Form.Control defaultValue={current_user.firstname} onChange={(e) => change(e, "firstname")} type="text" placeholder="Tên" required />
+                                        <Form.Control defaultValue={current_user?.firstname} onChange={(e) => change(e, "firstname")} type="text" placeholder="Tên" required />
                                     </div>
                                     <div className="Personal_Email">
                                         <Form.Label style={{ width: "30%" }}>Email</Form.Label>
-                                        <Form.Control defaultValue={current_user.email} type="email" placeholder="Email" required />
+                                        <Form.Control defaultValue={current_user?.email} type="email" placeholder="Email" required />
                                     </div>
                                     <div className="Personal_Gender">
                                         <Form.Label style={{ width: "22%" }}>Giới tính</Form.Label>
                                         <div className="Personal_Gender_Tick">
-                                            {current_user.gender === true ? <>
+                                            {current_user?.gender === true ? <>
                                                 <Form.Check type="radio" label="Nam" name="radioOption" defaultChecked onChange={() => setGender(true)} />
                                                 <Form.Check type="radio" label="Nữ" name="radioOption" onChange={() => setGender(false)} />
                                             </> : <>
@@ -260,10 +246,8 @@ const Personal = () => {
                                         </div>
                                     </div>
                                     <div className="Personal_Birthday">
-                                        <Form.Label style={{ width: "22%" }}>Ngày sinh</Form.Label>
-                                        <div className="Personal_Birthday_Tick">
-                                            <input type="date" defaultValue={formattedDateTime} id="dateInput" />
-                                        </div>
+                                        <Form.Label style={{ width: "30%" }}>Ngày sinh</Form.Label>
+                                        <input type="date" defaultValue={formattedDateTime} id="dateInput" />
                                     </div>
                                     <div className="Update_Button">
                                         <button type="button" onClick={updateClick}>Hủy</button>

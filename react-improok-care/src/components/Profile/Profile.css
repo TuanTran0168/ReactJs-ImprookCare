@@ -1,8 +1,8 @@
 div.Profile {
     display: flex;
-    max-width: 80rem;
+    max-width: 85rem;
     flex-wrap: wrap;
-    padding-top: 2rem;
+    padding-top: 7rem;
     gap: 5rem;
     margin-left: auto;
     margin-right: auto;
@@ -10,32 +10,6 @@ div.Profile {
 
 div.Profile_Left {
     width: 20%;
-}
-
-div.Profile_Left_Content>ul {
-    display: grid;
-    list-style: none;
-    background-color: #EEEEEE;
-}
-
-div.Profile_Left_Content>ul>li {
-    display: flex;
-    height: 3rem;
-    align-items: center;
-    cursor: pointer;
-    gap: 0.75rem;
-}
-
-div.Profile_Left_Content>ul>li:hover {
-    border-color: rgb(26 118 227);
-    cursor: pointer;
-    border-right-width: 4px;
-    border-radius: 3px;
-}
-
-div.Profile_Left_Content>ul>li a {
-    text-decoration: none;
-    color: black;
 }
 
 div.Profile_Middle {
@@ -110,6 +84,13 @@ div.Profile_Birthday {
     display: flex;
     gap: 3rem;
     margin-bottom: 1.25rem;
+    align-items: center;
+}
+
+div.Profile_Birthday>input {
+    border: var(--bs-border-width) solid var(--bs-border-color);
+    padding: 0.25rem;
+    width: 100%;
 }
 
 div.Profile_Gender_Tick {
@@ -170,4 +151,8 @@ div.Update_Button button:hover {
 
 div.Update_Button button:focus-visible {
     outline-offset: 1px;
+}
+
+div.Profile_Right_Header>h3 {
+    color: #183e9f;
 }

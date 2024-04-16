@@ -1,0 +1,63 @@
+div.UserMenu {
+    display: grid;
+    list-style: none;
+    /* background-color: #CCFFFF; */
+    /* background-color: lightblue; */
+    /* background-color: #F0F8FF; */
+    background: white;
+}
+
+/* .UserMenu>div {
+    display: flex;
+    flex-direction: column;
+    height: 3rem;
+    align-items: center;
+    cursor: pointer;
+    gap: 0.75rem;
+    width: 100%;
+} */
+
+/* .UserMenu>div>a:hover {
+    border-color: rgb(26 118 227);
+    cursor: pointer;
+    border-right-width: 4px;
+    border-radius: 3px;
+} */
+
+.UserMenu>div>a {
+    text-decoration: none;
+    color: black;
+    width: 100%;
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
+    font-size: 16px;
+}
+
+.UserMenu>div>div {
+    width: 100%;
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+    /* justify-content: center; */
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.active {
+    background-color: #183e9f;
+    padding-left: 10%;
+    border-radius: 0.25rem;
+}
+
+.active .icon {
+    color: white;
+}
+  
+.active .text {
+    color: white;
+}

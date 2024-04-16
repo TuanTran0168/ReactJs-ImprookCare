@@ -1,8 +1,8 @@
 div.Doctor {
     display: flex;
-    max-width: 80rem;
+    max-width: 85rem;
     flex-wrap: wrap;
-    padding-top: 2rem;
+    padding-top: 7rem;
     gap: 5rem;
     margin-left: auto;
     margin-right: auto;
@@ -12,35 +12,8 @@ div.Doctor_Left {
     width: 20%;
 }
 
-div.Doctor_Left_Content>ul {
-    display: grid;
-    list-style: none;
-    /* background-color: lightblue; */
-    background-color: #CCFFFF;
-}
-
-div.Doctor_Left_Content>ul>li {
-    display: flex;
-    height: 3rem;
-    align-items: center;
-    cursor: pointer;
-    gap: 0.75rem;
-}
-
-div.Doctor_Left_Content>ul>li:hover {
-    border-color: rgb(26 118 227);
-    cursor: pointer;
-    border-right-width: 4px;
-    border-radius: 3px;
-}
-
-div.Doctor_Left_Content>ul>li a {
-    text-decoration: none;
-    color: black;
-}
-
 div.Doctor_Right {
-    width: 70%;
+    width: 74%;
 }
 
 div.Doctor_Avatar {
@@ -51,6 +24,10 @@ div.Doctor_Avatar {
 .user_Avatar {
     margin-left: auto;
     margin-right: auto;
+    width: 120px;
+    height: 120px;
+    overflow: hidden;
+    border-radius: 60px;
 }
 
 div.Doctor_FirstName,
@@ -62,6 +39,7 @@ div.Doctor_Birthday {
     display: flex;
     gap: 3rem;
     margin-bottom: 1.25rem;
+    align-items: center;
 }
 
 div.Doctor_Gender_Tick {
@@ -69,8 +47,10 @@ div.Doctor_Gender_Tick {
     gap: 5rem;
 }
 
-div.Doctor_Birthday_Tick {
+div.Doctor_Birthday>input {
     border: var(--bs-border-width) solid var(--bs-border-color);
+    padding: 0.25rem;
+    width: 100%;
 }
 
 div.Change_Button {
@@ -90,7 +70,7 @@ div.Change_Button button {
     outline: 0;
     grid-gap: 8px;
     align-items: center;
-    background-color: #1975dc;
+    background-color: #183e9f;
     color: #000;
     border: 1px solid #000;
     border-radius: 4px;
@@ -116,4 +96,8 @@ div.Update_Button button:hover {
 
 div.Update_Button button:focus-visible {
     outline-offset: 1px;
+}
+
+div.Doctor_Right_Header {
+    color: #183e9f;
 }

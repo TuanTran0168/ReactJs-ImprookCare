@@ -1,10 +1,8 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import "./Collaboration.css"
 import Apis, { endpoints } from "../../configs/Apis";
 import googleplay from "../../assets/images/googleplay.svg"
 import appstore from "../../assets/images/appstore.svg"
-// import maledoctor from "../../assets/images/male-doctor.png"
-// import femaledoctor from "../../assets/images/female-doctor.png"
 import setting from "../../assets/images/settings.png"
 import timetable from "../../assets/images/timetable.png"
 import phonecall from "../../assets/images/phone-call.png"
@@ -13,7 +11,7 @@ import bannerheader from "../../assets/images/banner-header.png"
 import advice from "../../assets/images/advice.png"
 import managementapp from "../../assets/images/management-app.png"
 import collabdoctor from "../../assets/images/collab-doctor-register.png"
-import { TiTickOutline } from "react-icons/ti";
+import { TiTick } from "react-icons/ti";
 import { Link } from "react-router-dom";
 import { Form } from "react-bootstrap";
 import { toast } from "react-toastify";
@@ -148,9 +146,10 @@ const Collaboration = () => {
                                 <div className="Separate"></div>
                                 <div style={{ padding: '1.5rem' }}>
                                     <h5 style={{ fontWeight: 'bold', fontSize: '1.25rem' }}>Đặt khám miễn phí</h5>
-                                    <h6 style={{ fontWeight: '400' }}>Bệnh nhân đặt khám miễn phí trên ứng dụng IMPROOKCARE. Trả kết quả, đơn thuốc và nhắc tái khám.</h6>
+                                    <h6 style={{ fontWeight: '400' }}>Đặt khám miễn phí trên ứng dụng I'MPROOK CARE. Trả kết quả, đơn thuốc và nhắc tái khám.</h6>
                                 </div>
                             </div>
+                            <hr />
                         </div>
                     </div>
                 </div>
@@ -227,11 +226,11 @@ const Collaboration = () => {
                         <h3>Tải ứng dụng I'MPROOK CARE</h3>
                         <ul>
                             <li>
-                                <TiTickOutline />
+                                <TiTick />
                                 <span>Đặt khám bác sĩ</span>
                             </li>
                             <li>
-                                <TiTickOutline />
+                                <TiTick />
                                 <span>Tiện lợi - Nhanh chóng - Dễ dàng</span>
                             </li>
                         </ul>

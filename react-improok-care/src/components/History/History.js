@@ -1,6 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { Badge, Button, Form, Table } from "react-bootstrap";
-import { Link, useNavigate } from "react-router-dom";
+import { Badge, Button, Table } from "react-bootstrap";
 import { UserContext } from "../../App";
 import "./History.css";
 import Apis, { authApi, endpoints } from "../../configs/Apis";
@@ -13,19 +12,12 @@ import AccordionDetails from '@mui/material/AccordionDetails';
 import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { toast } from "react-toastify";
-import { FaCalendar, FaHistory, FaInfoCircle } from "react-icons/fa";
-import { MdLogout, MdMessage } from "react-icons/md";
-import { ImProfile } from "react-icons/im";
+import UserMenu from "../../layout/UserMenu/UserMenu";
+import reminder from "../../assets/images/reminder.png"
+import Pagination from "../../utils/Pagination"
 
 const History = () => {
-    const [current_user, dispatch] = useContext(UserContext);
-    const nav = useNavigate();
-    const logout = () => {
-        dispatch({
-            "type": "logout"
-        })
-        nav("/")
-    }
+    const [current_user,] = useContext(UserContext);
 
     const [loading, setLoading] = useState(false);
 
@@ -187,11 +179,11 @@ const History = () => {
             try {
                 setLoading(true);
                 console.log(tempTotal);
-                // console.log(requestBody)
+
                 let res = await Apis.post(endpoints['vnpay-payment'], {
                     "amount": tempTotal,
                     "orderInfor": "2:-" + prescriptionId + "-Medicine Payment: " + profilePatientName + " đã thanh toán tiền thuốc cho đơn thuốc " + prescriptionId + " - ",
-                    "returnUrl": "http://localhost:3000/paymentResult"
+                    "returnUrl": "http://localhost:3000/improok/paymentResult"
                 });
                 window.location.href = res.data;
                 // toast.success(res.data);
@@ -216,7 +208,7 @@ const History = () => {
                 let res = await Apis.post(endpoints['vnpay-payment'], {
                     "amount": servicePrice,
                     "orderInfor": "1:-" + prescriptionId + "-Service Payment: " + profilePatientName + " đã thanh toán tiền khám cho đơn thuốc " + prescriptionId + " - ",
-                    "returnUrl": "http://localhost:3000/paymentResult"
+                    "returnUrl": "http://localhost:3000/improok/paymentResult"
                 });
                 window.location.href = res.data;
                 // toast.success(res.data);
@@ -240,14 +232,7 @@ const History = () => {
             <div className="MedicalRecords">
                 <div className="MedicalRecords_Left">
                     <div className="MedicalRecords_Left_Content">
-                        <ul>
-                            <li><FaInfoCircle /><Link to="/personal">Thông tin cá nhân</Link></li>
-                            <li><FaCalendar /><Link to="/appointment">Lịch khám</Link></li>
-                            <li><FaHistory /><Link to="/history">Lịch sử khám</Link></li>
-                            <li><ImProfile /><Link to="/profile">Hồ sơ</Link></li>
-                            <li><MdMessage /><Link to="/message">Tin nhắn</Link></li>
-                            <li onClick={logout}><MdLogout />Đăng xuất</li>
-                        </ul>
+                        <UserMenu />
                     </div>
                 </div>
                 <div className="MedicalRecords_Middle">
@@ -286,7 +271,7 @@ const History = () => {
                 <div className="MedicalRecords_Right">
                     <>
                         <section>
-                            <div className="MedicalRecords_Right_Header"><h3 className="text-center text-success mb-4">Danh sách đơn thuốc</h3></div>
+                            <div className="MedicalRecords_Right_Header"><h3 className="text-center mb-4">Thông tin đơn thuốc</h3></div>
                             <div className="MedicalRecords_Right_Content">
                                 {profilePatient === null ? <>
                                     <div className="MedicalRecords_Null">
@@ -297,8 +282,9 @@ const History = () => {
                                     <>
                                         <div>
                                             {prescriptionList.length === 0 ? <>
-                                                <div>
-                                                    <span>Không tìm thấy đơn thuốc</span>
+                                                <div className="Appointment_Null">
+                                                    <h5 className="mb-4">Không tìm thấy đơn thuốc</h5>
+                                                    <img src={reminder} alt="Not found" width={'20%'} />
                                                 </div>
                                             </> :
                                                 <>
@@ -311,8 +297,7 @@ const History = () => {
                                                                     aria-controls="panel1a-content"
                                                                     id="panel1a-header"
                                                                     className="Prescription_Item"
-                                                                    onClick={(e) => loadPrescriptionDetail(e, pl)}
-                                                                >
+                                                                    onClick={(e) => loadPrescriptionDetail(e, pl)}>
                                                                     <Typography>Đơn thuốc: {pl.prescriptionId}</Typography>
                                                                     <Typography>Chuẩn đoán: {pl.diagnosis}</Typography>
                                                                     {(pl.medicinePaymentStatusId.medicinePaymentStatusId === 2 && pl.servicePaymentStatusId.servicePaymentStatusId === 2) ?
@@ -321,7 +306,6 @@ const History = () => {
                                                                         </> : <>
                                                                             <Typography><Badge bg="danger">Chưa thanh toán</Badge></Typography>
                                                                         </>}
-
                                                                 </AccordionSummary>
                                                                 <AccordionDetails className="Prescription_Detail">
                                                                     <div className="Prescription_Detail_Inner">
@@ -375,7 +359,6 @@ const History = () => {
                                                                                 {/* {Object.values(prescriptionDetail).forEach((presd) => {
                                                                                 tempTotal += presd.quantity * presd.unitPrice;
                                                                             })} */}
-
                                                                                 {Object.values(prescriptionDetail).map(presd => {
                                                                                     tempTotal += presd.quantity * presd.unitPrice
                                                                                     return <>
@@ -385,9 +368,7 @@ const History = () => {
                                                                                             <td>{presd.usageInstruction}</td>
                                                                                             <td>{presd.quantity}</td>
                                                                                             <td>{presd.unitPrice} VNĐ</td>
-                                                                                            <td>
-                                                                                                {presd.quantity * presd.unitPrice} VNĐ
-                                                                                            </td>
+                                                                                            <td>{presd.quantity * presd.unitPrice} VNĐ</td>
                                                                                         </tr>
                                                                                     </>
                                                                                     // { tempTotal += presd.quantity * presd.unitPrice } {/* Cập nhật giá trị tempTotal */ }
@@ -407,14 +388,9 @@ const History = () => {
                                                             </Accordion>
                                                         </>
                                                     })}
-                                                    <div className="Page_Nav">
-                                                        {prescriptionPages.map((page) => (
-                                                            <button id={`${page}`} key={page} onClick={() => handlePrescriptionPageChange(page)}
-                                                                className={page === selectedPage ? 'active' : ''}>
-                                                                {page}
-                                                            </button>
-                                                        ))}
-                                                    </div>
+                                                    <Pagination pages={prescriptionPages}
+                                                        selectedPage={selectedPage}
+                                                        handlePageChange={handlePrescriptionPageChange} />
                                                 </>
                                             }
                                         </div>
