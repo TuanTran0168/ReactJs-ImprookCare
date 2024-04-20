@@ -274,11 +274,11 @@ const ProfileDoctor = () => {
     return <>
         <div className="Profile_Doctor_Wrapper">
             <div className="Profile_Doctor">
-                <div className="Profile_Doctor_Left">
+                {/* <div className="Profile_Doctor_Left">
                     <div className="Profile_Doctor_Left_Content">
                         <DoctorMenu />
                     </div>
-                </div>
+                </div> */}
                 <div className="Profile_Doctor_Middle">
                     <div className="Profile_Doctor_Middle_Header">
                         <h3>Hồ sơ</h3>

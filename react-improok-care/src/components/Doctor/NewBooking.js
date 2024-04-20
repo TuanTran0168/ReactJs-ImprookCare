@@ -23,7 +23,7 @@ const NewBooking = (props) => {
                 })
                 loadNewBooking();
                 console.log(requestBody)
-                if (res.data === "Xác nhận thành công lịch đặt khám!") {
+                if (res.status === 200) {
                     toast.success(res.data);
                     let mes = await Apis.post(endpoints['send-custom-email'], {
                         "mailTo": "2051052125thai@ou.edu.vn",

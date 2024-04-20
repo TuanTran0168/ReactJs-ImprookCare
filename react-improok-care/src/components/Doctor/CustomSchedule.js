@@ -187,11 +187,11 @@ const CustomSchedule = () => {
     return <>
         <div className="Schedule_Wrapper">
             <div className="Schedule">
-                <div className="Schedule_Left">
+                {/* <div className="Schedule_Left">
                     <div className="Schedule_Left_Content">
                         <DoctorMenu />
                     </div>
-                </div>
+                </div> */}
                 <div className="Schedule_Right">
                     <div className="Schedule_Right_Content">
                         <h2 className="text-center">Đăng ký lịch khám bệnh</h2>

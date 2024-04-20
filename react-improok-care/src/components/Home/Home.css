@@ -209,7 +209,7 @@ div.Home_Why>div>ul li>div {
 
 .Service_Carousel {
     display: flex;
-    gap: 1.5rem;
+    gap: 1.1rem;
 }
 
 .Service_Carousel div  {
@@ -217,9 +217,11 @@ div.Home_Why>div>ul li>div {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap: 2rem;
-    padding-top: 1rem;
-    padding-bottom: 1rem;
+    gap: 1.5rem;
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
+    flex-grow: 1;
+    margin-right: 10px;
 }
 
 .Doctor_Carousel {
@@ -261,7 +263,7 @@ div.Home_Service>div.Home_Service_Cont {
     flex-direction: column;
 }
 
-.Service_Carousel div:hover  {
+.Service_Carousel>div.card:hover  {
     border: 1px solid blue;
 }
 

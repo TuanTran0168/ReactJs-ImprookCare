@@ -183,7 +183,7 @@ const History = () => {
                 let res = await Apis.post(endpoints['vnpay-payment'], {
                     "amount": tempTotal,
                     "orderInfor": "2:-" + prescriptionId + "-Medicine Payment: " + profilePatientName + " đã thanh toán tiền thuốc cho đơn thuốc " + prescriptionId + " - ",
-                    "returnUrl": "http://localhost:3000/improok/paymentResult"
+                    "returnUrl": "http://localhost:3000/paymentResult"
                 });
                 window.location.href = res.data;
                 // toast.success(res.data);
@@ -208,7 +208,7 @@ const History = () => {
                 let res = await Apis.post(endpoints['vnpay-payment'], {
                     "amount": servicePrice,
                     "orderInfor": "1:-" + prescriptionId + "-Service Payment: " + profilePatientName + " đã thanh toán tiền khám cho đơn thuốc " + prescriptionId + " - ",
-                    "returnUrl": "http://localhost:3000/improok/paymentResult"
+                    "returnUrl": "http://localhost:3000/paymentResult"
                 });
                 window.location.href = res.data;
                 // toast.success(res.data);
@@ -230,11 +230,11 @@ const History = () => {
     return <>
         <div className="MedicalRecords_Wrapper">
             <div className="MedicalRecords">
-                <div className="MedicalRecords_Left">
+                {/* <div className="MedicalRecords_Left">
                     <div className="MedicalRecords_Left_Content">
                         <UserMenu />
                     </div>
-                </div>
+                </div> */}
                 <div className="MedicalRecords_Middle">
                     <div className="MedicalRecords_Middle_Header">
                         <h3>Lịch sử khám</h3>

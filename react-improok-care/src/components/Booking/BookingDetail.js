@@ -5,7 +5,7 @@ import Apis, { authApi, endpoints } from "../../configs/Apis";
 import { UserContext } from "../../App";
 import printer from "../../assets/images/printer.png"
 import profileicon from "../../assets/images/profile-icon.png"
-import profile404 from "../../assets/images/profile.png"
+// import profile404 from "../../assets/images/profile.png"
 import googleplay from "../../assets/images/googleplay.svg"
 import appstore from "../../assets/images/appstore.svg"
 import { Badge } from "react-bootstrap";
@@ -14,7 +14,7 @@ import { TiTick } from "react-icons/ti";
 import { toast } from "react-toastify";
 
 const BookingDetail = () => {
-    const [current_user, dispatch] = useContext(UserContext);
+    const [current_user,] = useContext(UserContext);
     const { profileDoctorId } = useParams();
     const [doctorDetail, setDoctorDetail] = useState('');
     const [profilePatient, setProfilePatient] = useState([]);
@@ -326,7 +326,7 @@ const BookingDetail = () => {
                                                     <span>Không tìm thấy kết quả</span>
                                                 </div>
                                                 <div>
-                                                    Đăng ký Profile tại <Link to={`/profile?next=/booking/doctor/${profileDoctorId}`}>đây</Link>
+                                                    Đăng ký Profile tại <Link to={`/user/profile?next=/booking/doctor/${profileDoctorId}`}>đây</Link>
                                                 </div>
                                             </>
                                         ) : (

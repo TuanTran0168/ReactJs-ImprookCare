@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import "./Header.css"
 import { useNavigate, Link } from "react-router-dom"
 import { Dropdown, Image, NavDropdown } from "react-bootstrap";
@@ -11,7 +11,6 @@ const Header = () => {
     // const [currentUser,] = useContext(UserContext);
     const [user, dispatch] = useContext(UserContext);
     const nav = useNavigate();
-    const [loading, setLoading] = useState(true);
 
     const logout = () => {
         dispatch({
@@ -21,22 +20,22 @@ const Header = () => {
     }
 
     const handleItemClick = (to) => {
-        window.location.href = to;
+        nav(to);
     }
 
     const handleAdminClick = () => {
-        window.location.href = "/improok/admin";
+        nav("/admin/overview")
     };
 
     const handleDoctorClick = () => {
-        window.location.href = "/improok/doctor";
+        nav("/doctor/doctorinformation")
     };
 
     const menuItems = [
-        { to: "/improok", text: "Về trang chủ", icon: <FaHome /> },
-        { to: "/improok/personal", text: "Thông tin cá nhân", icon: <FaInfoCircle /> },
-        { to: "/improok/history", text: "Lịch sử khám bệnh", icon: <FaHistory /> },
-        { to: "/improok/changepassword", text: "Thay đổi mật khẩu", icon: <MdSecurity /> }
+        { to: "/", text: "Về trang chủ", icon: <FaHome /> },
+        { to: "/user/personal", text: "Thông tin cá nhân", icon: <FaInfoCircle /> },
+        { to: "/user/history", text: "Lịch sử khám bệnh", icon: <FaHistory /> },
+        { to: "/changepassword", text: "Thay đổi mật khẩu", icon: <MdSecurity /> }
     ];
 
     return (<>
@@ -44,7 +43,7 @@ const Header = () => {
             <header>
                 <div className="Header1">
                     {/* <Link to="/" className="Link_Title"><h2 className="Title">IM'PROOK CARE.</h2></Link> */}
-                    <a href="/improok" className="Link_Title"><h2 className="Title" style={{ textAlign: 'center' }}><span style={{ color: '#fff', background: '#22c55e', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>I'MPROOK</span> <span style={{ color: '#fff', background: '#1a76e3', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>CARE.</span></h2></a>
+                    <a href="/" className="Link_Title"><h2 className="Title" style={{ textAlign: 'center' }}><span style={{ color: '#fff', background: '#22c55e', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>I'MPROOK</span> <span style={{ color: '#fff', background: '#1a76e3', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>CARE.</span></h2></a>
                     {/* <Link to="/">
                     <img src={logo} alt="IMPROOKCARE" />
                 </Link> */}
@@ -66,7 +65,7 @@ const Header = () => {
                         <li>
                             <Dropdown>
                                 <NavDropdown title='Hợp tác bác sĩ ' id="basic-nav-dropdown">
-                                    <NavDropdown.Item href="/improok/collaboration">Đăng ký</NavDropdown.Item>
+                                    <NavDropdown.Item href="/collaboration">Đăng ký</NavDropdown.Item>
                                 </NavDropdown>
                             </Dropdown>
                             <span>Đăng ký ngay</span>
@@ -98,13 +97,13 @@ const Header = () => {
                                     ))}
                                     {user.roleId.roleId === 1 ?
                                         <>
-                                            <NavDropdown.Item style={{ display: 'flex', gap: '0.75rem', alignItems: 'center' }} onClick={handleAdminClick}><Link to="/admin"><MdAdminPanelSettings />Quản trị</Link></NavDropdown.Item>
+                                            <NavDropdown.Item style={{ display: 'flex', gap: '0.75rem', alignItems: 'center' }} onClick={handleAdminClick}><Link to="/admin/overview"><MdAdminPanelSettings />Quản trị</Link></NavDropdown.Item>
                                             {/* <button class="Admin"><Link to="/admin">Quản trị</Link></button> */}
                                         </> :
                                         <>
                                             {user.roleId.roleId === 2 ?
                                                 <>
-                                                    <NavDropdown.Item style={{ display: 'flex', gap: '0.75rem', alignItems: 'center' }} onClick={handleDoctorClick}><Link to="/doctor"><MdAccountCircle />Bác sĩ</Link></NavDropdown.Item>
+                                                    <NavDropdown.Item style={{ display: 'flex', gap: '0.75rem', alignItems: 'center' }} onClick={handleDoctorClick}><Link to="/doctor/doctorinformation"><MdAccountCircle />Bác sĩ</Link></NavDropdown.Item>
                                                     {/* <button class="Doctor"><Link to="/doctor">Bác sĩ</Link></button> */}
                                                 </> : <></>}
                                         </>

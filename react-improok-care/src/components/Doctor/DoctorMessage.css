@@ -2,18 +2,18 @@ div.Doctor_Message {
     display: flex;
     max-width: 85rem;
     flex-wrap: wrap;
-    padding-top: 7rem;
+    /* padding-top: 7rem; */
     gap: 5rem;
     margin-left: auto;
     margin-right: auto;
 }
 
-div.Doctor_Message_Left {
+/* div.Doctor_Message_Left {
     width: 20%;
-}
+} */
 
 div.Doctor_Message_Middle {
-    width: 22%;
+    width: 30%;
 }
 
 div.Doctor_Message_Middle_Header {
@@ -60,7 +60,7 @@ div.Doctor_Message_Middle_Info>input {
 }
 
 div.Doctor_Message_Right {
-    width: 45%;
+    width: 60%;
 }
 
 .rce-mbox-left-notch {
@@ -118,7 +118,7 @@ div.Send_Message>div.send_area>div>button {
 }
 
 div.Message_Content {
-    max-height: 22rem;
+    height: 22rem;
     overflow: auto;
 }
 
@@ -145,6 +145,7 @@ div.Doctor_Message_Right_Header>h2 {
     height: 50px;
     border-radius: 25px;
     margin-bottom: .5rem;
+    width: 20%;
 }
 
 .avatar_Cont img {
@@ -154,5 +155,23 @@ div.Doctor_Message_Right_Header>h2 {
 }
 
 div.Profile_List_Info>ul{
-    margin-top: 1rem;
+    /* margin-top: 1rem; */
+}
+
+div.Profile_List_Detail_Mes_Info {
+    width: 75%;
+}
+
+div.Profile_List_Detail_Mes_Info>p {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 14px;
+}
+
+.seen {
+    background: #EEEEEE;
+    /* background: red; */
 }

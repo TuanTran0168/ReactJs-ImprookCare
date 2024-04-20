@@ -8,7 +8,6 @@ import { toast } from "react-toastify";
 import printer from "../../assets/images/printer.png"
 import profileicon from "../../assets/images/profile-icon.png"
 import profile404 from "../../assets/images/profile.png"
-import UserMenu from "../../layout/UserMenu/UserMenu";
 
 const Profile = () => {
     const [current_user,] = useContext(UserContext);
@@ -289,11 +288,11 @@ const Profile = () => {
     return <>
         <div className="Profile_Wrapper">
             <div className="Profile">
-                <div className="Profile_Left">
+                {/* <div className="Profile_Left">
                     <div className="Profile_Left_Content">
                         <UserMenu />
                     </div>
-                </div>
+                </div> */}
                 <div className="Profile_Middle">
                     <div className="Profile_Middle_Header">
                         <h3>Hồ sơ</h3>

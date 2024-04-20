@@ -6,7 +6,6 @@ import { Form } from "react-bootstrap";
 import Apis, { authApi, endpoints } from "../../configs/Apis";
 import { toast } from "react-toastify";
 import Spinner from "../../layout/Spinner";
-import DoctorMenu from "../../layout/DoctorLayout/DoctorMenu";
 
 const Schedule = () => {
     const [current_user,] = useContext(UserContext);
@@ -269,12 +268,11 @@ const Schedule = () => {
     return <>
         <div className="Schedule_Wrapper">
             <div className="Schedule">
-                <div className="Schedule_Left">
+                {/* <div className="Schedule_Left">
                     <div className="Schedule_Left_Content">
                         <DoctorMenu />
                     </div>
-                </div>
-                {/* <button onClick={scheduleCheck}>Xem</button> */}
+                </div> */}
                 <div className="Schedule_Right">
                     <div className="Schedule_Right_Content">
                         <h2 className="text-center">Đăng ký lịch khám bệnh</h2>

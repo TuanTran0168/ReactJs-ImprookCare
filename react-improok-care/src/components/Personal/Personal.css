@@ -2,18 +2,17 @@ div.PersonalPage {
     display: flex;
     max-width: 85rem;
     flex-wrap: wrap;
-    padding-top: 7rem;
     gap: 5rem;
     margin-left: auto;
     margin-right: auto;
 }
 
-div.PersonalPage_Left {
+/* div.PersonalPage_Left {
     width: 20%;
-}
+} */
 
 div.PersonalPage_Right {
-    width: 74%;
+    width: 100%;
 }
 
 div.Personal_Avatar {

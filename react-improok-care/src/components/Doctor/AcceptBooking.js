@@ -81,6 +81,12 @@ const AcceptBooking = (props) => {
         }
     }
 
+    const handleMeetingClick = (roomID) => {
+        const url = `/zego/?roomID=${roomID}`;
+        window.open(url, "_blank");
+    };
+
+
     useEffect(() => {
         loadDoctorById()
     }, [props.profileDoctorId])
@@ -97,6 +103,7 @@ const AcceptBooking = (props) => {
                             <th>Khung giờ</th>
                             <th>Tình trạng</th>
                             <th>Thao tác</th>
+                            <th>Meeting</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -113,7 +120,9 @@ const AcceptBooking = (props) => {
                                     <td><Badge bg="success">{ab[5]}</Badge></td>
                                     {/* <td><Button variant="primary" onClick={(e) => handleCreatePrescription(e, bl[0], bl[6])}>
                                                     <Link to={`/prescription/?bookingId=${bl[0]}&&profilePatientName=${bl[6]}&&profileDoctorName=${profileDoctor.name}&&bookingPrice=${profileDoctor.bookingPrice}`}>Tạo đơn thuốc</Link></Button></td> */}
-                                    <td><Button variant="primary" onClick={(e) => handleCreatePrescription(e, ab[0], ab[6])}><Link to='/prescription' class="toPrescription" onClick={() => removePres()}>Tạo đơn thuốc</Link></Button></td>
+                                    <td><Button variant="primary" onClick={(e) => handleCreatePrescription(e, ab[0], ab[6])}><Link to='/doctor/prescription' class="toPrescription" onClick={() => removePres()}>Đơn thuốc</Link></Button></td>
+                                    {/* <td><Button variant="primary"><Link to={`/zego/?roomID=${ab[9]}`} class="toPrescription">Meeting</Link></Button></td> */}
+                                    <td><Button variant="primary" onClick={() => handleMeetingClick(ab[9])}>Meeting</Button></td>
                                 </tr>
                             </>
                         })}

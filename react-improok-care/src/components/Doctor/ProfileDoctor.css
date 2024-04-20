@@ -2,18 +2,17 @@ div.Profile_Doctor {
     display: flex;
     max-width: 85rem;
     flex-wrap: wrap;
-    padding-top: 7rem;
     gap: 5rem;
     margin-left: auto;
     margin-right: auto;
 }
 
-div.Profile_Doctor_Left {
+/* div.Profile_Doctor_Left {
     width: 20%;
-}
+} */
 
 div.Profile_Doctor_Middle {
-    width: 22%;
+    width: 30%;
 }
 
 div.Profile_Doctor_Middle_Info>input {
@@ -25,7 +24,7 @@ div.Profile_Doctor_Middle_Info>input {
 }
 
 div.Profile_Doctor_Right {
-    width: 45%;
+    width: 60%;
 }
 
 div.Profile_Doctor_Phonenumber,

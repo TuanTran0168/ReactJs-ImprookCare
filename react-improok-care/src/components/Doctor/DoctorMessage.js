@@ -11,7 +11,6 @@ import { MessageBox } from "react-chat-elements";
 import 'react-chat-elements/dist/main.css';
 import { over } from 'stompjs';
 import SockJS from 'sockjs-client';
-import DoctorMenu from "../../layout/DoctorLayout/DoctorMenu";
 import Spinner from "../../layout/Spinner"
 
 import * as React from 'react';
@@ -34,7 +33,7 @@ function SimpleDialog(props) {
     const { onClose, selectedValue, open, onButtonClick } = props;
     const [current_user,] = useContext(UserContext);
     const [profileDoctor, setProfileDoctor] = useState([]);
-    const [loading, setLoading] = useState(false);
+    // const [loading, setLoading] = useState(false);
 
     const handleClose = () => {
         onClose(selectedValue);
@@ -101,7 +100,7 @@ SimpleDialog.propTypes = {
 
 const DoctorMessage = () => {
     const [current_user,] = useContext(UserContext);
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(false);
     const [profileDoctor, setProfileDoctor] = useState([]);
 
     const [addProfileInfo, setAddProfileInfo] = useState(false);
@@ -110,21 +109,16 @@ const DoctorMessage = () => {
     const [selectedProfile, setSelectedProfile] = useState();
     const [userSendMessageToDoctor, setUserSendMessageToDoctor] = useState([]);
     const [listMessage, setListMessage] = useState([]);
-    const [selectedPatient, setSelectedPatient] = useState([]);
+    const [selectedPatient, setSelectedPatient] = useState(null);
     const [patientName, setPatientName] = useState('');
 
     const [messageContent, setMessageContent] = useState(null);
+    const [lastMessageId, setLastMessageId] = useState(null);
 
     const [selectImg, setSelectImg] = useState('')
 
     const avatar = useRef();
-
-    const [tempMessage, setTempMessage] = useState({
-        "profileDoctorId": null,
-        "userId": null,
-        "senderId": null,
-        "messageContent": null
-    })
+    const messagesEndRef = useRef(null);
 
     // const connect = () => {
     //     let Sock = new SockJS('http://localhost:2024/IMPROOK_CARE/api/public/webSocket/');
@@ -158,6 +152,7 @@ const DoctorMessage = () => {
             console.log("List sau làm sạch");
             console.log(listMessage);
         });
+
         // setListMessage(current => {
         //     return {...current, fakeListMessage}
         // })
@@ -176,6 +171,23 @@ const DoctorMessage = () => {
     useEffect(() => {
         loadProfileDoctor();
     }, [current_user?.userId])
+
+    useEffect(() => {
+        const loadNewMessage = async () => {
+            try {
+                let res = await authApi().get(endpoints['get-user-send-message-to-doctor'](selectedProfile))
+                setUserSendMessageToDoctor(res.data.content);
+                console.log(res.data.content[0][1]);
+                setLastMessageId(res.data.content[0][1]);
+                console.log(res.data.content);
+            } catch (error) {
+                console.log(error);
+            }
+        }
+        if (selectedProfile && listMessage.length > 0) {
+            loadNewMessage()
+        }
+    }, [listMessage])
 
     const getUserSendMessageToDoctor = async (pd) => {
         // setSelectedProfile(pd.profileDoctorId);
@@ -204,10 +216,27 @@ const DoctorMessage = () => {
             let res = await authApi().get(endpoints['get-user-send-message-to-doctor'](pd.profileDoctorId))
             setUserSendMessageToDoctor(res.data.content);
             console.log(res.data.content);
+            console.log(res.data.content[0][0].userId);
+            setLastMessageId(res.data.content[0][1]);
+            setSelectedPatient(res.data.content[0][0].userId);
+            let mes = await authApi().get(endpoints['get-message-for-all-view'](pd.profileDoctorId, res.data.content[0][0].userId));
+            setListMessage(mes.data);
         } catch (error) {
             console.log(error);
         }
     }
+
+    const handleFocus = async () => {
+        try {
+            console.log(lastMessageId);
+            let res = await authApi().post(endpoints['seen-message'](lastMessageId))
+            console.log(res.data)
+            let mes = await authApi().get(endpoints['get-user-send-message-to-doctor'](selectedProfile))
+            setUserSendMessageToDoctor(mes.data.content);
+        } catch (error) {
+            console.log(error)
+        }
+    };
 
     // const viewDoctorMessage = async (userId) => {
     //     const process = async () => {
@@ -230,12 +259,14 @@ const DoctorMessage = () => {
     //     process();
     // }
 
-    const viewDoctorMessage = (userId) => {
+    const viewDoctorMessage = (userId, messageId) => {
+        setLastMessageId(messageId);
+        console.log(messageId);
         setSelectedPatient(userId);
         const process = async () => {
             try {
                 setLoading(true);
-                const res = await authApi().get(endpoints['get-message-for-all-view'](selectedProfile, userId));
+                let res = await authApi().get(endpoints['get-message-for-all-view'](selectedProfile, userId));
                 setListMessage(res.data);
                 console.log(res.data);
                 setLoading(false);
@@ -343,14 +374,22 @@ const DoctorMessage = () => {
         }
     }
 
+    const scrollToBottom = () => {
+        messagesEndRef.current?.scrollIntoView({ behavior: "smooth", block: "end" });
+    };
+
+    useEffect(() => {
+        scrollToBottom();
+    }, [listMessage, messagesEndRef]);
+
     return <>
         <div className="Doctor_Message_Wrapper">
             <div className="Doctor_Message">
-                <div className="Doctor_Message_Left">
+                {/* <div className="Doctor_Message_Left">
                     <div className="Doctor_Message_Left_Content">
                         <DoctorMenu />
                     </div>
-                </div>
+                </div> */}
                 <div className="Doctor_Message_Middle">
                     <div className="Doctor_Message_Middle_Header">
                         <h5 style={{ width: "65%" }}>{profile}</h5>
@@ -379,14 +418,41 @@ const DoctorMessage = () => {
                                         </div>
                                     </> : <>
                                         <div className="Profile_List_Info">
-                                            <ul>
-                                                {Object.values(userSendMessageToDoctor).map(usmtd => {
+                                            <ul style={{ paddingLeft: "1rem", paddingRight: "0.75rem" }}>
+                                                {/* {Object.values(userSendMessageToDoctor).map(usmtd => {
                                                     return <>
                                                         <div className="Profile_List_Detail" value={selectedProfile} onClick={() => { viewDoctorMessage(usmtd[0].userId); setPatientName(`${usmtd[0].firstname} ${usmtd[0].lastname}`) }}>
                                                             <div className="avatar_Cont"><img src={usmtd[0].avatar} alt="profileicon" /></div>
-                                                            <li key={usmtd[0].userId} value={usmtd[0].userId}>{usmtd[0].firstname} {usmtd[0].lastname}</li>
+                                                            <div className="Profile_List_Detail_Mes_Info">
+                                                                <li key={usmtd[0].userId} value={usmtd[0].userId}>{usmtd[0].firstname} {usmtd[0].lastname}</li>
+                                                                <p>{usmtd[3]}</p>
+                                                            </div>
                                                         </div>
                                                     </>
+                                                })} */}
+                                                {Object.values(userSendMessageToDoctor).map(usmtd => {
+                                                    const isSeen = usmtd[5] === false;
+
+                                                    return (
+                                                        <div
+                                                            className={`Profile_List_Detail ${isSeen && usmtd[2] !== selectedProfile ? 'seen' : ''}`}
+                                                            value={selectedProfile}
+                                                            onClick={() => {
+                                                                viewDoctorMessage(usmtd[0].userId, usmtd[1]);
+                                                                setPatientName(`${usmtd[0].firstname} ${usmtd[0].lastname}`);
+                                                            }}
+                                                        >
+                                                            <div className="avatar_Cont">
+                                                                <img src={usmtd[0].avatar} alt="profileicon" />
+                                                            </div>
+                                                            <div className="Profile_List_Detail_Mes_Info">
+                                                                <li key={usmtd[0].userId} value={usmtd[0].userId}>
+                                                                    {usmtd[0].firstname} {usmtd[0].lastname}
+                                                                </li>
+                                                                <p>{usmtd[3]}</p>
+                                                            </div>
+                                                        </div>
+                                                    );
                                                 })}
                                             </ul>
                                         </div>
@@ -501,6 +567,7 @@ const DoctorMessage = () => {
                                                                             }
                                                                         </>
                                                                     })}
+                                                                    <div ref={messagesEndRef}></div>
                                                                 </div>
                                                                 <div className="Send_Message">
                                                                     {selectImg ? (
@@ -516,7 +583,7 @@ const DoctorMessage = () => {
                                                                     <div className="send_area">
                                                                         <Form.Control className="mt-2" style={{ width: '15%', padding: '3px', margin: "8px" }} accept=".jpg, .jpeg, .png, .gif, .bmp" type="file" onChange={handleImgChange} ref={avatar} />
                                                                         <div>
-                                                                            <input type="text" value={messageContent} onChange={(e) => setMessageContent(e.target.value)} placeholder="Nhập nội dung tin nhắn..." />
+                                                                            <input type="text" value={messageContent} onFocus={handleFocus} onChange={(e) => setMessageContent(e.target.value)} placeholder="Nhập nội dung tin nhắn..." />
                                                                             {messageContent === null && selectImg === '' ? <button type="button">Gửi</button> : loading === true ? <Spinner /> : <button type="button" onClick={(e) => addMessage(e, selectedPatient)}>Gửi</button>}
                                                                         </div>
                                                                     </div>

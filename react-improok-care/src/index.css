@@ -14,3 +14,12 @@ code {
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@660&display=swap');
+
+* {
+  font-family: 'Quicksand', sans-serif;
+}
+
+label {
+  font-size: 16px !important;
+}

@@ -13,7 +13,7 @@ const UserMenu = () => {
 
     const handleItemClick = (item, path) => {
         setSelectedItem(item);
-        nav(path);
+        // nav(path);
     };
 
     const logout = () => {
@@ -29,35 +29,35 @@ const UserMenu = () => {
                 <NavLink
                     activeClassName="active"
                     onClick={() => handleItemClick("personal", "/personal")}
-                    to="/personal">
+                    to="personal">
                     <FaInfoCircle className="icon" />
                     <span className="text">Thông tin cá nhân</span>
                 </NavLink>
                 <NavLink
                     activeClassName="active"
                     onClick={() => handleItemClick("appointment", "/appointment")}
-                    to="/appointment">
+                    to="appointment">
                     <FaCalendar className="icon" />
                     <span className="text">Lịch khám</span>
                 </NavLink>
                 <NavLink
                     activeClassName="active"
                     onClick={() => handleItemClick("history", "/history")}
-                    to="/history">
+                    to="history">
                     <FaHistory className="icon" />
                     <span className="text">Lịch sử khám</span>
                 </NavLink>
                 <NavLink
                     activeClassName="active"
                     onClick={() => handleItemClick("profile", "/profile")}
-                    to="/profile">
+                    to="profile">
                     <ImProfile className="icon" />
                     <span className="text">Hồ sơ</span>
                 </NavLink>
                 <NavLink
                     activeClassName="active"
                     onClick={() => handleItemClick("message", "/message")}
-                    to="/message">
+                    to="message">
                     <MdMessage className="icon" />
                     <span className="text">Tin nhắn</span>
                 </NavLink>

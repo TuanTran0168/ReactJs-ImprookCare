@@ -5,10 +5,10 @@ import "./BookingManagement.css";
 import Apis, { endpoints } from "../../configs/Apis";
 import { Form } from "react-bootstrap";
 import { toast } from "react-toastify";
-import DoctorMenu from "../../layout/DoctorLayout/DoctorMenu";
 import NewBooking from "./NewBooking";
 import DeclineBooking from "./DeclineBooking";
 import AcceptBooking from "./AcceptBooking";
+import CompleteBooking from "./CompleteBooking";
 
 const BookingManagement = () => {
     const [current_user,] = useContext(UserContext);
@@ -131,10 +131,16 @@ const BookingManagement = () => {
                         <DeclineBooking profileDoctorId={selectedProfileDoctorId} />
                     }
                 </>
-            // case "cancelled":
-            //     return <>
-            //         <div>Nội dung cho Đã hủy</div>
-            //     </>
+            case "cancelled":
+                return <>
+                    <div>Nội dung cho Đã hủy</div>
+                </>
+            case "completed":
+                return <>
+                    {selectedProfileDoctorId === "" ? <h2>Vui lòng chọn bác sĩ</h2> :
+                        <CompleteBooking profileDoctorId={selectedProfileDoctorId} />
+                    }
+                </>
             default:
                 return null;
         }
@@ -143,11 +149,11 @@ const BookingManagement = () => {
     return <>
         <div className="BookingManagement_Wrapper">
             <div className="BookingManagement">
-                <div className="BookingManagement_Left">
+                {/* <div className="BookingManagement_Left">
                     <div className="BookingManagement_Left_Content">
                         <DoctorMenu />
                     </div>
-                </div>
+                </div> */}
                 <div className="BookingManagement_Right">
                     <div className="BookingManagement_Right_Header">
                         <h2 className="text-center mb-3">Quản lý lịch hẹn</h2>
@@ -175,6 +181,8 @@ const BookingManagement = () => {
                                     onClick={() => handleOptionClick("rejected")}>Đã từ chối</li>
                                 <li className={selectedOption === "cancelled" ? "active" : ""}
                                     onClick={() => handleOptionClick("cancelled")}>Đã hủy</li>
+                                <li className={selectedOption === "completed" ? "active" : ""}
+                                    onClick={() => handleOptionClick("completed")}>Đã hoàn thành</li>
                             </ul>
                         </div>
                         <div>{renderContent()}</div>

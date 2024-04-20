@@ -1,6 +1,6 @@
 import { FcSearch } from "react-icons/fc";
 import "./Home.css"
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FaBriefcaseMedical, FaEye, FaHandshake, FaHeartbeat, FaHospital, FaStethoscope } from "react-icons/fa";
 import { FaUserDoctor } from "react-icons/fa6";
 import { AiFillSecurityScan } from "react-icons/ai";
@@ -15,6 +15,10 @@ import Apis, { endpoints } from "../../configs/Apis";
 import doctorprofile from "../../assets/images/doctor-profile-icon.png"
 
 const Home = () => {
+    const [searchKw, setSearchKw] = useState('');
+
+    const nav = useNavigate();
+
     const responsive = {
         superLargeDesktop: {
             breakpoint: { max: 4000, min: 3000 },
@@ -35,6 +39,7 @@ const Home = () => {
     };
 
     const [listDoctor, setListDoctor] = useState([]);
+    const [listSpecialty, setListSpecialty] = useState([]);
     useEffect(() => {
         const loadProfileDoctor = async () => {
             try {
@@ -45,8 +50,29 @@ const Home = () => {
                 console.log(error);
             }
         }
+        const loadSpecialty = async () => {
+            try {
+                let res = await Apis.get(endpoints['specialty']);
+                setListSpecialty(res.data);
+                console.log(res.data);
+            } catch (error) {
+                console.log(error);
+            }
+        }
         loadProfileDoctor();
+        loadSpecialty();
     }, [])
+
+    const search = (evt) => {
+        evt.preventDefault();
+        nav(`/search?q=${searchKw}`)
+    }
+
+    const handleKeyPress = (event) => {
+        if (event.key === "Enter") {
+            search(event)
+        }
+    };
 
     return (
         <>
@@ -58,8 +84,8 @@ const Home = () => {
                             <h5>Đặt khám với hơn 500 bác sĩ đã kết nối chính thức với I'MPROOK CARE để có số thứ tự và khung giờ khám trước</h5>
                         </div>
                         <div className="Home_Content_1_Content">
-                            <input type="text" placeholder="Nhập tên bác sĩ,..." />
-                            <button><FcSearch /></button>
+                            <input type="text" placeholder="Tìm theo bác sĩ, chuyên khoa, triệu chứng,.." value={searchKw} onChange={(e) => setSearchKw(e.target.value)} onKeyDown={(event) => handleKeyPress(event)} />
+                            <button onClick={search}><FcSearch /></button>
                         </div>
                     </div>
                 </div>
@@ -117,7 +143,7 @@ const Home = () => {
                                         <div className="image-container"><img src={ld.userId?.avatar === null ? doctorprofile : ld.userId?.avatar} alt="404" /></div>
                                         <span style={{ fontSize: '1.2rem' }}><strong>{ld.name}</strong></span>
                                         <span>{ld.specialtyId.specialtyName}</span>
-                                        <button className="Booking_Now"><Link to={url} style={{ color: 'white' }}>Đặt khám ngay</Link></button>
+                                        <button className="Booking_Now"><Link to={url} style={{ color: 'white' }}>Đặt khám</Link></button>
                                     </div>
                                 )
                             })}
@@ -133,30 +159,14 @@ const Home = () => {
                             sliderClass="Service_Carousel"
                             itemClass="custom-item"
                             centerMode={true}>
-                            <div className="card">
-                                <img src={doctor} alt="Doctor" style={{ width: "40%" }} />
-                                <span>Khoa thần kinh</span>
-                            </div>
-                            <div className="card">
-                                <img src={doctor} alt="Doctor" style={{ width: "40%" }} />
-                                <span>Khoa phụ sản</span>
-                            </div>
-                            <div className="card">
-                                <img src={doctor} alt="Doctor" style={{ width: "40%" }} />
-                                <span>Khoa cơ - xương - khớp</span>
-                            </div>
-                            <div className="card">
-                                <img src={doctor} alt="Doctor" style={{ width: "40%" }} />
-                                <span>Khoa nhi</span>
-                            </div>
-                            <div className="card">
-                                <img src={doctor} alt="Doctor" style={{ width: "40%" }} />
-                                <span>Khoa răng - hàm - mặt</span>
-                            </div>
-                            <div className="card">
-                                <img src={doctor} alt="Doctor" style={{ width: "40%" }} />
-                                <span>Đặt khám bác sĩ</span>
-                            </div>
+                            {Object.values(listSpecialty).map(ls => {
+                                return (
+                                    <div className="card">
+                                        <div className="image-container"><img src={ls.avatar} alt="Specialty" /></div>
+                                        <span>{ls.specialtyName}</span>
+                                    </div>
+                                )
+                            })}
                         </Carousel>
                     </div>
                     <div className="Home_News">

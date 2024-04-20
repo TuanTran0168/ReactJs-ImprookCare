@@ -2,18 +2,17 @@ div.Message {
     display: flex;
     max-width: 85rem;
     flex-wrap: wrap;
-    padding-top: 7rem;
     gap: 5rem;
     margin-left: auto;
     margin-right: auto;
 }
 
-div.Message_Left {
+/* div.Message_Left {
     width: 20%;
-}
+} */
 
 div.Message_Middle {
-    width: 22%;
+    width: 30%;
 }
 
 div.Message_Middle_Info>input {
@@ -25,7 +24,7 @@ div.Message_Middle_Info>input {
 }
 
 div.Message_Right {
-    width: 45%;
+    width: 60%;
 }
 
 .rce-mbox-left-notch {
@@ -101,4 +100,8 @@ div.Message_Null>h5 {
 
 div.Message_Right_Header>h3 {
     color: #183e9f;
+}
+
+.seen {
+    background: #EEEEEE;
 }

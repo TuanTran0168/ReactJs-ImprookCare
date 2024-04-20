@@ -2,18 +2,17 @@ div.Schedule {
     display: flex;
     max-width: 85rem;
     flex-wrap: wrap;
-    padding-top: 7rem;
     gap: 5rem;
     margin-left: auto;
     margin-right: auto;
 }
 
-div.Schedule_Left {
+/* div.Schedule_Left {
     width: 20%;
-}
+} */
 
 div.Schedule_Right {
-    width: 74%;
+    width: 100%;
 }
 
 div.Schedule_Right_Content {

@@ -1,0 +1,217 @@
+div.search-content {
+    max-width: 80rem;
+    padding-top: 1rem;
+    margin-left: auto;
+    margin-right: auto;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+div.search-wrapper {
+    padding-top: 3rem;
+}
+
+div.search-header {
+    background: #183e9f;
+    color: white;
+    margin-top: 3rem;
+}
+
+div.search-header>div {
+    padding-top: 2.5rem;
+    padding-left: 5rem;
+    padding-bottom: 2.5rem;
+    padding-right: 5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+div.search-input {
+    border: 2px solid black;
+    width: 50%;
+    height: 2.8rem;
+    border-radius: 10rem;
+    display: flex;
+    align-items: center;
+}
+
+div.search-input>input {
+    width: 93%;
+    height: 100%;
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
+    border-top-left-radius: 10rem;
+    border-bottom-left-radius: 10rem;
+    color: black;
+}
+
+.search-input input[type="text"]:focus {
+    outline: none;
+}
+
+div.search-input>button {
+    width: 7%;
+    height: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    border-top-right-radius: 10rem;
+    border-bottom-right-radius: 10rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: white;
+}
+
+div.search-content {
+    max-width: 80rem;
+    padding-top: 1rem;
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+div.search-specialty {
+    width: 25%;
+}
+
+div.search-result {
+    width: 75%;
+    border-left: 1px solid grey;
+}
+
+div.search-specialty-input>div {
+    border: 2px solid black;
+    width: 100%;
+    height: 2.4rem;
+    border-radius: 10rem;
+    display: flex;
+    align-items: center;
+}
+
+div.search-specialty-input>div>input {
+    width: 90%;
+    height: 100%;
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
+    border-top-left-radius: 10rem;
+    border-bottom-left-radius: 10rem;
+    color: black;
+}
+
+div.search-specialty-input>div input[type="text"]:focus {
+    outline: none;
+}
+
+div.search-specialty-input>div>button {
+    width: 10%;
+    height: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    border-top-right-radius: 10rem;
+    border-bottom-right-radius: 10rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: white;
+}
+
+div.search-specialty-tick>div {
+    padding-top: 1rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+
+div.form-check>label {
+    font-size: 15px !important;
+}
+
+div.form-check {
+    margin-bottom: 0.5rem;
+}
+
+.image-frame>img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+div.search-count-result>p {
+    padding: 2rem;
+    margin: 0;
+}
+
+div.search-count-result {
+    border-bottom: 1px solid grey;
+}
+
+div.search-result-detail {
+    display: flex;
+    /* gap: 1.5rem; */
+    flex-direction: column;
+}
+
+div.search-result-detail>div {
+    display: flex;
+    gap: 1rem;
+    flex-direction: row;
+    max-height: 10rem;
+    width: 100%;
+    align-items: center;
+    padding-top: 3rem;
+    padding-left: 2rem;
+    padding-right: 2rem;
+    padding-bottom: 3rem;
+    border-bottom: 1px solid grey;
+}
+
+div.image-frame {
+    width: 15%;
+    overflow: hidden;
+}
+
+div.search-doctor-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    width: 65%;
+}
+
+button.booking-butt {
+    margin-top: 1rem;
+    border-radius: 0.5rem;
+    padding-left: 2rem;
+    padding-right: 2rem;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    background-color: #183e9f;
+    width: 18%;
+}
+
+button.booking-butt>a {
+    text-decoration: none;
+    color: black;
+}
+
+div.search-footer {
+    background-color: #183e9f;
+    color: white;
+    margin-top: 3rem;
+}
+
+div.search-footer>div {
+    padding-top: 2rem;
+    padding-left: 5rem;
+    padding-bottom: 3rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+div.search-footer>div>div {
+    display: flex;
+}

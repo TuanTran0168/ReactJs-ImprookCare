@@ -299,11 +299,11 @@ const Prescription = () => {
     return <>
         <div className="Prescription_Wrapper">
             <div className="Prescription">
-                <div className="Prescription_Left">
+                {/* <div className="Prescription_Left">
                     <div className="Prescription_Left_Content">
                         <DoctorMenu />
                     </div>
-                </div>
+                </div> */}
                 <div className="Prescription_Right">
                     <div className="Prescription_Right_Header">
                         <h2 className="text-center mb-4">THÔNG TIN ĐƠN THUỐC</h2>

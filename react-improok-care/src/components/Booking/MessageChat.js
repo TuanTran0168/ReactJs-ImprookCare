@@ -6,7 +6,6 @@ import { Form } from "react-bootstrap";
 import { authApi, endpoints } from "../../configs/Apis";
 import SockJS from "sockjs-client";
 import { over } from "stompjs";
-import { MdRemoveCircle } from "react-icons/md";
 import Spinner from "../../layout/Spinner"
 
 var stompClient = null;
@@ -17,9 +16,8 @@ const MessageChat = (props) => {
     const [listMessage, setListMessage] = useState([]);
     const avatar = useRef();
 
-    const [doctorDetail, setDoctorDetail] = useState('');
     const [loading, setLoading] = useState(false);
-    const [messageContent, setMessageContent] = useState(null);
+    const [messageContent, setMessageContent] = useState("");
 
     const [image, setImage] = useState('');
 
@@ -142,6 +140,16 @@ const MessageChat = (props) => {
         onClose();
     }
 
+    const messagesEndRef = useRef(null);
+
+    const scrollToBottom = () => {
+        messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    };
+
+    useEffect(() => {
+        scrollToBottom();
+    }, [listMessage]);
+
     useEffect(() => {
         viewUserMessage()
         connect();
@@ -193,6 +201,7 @@ const MessageChat = (props) => {
                             }
                         </>
                     })}
+                    <div ref={messagesEndRef}></div>
                 </div>
                 <div className="User_Send_Message">
                     {/* {image ? (
@@ -205,10 +214,10 @@ const MessageChat = (props) => {
                     ) : (
                         <></>
                     )} */}
-                    <Form.Control className="mt-2" accept=".jpg, .jpeg, .png, .gif, .bmp" type="file" ref={avatar} onChange={handleImageChange} />
+                    <Form.Control className="mt-2" accept=".jpg, .jpeg, .png, .gif, .bmp" type="file" ref={avatar} key={image} onChange={handleImageChange} />
                     <div>
                         <input type="text" value={messageContent} onChange={(e) => setMessageContent(e.target.value)} placeholder="Nhập nội dung tin nhắn..." />
-                        {messageContent === null && image === '' ? <button type="button">Gửi</button> : loading === true ? <Spinner /> : <button type="button" onClick={(e) => addMessage(e)}>Gửi</button>}
+                        {messageContent === "" && image === '' ? <button type="button">Gửi</button> : loading === true ? <Spinner /> : <button type="button" onClick={(e) => addMessage(e)}>Gửi</button>}
                     </div>
                 </div>
             </div>

@@ -1,4 +1,4 @@
-div.Doctor {
+div.User {
     display: flex;
     max-width: 85rem;
     /* flex-wrap: wrap; */
@@ -8,10 +8,10 @@ div.Doctor {
     margin-right: auto;
 }
 
-div.Doctor_Left {
+div.User_Left {
     width: 20%;
 }
 
-div.Doctor_Right {
+div.User_Right {
     width: 80%;
 }

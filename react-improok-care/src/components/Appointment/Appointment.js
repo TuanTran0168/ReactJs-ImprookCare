@@ -5,10 +5,9 @@ import { authApi, endpoints } from "../../configs/Apis";
 import printer from "../../assets/images/printer.png"
 import { Badge } from "react-bootstrap";
 import schedule from "../../assets/images/schedule.png"
-import UserMenu from "../../layout/UserMenu/UserMenu";
 
 const Appointment = () => {
-    const [current_user, dispatch] = useContext(UserContext);
+    const [current_user,] = useContext(UserContext);
     const [booking, setBooking] = useState([]);
     const [bookingDetail, setBookingDetail] = useState(null);
     const [selectedBooking, setSelectedBooking] = useState('');
@@ -71,11 +70,11 @@ const Appointment = () => {
     return <>
         <div className="Appointment_Wrapper">
             <div className="Appointment">
-                <div className="Appointment_Left">
+                {/* <div className="Appointment_Left">
                     <div className="Appointment_Left_Content">
                         <UserMenu />
                     </div>
-                </div>
+                </div> */}
                 <div className="Appointment_Middle">
                     <div className="Appoitment_Middle_Header">
                         <h3>Lịch khám</h3>

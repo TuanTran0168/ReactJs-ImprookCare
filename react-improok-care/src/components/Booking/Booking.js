@@ -5,10 +5,10 @@ import googleplay from "../../assets/images/googleplay.svg"
 import appstore from "../../assets/images/appstore.svg"
 import maledoctor from "../../assets/images/male-doctor.png"
 import femaledoctor from "../../assets/images/female-doctor.png"
-import profileicon from "../../assets/images/profile-icon.png"
+// import profileicon from "../../assets/images/profile-icon.png"
 import { TiTick } from "react-icons/ti";
 import { FcSearch } from "react-icons/fc";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import doctorprofile from "../../assets/images/doctor-profile-icon.png"
 import Carousel from "react-multi-carousel";
 import 'react-multi-carousel/lib/styles.css';
@@ -21,6 +21,10 @@ const Booking = () => {
     const checkImageClick = () => {
         setImageClick(!imageClick);
     }
+
+    const [searchKw, setSearchKw] = useState('');
+
+    const nav = useNavigate();
 
     // useEffect(() => {
     //     const loadProfileDoctorById = async () => {
@@ -78,6 +82,17 @@ const Booking = () => {
         }
     };
 
+    const search = (evt) => {
+        evt.preventDefault();
+        nav(`/search?q=${searchKw}`)
+    }
+
+    const handleKeyPress = (event) => {
+        if (event.key === "Enter") {
+            search(event);
+        }
+    };
+
     return <>
         <div className="Booking_Wrapper">
             <div className="Booking_Content_1">
@@ -87,8 +102,8 @@ const Booking = () => {
                         <h5>Đặt khám với hơn 500 bác sĩ đã kết nối chính thức với I'MPROOK CARE để có số thứ tự và khung giờ khám trước</h5>
                     </div>
                     <div className="Booking_Content_1_Content">
-                        <input type="text" placeholder="Nhập tên bác sĩ,..." />
-                        <button><FcSearch /></button>
+                        <input type="text" placeholder="Tìm theo bác sĩ, chuyên khoa, triệu chứng,.." value={searchKw} onChange={(e) => setSearchKw(e.target.value)} onKeyDown={(event) => handleKeyPress(event)} />
+                        <button onClick={search}><FcSearch /></button>
                     </div>
                 </div>
             </div>
@@ -130,7 +145,7 @@ const Booking = () => {
                             {Object.values(specialty).map(s => {
                                 return <>
                                     <div className="Specialty_Item">
-                                        <img src="https://scontent.fsgn2-3.fna.fbcdn.net/v/t39.30808-6/308833424_3412840289039678_7588527159202436779_n.jpg?_nc_cat=107&ccb=1-7&_nc_sid=5f2048&_nc_eui2=AeESeSkjjFrwi0j5G00D1nD2TXPvQH1oHStNc-9AfWgdK4S_Ru-9Y_OIPx-wimFYB2lnSevQgzJOC_Y-F8CJc9HO&_nc_ohc=bGOGlAnIkYYAX_U28sZ&_nc_ht=scontent.fsgn2-3.fna&oh=00_AfBvju079OsOeRgTfSSO55Ltq6hgS6S4we8Z7pLwrfmCFw&oe=65F8924D" alt="404" />
+                                        <img src={s.avatar} alt="404" />
                                         <span>{s.specialtyName}</span>
                                     </div>
                                 </>

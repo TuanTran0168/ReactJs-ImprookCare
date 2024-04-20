@@ -90,7 +90,9 @@ export const endpoints = {
     "check-timeslot-register": (timeDistanceId) => `${SERVER_CONTEXT}/api/auth/doctor/timeDistance/${timeDistanceId}/timeSlot-check-register/`,
     "add-timeslot": `${SERVER_CONTEXT}/api/auth/doctor/add-timeSlot-schedule/`,
     "edit-timeslot": `${SERVER_CONTEXT}/api/auth/doctor/update-timeSlot-schedule/`,
-    "load-custom-timeslot": (profileDoctorId) => `${SERVER_CONTEXT}/api/auth/doctor/profileDoctor/${profileDoctorId}/timeSlot-for-doctor/`
+    "load-custom-timeslot": (profileDoctorId) => `${SERVER_CONTEXT}/api/auth/doctor/profileDoctor/${profileDoctorId}/timeSlot-for-doctor/`,
+    "seen-message": (messageId) => `${SERVER_CONTEXT}/api/auth/message/${messageId}/seenMessage/`,
+    "search-function": `${SERVER_CONTEXT}/api/public/search-profile-doctors/`
 
     /*
     http://localhost:2024/IMPROOK_CARE/api/public/processReturnVNPAY/?vnp_Amount=13840000&vnp_BankCode=NCB&vnp_BankTranNo=VNP14141795&vnp_CardType=ATM&vnp_OrderInfo=Tuan+Tran+rich+kid+VN+pay%3A65331993&vnp_PayDate=20231013170840&vnp_ResponseCode=00&vnp_TmnCode=86LMDA46&vnp_TransactionNo=14141795&vnp_TransactionStatus=00&vnp_TxnRef=65331993&vnp_SecureHash=259b02cb3fcbe959cf2de9ff1d57d6febeb16c70dbe697248c0cb1f70e7383f9e865e6ba1b8435b30578ab5c645cc79a704986c7f2002bb6ea691a45d2e6adf3
