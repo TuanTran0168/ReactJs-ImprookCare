@@ -24,6 +24,8 @@ import MedicineCategory from "./MedicineCategory";
 import AllMedicine from "./AllMedicine";
 import UpdateUser from "./UpdateUser";
 import UpdateMedicine from "./UpdateMedicine";
+import { reConnectNotification } from "../../utils/WebSocket";
+import cookie from "react-cookies";
 
 const Admin = () => {
     const [current_user,] = useContext(UserContext);
@@ -152,6 +154,15 @@ const Admin = () => {
         checkLogin(current_user)
         adminAuth(current_user)
     }, [current_user])
+
+    useEffect(() => {
+        let client = cookie.load("socket")
+        console.log("Client", client?.connected);
+        if (current_user && client) {
+            cookie.remove("socket");
+            reConnectNotification(false, current_user?.userId);
+        }
+    }, [])
 
     const [open, setOpen] = useState(false);
     const [medicineOpen, setMedicineOpen] = useState(false);

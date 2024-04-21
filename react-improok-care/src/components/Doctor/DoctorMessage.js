@@ -26,8 +26,10 @@ import Dialog from '@mui/material/Dialog';
 import AddIcon from '@mui/icons-material/Add';
 import { blue } from '@mui/material/colors';
 import { MdRemoveCircle } from "react-icons/md";
+import { toast } from "react-toastify";
 
 var stompClient = null;
+var clientStomp = null;
 
 function SimpleDialog(props) {
     const { onClose, selectedValue, open, onButtonClick } = props;
@@ -120,18 +122,21 @@ const DoctorMessage = () => {
     const avatar = useRef();
     const messagesEndRef = useRef(null);
 
-    // const connect = () => {
-    //     let Sock = new SockJS('http://localhost:2024/IMPROOK_CARE/api/public/webSocket/');
-    //     stompClient = over(Sock);
-    //     stompClient.connect({}, onConnected, onError);
-    // }
-
-    // const onConnected = () => {
-    //     stompClient.subscribe('/user/' + selectedProfile + '/private', onPrivateMessage);
-    //     // stompClient.subscribe('/user/private', onPrivateMessage);
-    // }
-
     const onError = (err) => {
+        console.log(err);
+    }
+
+    const connectNotification = () => {
+        let Sock = new SockJS('http://localhost:2024/IMPROOK_CARE/api/public/notification/')
+        clientStomp = over(Sock)
+        clientStomp.connect({}, onConnectedNotification, onErrorNotification)
+    }
+
+    const onConnectedNotification = () => {
+        clientStomp.subscribe('/user/' + current_user?.userId + '/notification', onPrivateNotification);
+    }
+
+    const onErrorNotification = (err) => {
         console.log(err);
     }
 
@@ -156,6 +161,14 @@ const DoctorMessage = () => {
         // setListMessage(current => {
         //     return {...current, fakeListMessage}
         // })
+    }
+
+    const onPrivateNotification = (payload) => {
+        console.log("ĐÂY LÀ PAYLOAD");
+        console.log(payload);
+        var payloadData = JSON.parse(payload.body);
+        console.log("PAYLOAD LÀM SẠCH");
+        console.log(payloadData);
     }
 
     const loadProfileDoctor = async () => {
@@ -212,6 +225,7 @@ const DoctorMessage = () => {
         //     console.log(listMessage);
         // });
         connect();
+        connectNotification();
         try {
             let res = await authApi().get(endpoints['get-user-send-message-to-doctor'](pd.profileDoctorId))
             setUserSendMessageToDoctor(res.data.content);
@@ -237,27 +251,6 @@ const DoctorMessage = () => {
             console.log(error)
         }
     };
-
-    // const viewDoctorMessage = async (userId) => {
-    //     const process = async () => {
-    //         try {
-    //             setLoading(true);
-    //             const results = [];
-    //             for (let i = 0; i < userSendMessageToDoctor.length; i++) {
-    //                 const userId = userSendMessageToDoctor[i];
-    //                 const res = await authApi().get(endpoints['get-message-for-doctor-view'](selectedProfile, userId));
-    //                 results.push(res.data.content);
-    //                 console.log("Đây là tin nhắn")
-    //                 console.log(res.data.content);
-    //             }
-    //             setListMessage(results);
-    //             setLoading(false);
-    //         } catch (error) {
-    //             console.log(error);
-    //         }
-    //     }
-    //     process();
-    // }
 
     const viewDoctorMessage = (userId, messageId) => {
         setLastMessageId(messageId);
@@ -323,13 +316,6 @@ const DoctorMessage = () => {
             console.log("List sau khi gửi");
             console.log(listMessage);
 
-            // setTempMessage({
-            //     "profileDoctorId": selectedProfile,
-            //     "userId": userId,
-            //     "senderId": selectedProfile,
-            //     "messageContent": messageContent
-            // });
-
             if (stompClient) {
                 console.log("OK STOMP")
                 stompClient.send("/app/private-message", {}, JSON.stringify(myMess));
@@ -339,6 +325,7 @@ const DoctorMessage = () => {
             setMessageContent('');
             setSelectImg('');
             // viewDoctorMessage(userId);
+            addNotification(userId, messageContent)
             setLoading(false);
         } catch (error) {
             setLoading(false);
@@ -381,6 +368,34 @@ const DoctorMessage = () => {
     useEffect(() => {
         scrollToBottom();
     }, [listMessage, messagesEndRef]);
+
+    const addNotification = async (userId, notificationContent) => {
+        try {
+            let res = await authApi().post(endpoints['add-notification'], {
+                "senderId": current_user?.userId,
+                "receiverId": userId,
+                "notificationTypeId": "1",
+                "notificationContent": "Bạn có một tin nhắn mới: " + notificationContent
+            })
+
+            var myNoti = {
+                "senderId": current_user?.userId,
+                "receiverId": userId,
+                "notificationTypeId": "1",
+                "notificationContent": "Bạn có một tin nhắn mới: " + notificationContent
+            }
+
+            if (clientStomp) {
+                console.log("OK STOMP")
+                clientStomp.send("/app/private-notification", {}, JSON.stringify(myNoti));
+            }
+            else
+                console.log("Chưa có kết nối")
+            console.log(res.status)
+        } catch (error) {
+            console.log(error)
+        }
+    }
 
     return <>
         <div className="Doctor_Message_Wrapper">

@@ -10,12 +10,18 @@ import appstore from "../../assets/images/appstore.svg"
 import doctor from "../../assets/images/stethoscope.png"
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Apis, { endpoints } from "../../configs/Apis";
 import doctorprofile from "../../assets/images/doctor-profile-icon.png"
+import { UserContext, WebSocketContext } from "../../App";
+import cookie from "react-cookies";
+import { reConnectNotification } from "../../utils/WebSocket";
 
 const Home = () => {
     const [searchKw, setSearchKw] = useState('');
+    const [current_user,] = useContext(UserContext);
+
+    const [webSocket,] = useContext(WebSocketContext);
 
     const nav = useNavigate();
 
@@ -61,6 +67,15 @@ const Home = () => {
         }
         loadProfileDoctor();
         loadSpecialty();
+        console.log("Kết nối Home", webSocket);
+        console.log("Kết nối Home 1", cookie.load("socket"));
+        // reConnectNotification(false, current_user?.userId)
+        let client = cookie.load("socket")
+        console.log("Client", client?.connected);
+        if (current_user && client) {
+            cookie.remove("socket");
+            reConnectNotification(false, current_user?.userId);
+        }
     }, [])
 
     const search = (evt) => {

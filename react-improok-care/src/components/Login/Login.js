@@ -8,16 +8,37 @@ import { Facebook, Google, Lock, Person, Visibility, VisibilityOff } from "@mui/
 import { InputGroup } from "react-bootstrap";
 import { toast } from "react-toastify";
 import cookie from "react-cookies";
-import { UserContext } from "../../App";
+import { UserContext, WebSocketContext } from "../../App";
 import Apis, { authApi, endpoints } from "../../configs/Apis";
+import SockJS from "sockjs-client";
+import { over } from "stompjs";
+import { reConnectNotification } from "../../utils/WebSocket";
+// import { connectNotification } from "../../utils/WebSocket";
+
+var clientStomp = null
+var connectNoti = null
 
 const Login = () => {
     const [user, dispatch] = useContext(UserContext)
+    const [webSocket, dispatchWebSocket] = useContext(WebSocketContext)
     const [username, setUsername] = useState();
     const [password, setPassword] = useState("");
     const [loading, setLoading] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
     const [q] = useSearchParams();
+
+    // const onErrorNotification = (err) => {
+    //     console.log(err);
+    // }
+
+    // const onPrivateNotification = (payload) => {
+    //     console.log("ĐÂY LÀ PAYLOAD");
+    //     console.log(payload);
+    //     var payloadData = JSON.parse(payload.body);
+    //     console.log("PAYLOAD LÀM SẠCH");
+    //     console.log(payloadData);
+    //     toast.info(payloadData.notificationContent);
+    // }
 
     const login = (evt) => {
         evt.preventDefault();
@@ -38,16 +59,38 @@ const Login = () => {
 
                 console.log(data)
                 cookie.save('user', data)
+                // connectNotification(data.userId);
+
+                // connectNoti = connectNotification(data.userId);
+                connectNoti = reConnectNotification(false, data.userId)
+                // cookie.save("socket", connectNoti)
 
                 dispatch({
                     "type": "login",
                     "payload": data
                 });
+                dispatchWebSocket({
+                    "type": "login",
+                    "payload": connectNoti
+                });
+
                 setLoading(false)
+                console.log("Login", connectNoti);
                 if (res.status === 200)
                     toast.success("Đăng nhập thành công!");
+                // const connectNotification = () => {
+                //     let Sock = new SockJS('http://localhost:2024/IMPROOK_CARE/api/public/notification/')
+                //     clientStomp = over(Sock)
+                //     clientStomp.connect({}, onConnectedNotification, onErrorNotification)
+                // }
+
+                // const onConnectedNotification = () => {
+                //     localStorage.setItem('isConnected', 'true');
+                //     clientStomp.subscribe('/user/' + data.userId + '/notification', onPrivateNotification);
+                // }
+
+                // connectNotification(clientStomp, data.userId);
             } catch (err) {
-                // console.log(err.request.responseText);
                 setLoading(false);
                 toast.error("Sai tài khoản hoặc mật khẩu!");
             }

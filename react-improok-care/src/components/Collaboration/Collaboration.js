@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import "./Collaboration.css"
 import Apis, { endpoints } from "../../configs/Apis";
 import googleplay from "../../assets/images/googleplay.svg"
@@ -15,8 +15,12 @@ import { TiTick } from "react-icons/ti";
 import { Link } from "react-router-dom";
 import { Form } from "react-bootstrap";
 import { toast } from "react-toastify";
+import { UserContext } from "../../App";
+import { reConnectNotification } from "../../utils/WebSocket";
+import cookie from "react-cookies";
 
 const Collaboration = () => {
+    const [current_user,] = useContext(UserContext)
     const [name, setName] = useState();
     const [phonenumber, setPhonenumber] = useState();
     const [email, setEmail] = useState();
@@ -42,6 +46,15 @@ const Collaboration = () => {
         }
         process();
     }
+
+    useEffect(() => {
+        let client = cookie.load("socket")
+        console.log("Client", client?.connected);
+        if (current_user && client) {
+            cookie.remove("socket");
+            reConnectNotification(false, current_user?.userId);
+        }
+    }, [])
 
     return <>
         <div className="CollabDoctor_Wrapper">

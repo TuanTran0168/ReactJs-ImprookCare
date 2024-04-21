@@ -1,0 +1,7 @@
+div.BookingResult_Wrapper {
+    /* background-color: #abe3ef; */
+    background-color: #ffffff;
+    background-image: linear-gradient(315deg, #ffffff 0%, #91a6ff 74%);
+    margin-top: 7rem;
+    height: 560px;
+}

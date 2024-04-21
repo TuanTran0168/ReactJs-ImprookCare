@@ -6,7 +6,7 @@ import verified from "../../assets/images/verified.svg"
 import Spinner from "../../layout/Spinner";
 import googleplay from "../../assets/images/googleplay.svg"
 import appstore from "../../assets/images/appstore.svg"
-import { UserContext } from "../../App";
+import { UserContext, WebSocketContext } from "../../App";
 import GoogleMapAPI from "../../utils/GoogleMapAPI";
 import { Button, Form, Image, ListGroup } from "react-bootstrap";
 import Moment from "react-moment";
@@ -21,17 +21,22 @@ import { over } from 'stompjs';
 import SockJS from 'sockjs-client';
 import MessageChat from "./MessageChat";
 import Pagination from "../../utils/Pagination"
+import { reConnectNotification } from "../../utils/WebSocket";
+import cookie from "react-cookies";
 
 var stompClient = null;
+// var clientStomp = null;
 
 const BookingDoctor = () => {
     const { profileDoctorId } = useParams();
     const [doctorDetail, setDoctorDetail] = useState('');
     const [loading, setLoading] = useState(false);
     const [current_user,] = useContext(UserContext)
+    const [webSocket,] = useContext(WebSocketContext);
     const [comment, setComment] = useState([]);
     const [content, setContent] = useState(null);
     const [rating, setRating] = useState(1);
+    const [userDoctorId, setUserDoctorId] = useState(null)
 
     const [updateRating, setUpdateRating] = useState(null)
     const [updateContent, setUpdateContent] = useState(null)
@@ -59,7 +64,7 @@ const BookingDoctor = () => {
     // const [messageContent, setMessageContent] = useState(null);
 
     const avatar = useRef();
-    const updateAvatar = useRef();
+    // const updateAvatar = useRef();
 
     const connect = () => {
         let Sock = new SockJS('http://localhost:2024/IMPROOK_CARE/api/public/webSocket/');
@@ -110,14 +115,24 @@ const BookingDoctor = () => {
                 setLoading(true);
                 let res = await Apis.get(endpoints['load-profile-doctor-by-Id'](profileDoctorId));
                 setDoctorDetail(res.data);
+                console.log(res.data.userId.userId);
+                setUserDoctorId(res.data.userId.userId);
                 console.log(res.data);
                 setLoading(false);
             } catch (error) {
                 console.log(error);
             }
         }
-
         loadProfileDoctorById();
+        // reConnectNotification(false, current_user.userId)
+        // console.log("Booking doctor", webSocket);
+        // console.log("Booking connect", webSocket.ws.connected)
+        let client = cookie.load("socket")
+        console.log("Client", client?.connected);
+        if (current_user && client) {
+            cookie.remove("socket")
+            reConnectNotification(false, current_user?.userId);
+        }
     }, [profileDoctorId])
 
     // const loadComment = async () => {
@@ -266,6 +281,7 @@ const BookingDoctor = () => {
             toast.success(res.data);
             setContent("");
             loadComment();
+            // addCommentNotification(content)
             setLoading(false);
         } catch (error) {
             setLoading(false);
@@ -356,6 +372,36 @@ const BookingDoctor = () => {
     // const handleSortRating = (e) => {
     //     const selectedRoleId = e.target.value;
     //     setSelectedRole(selectedRoleId);
+    // }
+
+    // const addCommentNotification = async (notificationContent) => {
+    //     try {
+    //         let res = await authApi().post(endpoints['add-notification'], {
+    //             "senderId": current_user?.userId,
+    //             "receiverId": userDoctorId,
+    //             "profileDoctorId": profileDoctorId,
+    //             "notificationTypeId": "2",
+    //             "notificationContent": "Bạn có một bình luận mới: " + notificationContent
+    //         })
+
+    //         var myNoti = {
+    //             "senderId": current_user?.userId,
+    //             "receiverId": userDoctorId,
+    //             "profileDoctorId": profileDoctorId,
+    //             "notificationTypeId": "1",
+    //             "notificationContent": "Bạn có một bình luận mới: " + notificationContent
+    //         }
+
+    //         if (clientStomp) {
+    //             console.log("OK STOMP")
+    //             clientStomp.send("/app/private-notification", {}, JSON.stringify(myNoti));
+    //         }
+    //         else
+    //             console.log("Chưa có kết nối")
+    //         console.log(res.status)
+    //     } catch (error) {
+    //         console.log(error)
+    //     }
     // }
 
     let url = `/booking/doctor/${doctorDetail.profileDoctorId}`

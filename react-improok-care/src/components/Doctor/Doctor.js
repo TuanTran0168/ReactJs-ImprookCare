@@ -4,6 +4,8 @@ import { UserContext } from "../../App";
 import "./Doctor.css";
 import { toast } from "react-toastify";
 import DoctorMenu from "../../layout/DoctorLayout/DoctorMenu";
+import cookie from "react-cookies";
+import { reConnectNotification } from "../../utils/WebSocket";
 
 const Doctor = () => {
     const [current_user,] = useContext(UserContext);
@@ -34,6 +36,15 @@ const Doctor = () => {
         checkLogin(current_user)
         doctorAuth(current_user)
     }, [current_user])
+
+    useEffect(() => {
+        let client = cookie.load("socket")
+        console.log("Client", client?.connected);
+        if (current_user && client) {
+            cookie.remove("socket");
+            reConnectNotification(false, current_user?.userId);
+        }
+    }, [])
 
     const nav = useNavigate();
 

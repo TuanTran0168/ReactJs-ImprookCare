@@ -13,7 +13,10 @@ import { over } from 'stompjs';
 import SockJS from 'sockjs-client';
 import Spinner from "../../layout/Spinner"
 import { MdRemoveCircle } from "react-icons/md";
+import { toast } from "react-toastify";
+import { connectNotification } from "../../utils/WebSocket";
 var stompClient = null;
+var clientStomp = null;
 
 const Message = () => {
     const [current_user,] = useContext(UserContext);
@@ -26,6 +29,8 @@ const Message = () => {
     const [listMessage, setListMessage] = useState([]);
     const [chatImg, setChatImg] = useState('');
     const messagesEndRef = useRef(null);
+
+    const [userDoctorId, setUserDoctorId] = useState(null)
 
     const [messageContent, setMessageContent] = useState(null);
     const [lastMessageId, setLastMessageId] = useState(null);
@@ -73,6 +78,30 @@ const Message = () => {
         // })
     }
 
+    const connectNotification = () => {
+        let Sock = new SockJS('http://localhost:2024/IMPROOK_CARE/api/public/notification/');
+        clientStomp = over(Sock);
+        clientStomp.connect({}, onConnectedNotification, onErrorNotification);
+    }
+
+    const onConnectedNotification = () => {
+        clientStomp.subscribe('/user/' + current_user?.userId + '/notification', onPrivateNotification);
+        // stompClient.subscribe('/user/private', onPrivateMessage);
+    }
+
+    const onErrorNotification = (err) => {
+        console.log(err);
+    }
+
+    const onPrivateNotification = (payload) => {
+        console.log("ĐÂY LÀ PAYLOAD");
+        console.log(payload);
+        var payloadData = JSON.parse(payload.body);
+        console.log("PAYLOAD LÀM SẠCH");
+        console.log(payloadData);
+        // toast.info(payloadData.notificationContent)
+    }
+
     useEffect(() => {
         const loadNewMessage = async () => {
             try {
@@ -91,12 +120,15 @@ const Message = () => {
 
     const getDoctorSendMessageToUser = async () => {
         connect();
+        // connectNotification();
         try {
             let res = await authApi().get(endpoints['get-doctor-send-message-to-user'](current_user?.userId))
             setDoctorSendMessageToUser(res.data.content);
             console.log(res.data.content);
             console.log(res.data.content[0][0].profileDoctorId);
+            console.log(res.data.content[0][0].userId.userId);
             setDoctorId(res.data.content[0][0].profileDoctorId);
+            setUserDoctorId(res.data.content[0][0].userId.userId);
             console.log(res.data.content[0][1].messageId);
             setLastMessageId(res.data.content[0][1].messageId);
             let mes = await authApi().get(endpoints['get-message-for-all-view'](res.data.content[0][0].profileDoctorId, current_user?.userId));
@@ -114,8 +146,9 @@ const Message = () => {
                 setLoading(true);
                 const res = await authApi().get(endpoints['get-message-for-all-view'](profileDoctorId, current_user?.userId));
                 setListMessage(res.data);
+                console.log(res.data[0].profileDoctorId.userId)
+                setUserDoctorId(res.data[0].profileDoctorId.userId)
                 console.log(res.data);
-                console.log(listMessage);
                 setLoading(false);
             } catch (error) {
                 console.log(error);
@@ -126,11 +159,16 @@ const Message = () => {
 
     useEffect(() => {
         getDoctorSendMessageToUser()
+        if (current_user && current_user.userId) {
+            console.log(current_user.userId);
+            connectNotification(current_user.userId);
+        }
     }, [])
 
     const addMessage = async (evt) => {
         evt.preventDefault();
         setLoading(true);
+        // connectNotification();
 
         console.log(doctorId, current_user?.userId, messageContent);
 
@@ -189,9 +227,11 @@ const Message = () => {
             }
             else
                 console.log("Chưa có kết nối")
+
             setMessageContent('');
             setChatImg('');
             // viewDoctorMessage(userId);
+            addNotification(doctorId, messageContent);
             setLoading(false);
         } catch (error) {
             setLoading(false);
@@ -221,6 +261,37 @@ const Message = () => {
 
         if (file) {
             reader.readAsDataURL(file);
+        }
+    }
+
+    const addNotification = async (profileDoctorId, notificationContent) => {
+        try {
+            // connectNotification();
+            let res = await authApi().post(endpoints['add-notification'], {
+                "senderId": current_user?.userId,
+                "receiverId": userDoctorId,
+                "profileDoctorId": profileDoctorId,
+                "notificationTypeId": "1",
+                "notificationContent": "Bạn có một tin nhắn mới: " + notificationContent
+            })
+
+            var myNoti = {
+                "senderId": current_user?.userId,
+                "receiverId": userDoctorId,
+                "profileDoctorId": profileDoctorId,
+                "notificationTypeId": "1",
+                "notificationContent": "Bạn có một tin nhắn mới: " + notificationContent
+            }
+
+            if (clientStomp) {
+                console.log("OK STOMP")
+                clientStomp.send("/app/private-notification", {}, JSON.stringify(myNoti));
+            }
+            else
+                console.log("Chưa có kết nối")
+            console.log(res.status)
+        } catch (error) {
+            console.log(error)
         }
     }
 

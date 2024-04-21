@@ -12,6 +12,8 @@ import { Badge } from "react-bootstrap";
 import { FaAngleDown, FaArrowRight } from "react-icons/fa";
 import { TiTick } from "react-icons/ti";
 import { toast } from "react-toastify";
+import { reConnectNotification } from "../../utils/WebSocket";
+import cookie from "react-cookies";
 
 const BookingDetail = () => {
     const [current_user,] = useContext(UserContext);
@@ -129,7 +131,7 @@ const BookingDetail = () => {
                     //     "mailContent": "Bạn đã đặt khám thành công tại hệ thống IMPROOKCARE"
                     // })
                     // console.log(mes.data);
-                    nav('/');
+                    nav('/bookingresult');
                 }
                 else
                     toast.error(res.data)
@@ -175,6 +177,15 @@ const BookingDetail = () => {
         }
         process();
     }
+
+    useEffect(() => {
+        let client = cookie.load("socket")
+        console.log("Client", client?.connected);
+        if (current_user && client) {
+            cookie.remove("socket");
+            reConnectNotification(false, current_user?.userId);
+        }
+    }, [])
 
     return <>
         <div className="Booking_Detail_Wrapper">
