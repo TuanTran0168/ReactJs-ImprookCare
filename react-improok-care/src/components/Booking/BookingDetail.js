@@ -2,7 +2,7 @@ import { useNavigate, useParams, Link } from "react-router-dom";
 import "./BookingDetail.css"
 import { useContext, useEffect, useState } from "react";
 import Apis, { authApi, endpoints } from "../../configs/Apis";
-import { UserContext } from "../../App";
+import { UserContext, BookingResultContext } from "../../App";
 import printer from "../../assets/images/printer.png"
 import profileicon from "../../assets/images/profile-icon.png"
 // import profile404 from "../../assets/images/profile.png"
@@ -17,6 +17,7 @@ import cookie from "react-cookies";
 
 const BookingDetail = () => {
     const [current_user,] = useContext(UserContext);
+    const [bookingResult, dispatchBookingResult] = useContext(BookingResultContext);
     const { profileDoctorId } = useParams();
     const [doctorDetail, setDoctorDetail] = useState('');
     const [profilePatient, setProfilePatient] = useState([]);
@@ -31,6 +32,7 @@ const BookingDetail = () => {
     const [timeSlotId, setTimeSlotId] = useState('')
     const [bookingProfile, setBookingProfile] = useState('');
     const [selectedDate, setSelectedDate] = useState('');
+    const [bookingResultList, setBookingResultList] = useState([]);
 
     const nav = useNavigate();
 
@@ -122,20 +124,26 @@ const BookingDetail = () => {
                     "scheduleId": scheduleId,
                     "profilePatientId": profilePatientId
                 })
-
-                if (res.data === "Đặt lịch thành công!") {
-                    toast.success(res.data);
+                if (res.data.length !== 0) {
+                    cookie.save('bookingresult', res.data.bookingId);
+                    toast.success("Đặt lịch thành công");
+                    // setBookingResultList(res.data);
                     // let mes = await Apis.post(endpoints['send-custom-email'], {
                     //     "mailTo": "2051050549tuan@ou.edu.vn",
                     //     "mailSubject": "Xác nhận đặt khám",
                     //     "mailContent": "Bạn đã đặt khám thành công tại hệ thống IMPROOKCARE"
                     // })
                     // console.log(mes.data);
+
+                    dispatchBookingResult({
+                        "type": "booking",
+                        "payload": res.data.bookingId
+                    });
+                    console.log(res.data.bookingId);
                     nav('/bookingresult');
                 }
                 else
-                    toast.error(res.data)
-                console.log(res.data)
+                    toast.error("Lỗi rồi")
             } catch (error) {
                 console.log(error);
             }
@@ -390,7 +398,7 @@ const BookingDetail = () => {
                                         {/* <button onClick={(e) => saveBooking(e)}>Đặt hàng</button> */}
                                     </> : <>
                                         {profilePatientId === '' ? <><button style={{ backgroundColor: "gray", cursor: "not-allowed" }}>Đặt lịch</button></> : <>
-                                            <button onClick={(e) => saveBooking(e)}>Đặt lịch</button></>}
+                                            <button onClick={saveBooking}>Đặt lịch</button></>}
                                         {/* <button style={{ backgroundColor: "gray" }}>Đặt lịch</button> */}
                                         {/* <button onClick={(e) => saveBooking(e)}>Đặt lịch</button> */}
                                     </>}

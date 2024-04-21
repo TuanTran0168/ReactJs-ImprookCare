@@ -1,7 +1,59 @@
 div.BookingResult_Wrapper {
     /* background-color: #abe3ef; */
     background-color: #ffffff;
-    background-image: linear-gradient(315deg, #ffffff 0%, #91a6ff 74%);
+    /* background-image: linear-gradient(315deg, #ffffff 0%, #91a6ff 74%); */
     margin-top: 7rem;
-    height: 560px;
+    /* height: 560px; */
+}
+
+div.BookingResult_Content {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    justify-content: space-between;
+    margin: auto;
+    max-width: 50%;
+    margin-right: 11rem;
+    /* align-items: center; */
+}
+
+div.BookingResult_In4>div {
+    display: flex;
+    gap: 0.5rem
+}
+
+div.BookingResult_In4>div>span:first-child{
+    /* margin-right:1rem; */
+    width: 30%;
+}
+
+div.BookingResult_In4>div>span:nth-child{
+    /* margin-right:1rem; */
+    width: 70%;
+}
+
+div.BookingPatient_In4>div {
+    display: flex;
+    gap: 0.5rem;
+}
+
+div.BookingPatient_In4>div>span:first-child {
+    width: 30%
+}
+
+div.BookingPatient_In4>div:nth-child {
+    width: 70%
+}
+
+div.BookingResult_Info>div {
+    display: flex;
+    gap: 0.5rem;
+}
+
+div.BookingResult_Info>div>span:first-child {
+    width: 30%
+}
+
+div.BookingResult_Info>div>span:nth-child {
+    width: 70%
 }

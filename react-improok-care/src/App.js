@@ -52,77 +52,82 @@ import AddUser from "./components/Admin/AddUser";
 import UpdateUser from "./components/Admin/UpdateUser";
 import UpdateMedicine from "./components/Admin/UpdateMedicine";
 import WebSocketReducer from "./reducers/WebSocketReducer";
+import BookingResultReducer from "./reducers/BookingResultReducer";
 import BookingResult from "./components/BookingResult/BookingResult";
 
 export const UserContext = createContext();
 export const BookingManagementContext = createContext();
 export const MyPrescriptionContext = createContext();
 export const WebSocketContext = createContext();
+export const BookingResultContext = createContext();
 
 const App = () => {
   const [user, dispatch] = useReducer(UserReducer, cookie.load("user") || null)
   const [booking, dispatchBooking] = useReducer(PrescriptionReducer, cookie.load("bookingInfo") || null)
   const [webSocket, dispatchWebSocket] = useReducer(WebSocketReducer, cookie.load("socket") || null)
+  const [bookingResult, dispatchBookingResult] = useReducer(BookingResultReducer, cookie.load("bookingresult") || null)
   console.log("App main", cookie.load("socket"));
   // const [prescriptionCounter, prescriptionDispatch] = useReducer(MyPrescriptionCounterReducer, 0)
 
   return (
     <UserContext.Provider value={[user, dispatch]}>
       <WebSocketContext.Provider value={[webSocket, dispatchWebSocket]}>
-        <BookingManagementContext.Provider value={[booking, dispatchBooking]}>
-          <BrowserRouter>
-            <Header />
-            <Routes>
-              <Route exact path='/' element={<Home />} />
-              <Route path='/login' element={<Login />} />
-              <Route path='/register' element={<Register />} />
-              <Route path='/forgetpassword' element={<ForgetPassword />} />
-              <Route path='/collaboration' element={<Collaboration />} />
-              <Route path='/bookingresult' element={<BookingResult />} />
-              <Route path='/changepassword' element={<ChangePassword />} />
-              <Route path='/phoneverification' element={<PhoneVerification />} />
-              <Route path='/booking' element={<Booking />} />
-              <Route path='/doctor/:profileDoctorId' element={<BookingDoctor />} />
-              <Route path='/booking/doctor/:profileDoctorId' element={<BookingDetail />} />
-              <Route path='/paymentresult' element={<PaymentResult />} />
-              <Route path='/search' element={<Search />} />
-              <Route path='/zego' element={<ZegoVideo />} />
-              <Route path='/user' element={<User />}>
-                <Route path='personal' element={<Personal />} />
-                <Route path='appointment' element={<Appointment />} />
-                <Route path='history' element={<History />} />
-                <Route path='profile' element={<Profile />} />
-                <Route path='message' element={<Message />} />
-              </Route>
-              <Route path='/doctor' element={<Doctor />} >
-                <Route path='doctorinformation' element={<DoctorInformation />} />
-                <Route path='schedule' element={<Schedule />} />
-                <Route path='customschedule' element={<CustomSchedule />} />
-                <Route path='bookingmanagement' element={<BookingManagement />} />
-                <Route path='profiledoctor' element={<ProfileDoctor />} />
-                <Route path='doctormessage' element={<DoctorMessage />} />
-                <Route path='videocall' element={<VideoCall />} />
-                <Route path='prescription' element={<Prescription />} />
-                {/* <Route path='zego' element={<ZegoVideo />} /> */}
-              </Route>
-              <Route path='/admin' element={<Admin />} >
-                <Route path='overview' element={<Overview />} />
-                <Route path='alluser' element={<AllUser />} />
-                <Route path='adduser' element={<AddUser />} />
-                <Route path='updateuser/:userId' element={<UpdateUser />} />
-                <Route path='allmedicine' element={<AllMedicine />} />
-                <Route path='updatemedicine/:medicineId' element={<UpdateMedicine />} />
-                <Route path='medicinecategory' element={<MedicineCategory />} />
-                <Route path='addmedicine' element={<AddMedicine />} />
-                <Route path='collab' element={<Collab />} />
-                <Route path='revenue' element={<Revenue />} />
-              </Route>
-            </Routes>
-            <ScrollToTop />
-            <Footer />
-            <ToastContainer />
-          </BrowserRouter>
-        </BookingManagementContext.Provider>
+        <BookingResultContext.Provider value={[bookingResult, dispatchBookingResult]}>
+          <BookingManagementContext.Provider value={[booking, dispatchBooking]}>
+            <BrowserRouter>
+              <Header />
+              <Routes>
+                <Route exact path='/' element={<Home />} />
+                <Route path='/login' element={<Login />} />
+                <Route path='/register' element={<Register />} />
+                <Route path='/forgetpassword' element={<ForgetPassword />} />
+                <Route path='/collaboration' element={<Collaboration />} />
+                <Route path='/bookingresult' element={<BookingResult />} />
+                <Route path='/changepassword' element={<ChangePassword />} />
+                <Route path='/phoneverification' element={<PhoneVerification />} />
+                <Route path='/booking' element={<Booking />} />
+                <Route path='/doctor/:profileDoctorId' element={<BookingDoctor />} />
+                <Route path='/booking/doctor/:profileDoctorId' element={<BookingDetail />} />
+                <Route path='/paymentresult' element={<PaymentResult />} />
+                <Route path='/search' element={<Search />} />
+                <Route path='/zego' element={<ZegoVideo />} />
+                <Route path='/user' element={<User />}>
+                  <Route path='personal' element={<Personal />} />
+                  <Route path='appointment' element={<Appointment />} />
+                  <Route path='history' element={<History />} />
+                  <Route path='profile' element={<Profile />} />
+                  <Route path='message' element={<Message />} />
+                </Route>
+                <Route path='/doctor' element={<Doctor />} >
+                  <Route path='doctorinformation' element={<DoctorInformation />} />
+                  <Route path='schedule' element={<Schedule />} />
+                  <Route path='customschedule' element={<CustomSchedule />} />
+                  <Route path='bookingmanagement' element={<BookingManagement />} />
+                  <Route path='profiledoctor' element={<ProfileDoctor />} />
+                  <Route path='doctormessage' element={<DoctorMessage />} />
+                  <Route path='videocall' element={<VideoCall />} />
+                  <Route path='prescription' element={<Prescription />} />
+                  {/* <Route path='zego' element={<ZegoVideo />} /> */}
+                </Route>
+                <Route path='/admin' element={<Admin />} >
+                  <Route path='overview' element={<Overview />} />
+                  <Route path='alluser' element={<AllUser />} />
+                  <Route path='adduser' element={<AddUser />} />
+                  <Route path='updateuser/:userId' element={<UpdateUser />} />
+                  <Route path='allmedicine' element={<AllMedicine />} />
+                  <Route path='updatemedicine/:medicineId' element={<UpdateMedicine />} />
+                  <Route path='medicinecategory' element={<MedicineCategory />} />
+                  <Route path='addmedicine' element={<AddMedicine />} />
+                  <Route path='collab' element={<Collab />} />
+                  <Route path='revenue' element={<Revenue />} />
+                </Route>
+              </Routes>
+              <ScrollToTop />
+              <Footer />
+              <ToastContainer />
+            </BrowserRouter>
+          </BookingManagementContext.Provider>
+        </BookingResultContext.Provider >
       </WebSocketContext.Provider>
     </UserContext.Provider>
   );
