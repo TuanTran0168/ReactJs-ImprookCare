@@ -28,7 +28,7 @@ function ModalNotification(props) {
                 <Modal.Body>{props.title}</Modal.Body>
                 <Modal.Footer>
                     <Button variant="success" onClick={handleAction}>
-                        Ok
+                        Yes
                     </Button>
                     <Button variant="danger" onClick={handleClose}>
                         Cancel

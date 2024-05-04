@@ -1,0 +1,104 @@
+div.medical-test-list-null {
+    display: flex;
+    flex-direction: column;
+    min-height: 25.25rem;
+    border: .1rem solid black;
+    border-radius: 1%;
+    align-items: center;
+}
+
+div.medical-test-list-null h5 {
+    margin-top: 2rem;
+}
+
+div.test-body-info {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2.5rem;
+    margin: auto;
+    max-width: 85rem;
+    align-items: center;
+    margin-bottom: 5rem;
+}
+
+div.test-body-info>div {
+    width: 30%
+}
+
+div.test-body-image {
+    max-width: 85rem;
+    margin: auto;
+    margin-bottom: 3rem;
+}
+
+div.medical-test-menu>div {
+    display: flex;
+    width: 100%;
+    gap: 1rem;
+}
+
+div.medical-test-menu {
+    display: flex;
+    list-style: none;
+    background: white;
+    width: 100%;
+    margin-bottom: 1.5rem;
+}
+
+div.medical-test-menu>div>a {
+    text-decoration: none;
+    color: black;
+    width: 100%;
+    display: flex;
+    gap: 1.5rem;
+    align-items: center;
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
+    font-size: 16px;
+    border: 1px solid black;
+    padding-left: 0.75rem !important;
+    border-top-left-radius: 0.75rem;
+    border-top-right-radius: 0.75rem;
+}
+
+.active {
+    background-color: #183e9f;
+    border-radius: 0.25rem;
+}
+  
+.active .text {
+    color: white;
+}
+
+div.test-image-choice>div {
+    width: 100%;
+    height: 100%;
+}
+
+button.create-pdf-butt, button.download-pdf-butt {
+    outline: 0;
+    grid-gap: 8px;
+    align-items: center;
+    background-color: #183e9f;
+    color: #fff !important;
+    border: 1px solid #000;
+    border-radius: 4px;
+    cursor: pointer;
+    display: inline-flex;
+    flex-shrink: 0;
+    font-size: 15px;
+    gap: 8px;
+    justify-content: center;
+    line-height: 1.5;
+    overflow: hidden;
+    padding: 10px 14px;
+    text-decoration: none;
+    text-overflow: ellipsis;
+    transition: all .14s ease-out;
+    white-space: nowrap;
+}
+
+button.create-pdf-butt:hover, button.download-pdf-butt:hover {
+    box-shadow: 4px 4px 0 #000;
+    transform: translate(-4px, -4px);
+}

@@ -1,0 +1,12 @@
+div.prescription_history_null {
+    display: flex;
+    flex-direction: column;
+    min-height: 25.25rem;
+    border: .1rem solid black;
+    border-radius: 1%;
+    align-items: center;
+}
+
+div.prescription_history_null h5 {
+    margin-top: 2rem;
+}

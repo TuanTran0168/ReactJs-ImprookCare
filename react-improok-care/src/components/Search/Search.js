@@ -55,7 +55,7 @@ const Search = () => {
         }
     }, [])
 
-    const [selectedOption, setSelectedOption] = useState(null);
+    const [selectedOption, setSelectedOption] = useState("all");
 
     // const handleOptionChange = (option) => {
     //     setSelectedOption(option);

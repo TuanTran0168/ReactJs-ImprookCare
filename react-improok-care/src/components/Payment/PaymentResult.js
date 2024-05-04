@@ -20,21 +20,6 @@ function PaymentResult() {
     const [transactionStatus, setTransactionStatus] = useState("");
     const [signatureValid, setSignatureValid] = useState(false);
 
-    const {
-        vnp_Amount,
-        vnp_BankCode,
-        vnp_BankTranNo,
-        vnp_CardType,
-        vnp_OrderInfo,
-        vnp_PayDate,
-        vnp_ResponseCode,
-        vnp_TmnCode,
-        vnp_TransactionNo,
-        vnp_TransactionStatus,
-        vnp_TxnRef,
-        vnp_SecureHash,
-    } = useSearchParams();
-
     const [q] = useSearchParams();
 
     useEffect(() => {
@@ -90,7 +75,7 @@ function PaymentResult() {
     const checkPayment = async () => {
         try {
             console.log(q.get("vnp_OrderInfo"));
-            let payStatus = q.get("vnp_OrderInfo").substring(0, 1);
+            let payStatus = q.get("vnp_OrderInfo").sublet(0, 1);
             let prescriptionId = q.get("vnp_OrderInfo").split("-")[1];
             let paymentTxnRef = q.get("vnp_TxnRef");
             console.log(payStatus);
@@ -109,7 +94,7 @@ function PaymentResult() {
                 });
                 console.log(res.data)
             } else {
-                console.log("Lệch rate");
+                console.log("Có lỗi xảy ra!");
             }
         } catch (error) {
             console.log(error)
@@ -168,12 +153,12 @@ function PaymentResult() {
                     </label>
                 </div>
                 <div className="form-group">
-                    <button><Link to="/">Quay lại trang chủ</Link></button>
+                    <button><Link to="/">Về trang chủ</Link></button>
                 </div>
             </div>
             <p>&nbsp;</p>
             <footer className="footer">
-                <p>&copy; IMPROOK_CARE 2023</p>
+                <p>&copy; IMPROOK_CARE 2024</p>
             </footer>
         </div>
     );

@@ -2,7 +2,7 @@ import { useContext, useRef, useState } from "react";
 import { UserContext } from "../../App";
 import "./Personal.css";
 import { Form, Image } from "react-bootstrap";
-import { authApi, endpoints } from "../../configs/Apis";
+import Apis, { authApi, endpoints } from "../../configs/Apis";
 import cookie from "react-cookies";
 import { toast } from "react-toastify";
 import avatar_user from "../../assets/images/user.png"

@@ -1,0 +1,87 @@
+div.consultant_wrapper>div {
+    display: flex;
+    max-width: 85rem;
+    flex-wrap: wrap;
+    gap: 3rem;
+    margin: auto;
+    justify-content: center;
+}
+
+div.consultant_header {
+    display: flex;
+    flex-direction: column;
+    /* justify-content: center; */
+    align-items: center;
+}
+
+div.consultant_content {
+    max-height: 22rem;
+    overflow: auto;
+}
+
+div.consultant_send {
+    width: 100%;
+}
+
+div.consultant_send_chat {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    gap: 1rem;
+}
+
+div.consultant_send_chat>div {
+    /* border: 2px solid black; */
+    width: 100%;
+    border-radius: 1rem;
+    display: flex;
+    gap: 1.5rem;
+    height: 2.7rem;
+    margin-left: 3rem;
+}
+
+div.consultant_send_chat>div>input.input-text {
+    width: 85%;
+    /* outline: none; */
+    border: 2px solid black;
+    padding: 0.75rem;
+    border-radius: 1rem;
+}
+
+div.consultant_send_chat>div>button {
+    width: 15%;
+    height: 2.5rem;
+    outline: 0;
+    grid-gap: 8px;
+    align-items: center;
+    background-color: #183e9f;
+    color: #fff !important;
+    border: 1px solid #000;
+    border-radius: 1rem;
+    cursor: pointer;
+    display: inline-flex;
+    flex-shrink: 0;
+    font-size: 16px;
+    gap: 8px;
+    justify-content: center;
+    line-height: 1.5;
+    overflow: hidden;
+    padding: 8px 12px;
+    text-decoration: none;
+    text-overflow: ellipsis;
+    transition: all .14s ease-out;
+    white-space: nowrap;
+}
+
+div.consultant_null>p {
+    width: 90%;
+    border: 1px solid gray;
+    padding: 0.75rem;
+    margin: auto;
+    border-radius: 1rem;
+}
+
+div.consultant_null {
+    width: 100%;
+}

@@ -5,8 +5,6 @@ import { useNavigate } from "react-router-dom";
 import { Form } from "react-bootstrap";
 import Apis, { authApi, endpoints } from "../../configs/Apis";
 import { toast } from "react-toastify";
-import DoctorMenu from "../../layout/DoctorLayout/DoctorMenu";
-// import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import 'react-time-picker/dist/TimePicker.css';
 import 'react-clock/dist/Clock.css';
@@ -30,7 +28,7 @@ const CustomSchedule = () => {
     const [loading, setLoading] = useState(false);
     const [timeSlotId, setTimeSlotId] = useState(null);
 
-    const [selectedEvent, setSelectedEvent] = useState(null)
+    const [selectedEvent, setSelectedEvent] = useState(null);
 
     useEffect(() => {
         setEvents([])
@@ -247,39 +245,19 @@ const CustomSchedule = () => {
                                                 <DateTimePicker onChange={onTimeBChange} value={selectedDate} clearIcon={null} />
                                             </div>
                                             <div className="Schedule_Profile_Option">
-                                                <Form.Label style={{ width: "30%" }}>Thời gian kết thúc</Form.Label>
+                                                <Form.Label style={{ width: "30%" }}>Kết thúc</Form.Label>
                                                 <DateTimePicker onChange={onTimeEChange} value={timeE} clearIcon={null} />
                                             </div>
                                         </Modal.Body>
                                         <Modal.Footer>
-                                            <Button variant="secondary" onClick={() => setShowModal(false)}>Close</Button>
-                                            <Button variant="primary" onClick={saveEvent}>Save changes</Button>
+                                            <Button variant="secondary" onClick={() => setShowModal(false)}>Đóng</Button>
+                                            <Button variant="primary" onClick={saveEvent}>Lưu</Button>
                                         </Modal.Footer>
                                     </Modal.Dialog>
                                 </div>
                             )}
                         </div>
                     </div>
-                    {/* <div className="Schedule_Option">
-                        <div className="Schedule_Profile_Option">
-                            <Form.Label style={{ width: "30%" }}>Chọn hồ sơ</Form.Label>
-                            <select className="value" defaultValue={selectedProfileDoctorId} onChange={(e) => profileDoctorChange(e)} onFocus={(e) => profileDoctorChange(e)}>
-                                {Object.values(profileDoctorByUserId).map(pd => <option key={pd.profileDoctorId} value={pd.profileDoctorId}>{pd.name}</option>)}
-                            </select>
-                        </div>
-                        <div className="Schedule_Profile_Option">
-                            <Form.Label style={{ width: "30%" }}>Thời gian bắt đầu</Form.Label>
-                            <DateTimePicker onChange={onTimeBChange} value={timeB} clearIcon={null} />
-                        </div>
-                        <div className="Schedule_Profile_Option">
-                            <Form.Label style={{ width: "30%" }}>Thời gian kết thúc</Form.Label>
-                            <DateTimePicker onChange={onTimeEChange} value={timeE} clearIcon={null} />
-                        </div>
-                        <div className="Schedule_Profile_Option">
-                            <Form.Label style={{ width: "30%" }}>Ghi chú</Form.Label>
-                            <Form.Control as="textarea" aria-label="With textarea" value={note} onChange={(e) => setNote(e.target.value)} placeholder="Nhập nội dung ghi chú" />
-                        </div>
-                    </div> */}
                 </div>
             </div>
         </div >

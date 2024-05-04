@@ -217,6 +217,7 @@ const Schedule = () => {
         console.log(newDate);
         setScheduleDate(newDate);
     }
+
     // const timeSlotClickCheck = (timeSlotId) => {
     //     const isSelected = selectedTimeSlots.includes(timeSlotId);
 
@@ -298,7 +299,7 @@ const Schedule = () => {
                             <div className="TimeSlot_Option">
                                 {loading === true ? <Spinner /> :
                                     <>
-                                        {Object.values(timeSlot).map((ts, index) => {
+                                        {Object.values(timeSlot).map(ts => {
                                             const timeBegin = new Date(ts.timeSlot.timeBegin).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
                                             const timeEnd = new Date(ts.timeSlot.timeEnd).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
                                             const isSelected = selectedTimeSlots.includes(ts.timeSlot.timeSlotId);

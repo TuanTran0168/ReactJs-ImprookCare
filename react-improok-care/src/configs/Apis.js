@@ -2,7 +2,7 @@ import axios from "axios";
 import cookie from "react-cookies";
 
 const SERVER_CONTEXT = "/IMPROOK_CARE";
-const SERVER = "http://localhost:2024"
+const SERVER = "http://localhost:2024";
 
 export const endpoints = {
     "login": `${SERVER_CONTEXT}/api/public/login/`,
@@ -37,6 +37,7 @@ export const endpoints = {
     "forgot-password": `${SERVER_CONTEXT}/api/public/forgot-password/`,
     "change-password": `${SERVER_CONTEXT}/api/auth/change-password/`,
     "booking-user-view": `${SERVER_CONTEXT}/api/auth/booking-user-view/`,
+    "booking-user-view-page": `${SERVER_CONTEXT}/api/auth/booking-user-view-page/`,
     "booking-doctor-view": `${SERVER_CONTEXT}/api/auth/booking-doctor-view/`,
     "accept-booking": `${SERVER_CONTEXT}/api/auth/doctor/accept-booking/`,
     "deny-booking": `${SERVER_CONTEXT}/api/auth/doctor/deny-booking/`,
@@ -93,7 +94,24 @@ export const endpoints = {
     "load-custom-timeslot": (profileDoctorId) => `${SERVER_CONTEXT}/api/auth/doctor/profileDoctor/${profileDoctorId}/timeSlot-for-doctor/`,
     "seen-message": (messageId) => `${SERVER_CONTEXT}/api/auth/message/${messageId}/seenMessage/`,
     "search-function": `${SERVER_CONTEXT}/api/public/search-profile-doctors/`,
-    "add-notification": `${SERVER_CONTEXT}/api/auth/add-notification/`
+    "add-notification": `${SERVER_CONTEXT}/api/auth/add-notification/`,
+    "add-chatgpt-consult": `${SERVER_CONTEXT}/api/auth/chatgptConsult/add-chatgptConsult/`,
+    "load-chatgpt-consult": (userId) => `${SERVER_CONTEXT}/api/auth/user/${userId}/get-chatgptConsult/`,
+    "add-payment": `${SERVER_CONTEXT}/api/auth/add-payment/`,
+    "check-payment": `${SERVER_CONTEXT}/api/public/querydr/`,
+    "load-payment-history": (profilePatientId) => `${SERVER_CONTEXT}/api/auth/profile-patient/${profilePatientId}/payment-history/`,
+    "add-test-result": `${SERVER_CONTEXT}/api/auth/doctor/add-test-result/`,
+    "return-test-result": `${SERVER_CONTEXT}/api/auth/nurse/return-test-result/`,
+    "update-test-result": `${SERVER_CONTEXT}/api/auth/doctor/update-test-result/`,
+    "create-re-examination": `${SERVER_CONTEXT}/api/auth/create-booking-re-examination/`,
+    "load-test-service": `${SERVER_CONTEXT}/api/public/search-test-service/`,
+    "load-test-result": `${SERVER_CONTEXT}/api/auth/search-test-result/`,
+    "create-pdf": `${SERVER_CONTEXT}/api/public/generate-pdf/`,
+    "load-test-service-detail": (testResultId) => `${SERVER_CONTEXT}/api/auth/test-result/${testResultId}/`,
+    "prescription-by-booking": (bookingId) => `${SERVER_CONTEXT}/api/auth/booking/${bookingId}/prescription/`,
+    "prescription-detail-reminder": (prescriptionId) => `${SERVER_CONTEXT}/api/auth/prescription/${prescriptionId}/prescription-detail-reminder/`,
+    "medical-reminder": (prescriptionId) => `${SERVER_CONTEXT}/api/auth/prescriptionId/${prescriptionId}/medical-reminder/`,
+    "medical-schedule": (prescriptionId) => `${SERVER_CONTEXT}/api/auth/prescriptionId/${prescriptionId}/medical-schedule/`,
 
     /*
     http://localhost:2024/IMPROOK_CARE/api/public/processReturnVNPAY/?vnp_Amount=13840000&vnp_BankCode=NCB&vnp_BankTranNo=VNP14141795&vnp_CardType=ATM&vnp_OrderInfo=Tuan+Tran+rich+kid+VN+pay%3A65331993&vnp_PayDate=20231013170840&vnp_ResponseCode=00&vnp_TmnCode=86LMDA46&vnp_TransactionNo=14141795&vnp_TransactionStatus=00&vnp_TxnRef=65331993&vnp_SecureHash=259b02cb3fcbe959cf2de9ff1d57d6febeb16c70dbe697248c0cb1f70e7383f9e865e6ba1b8435b30578ab5c645cc79a704986c7f2002bb6ea691a45d2e6adf3

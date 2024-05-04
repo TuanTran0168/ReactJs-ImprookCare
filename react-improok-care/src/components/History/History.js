@@ -12,7 +12,6 @@ import AccordionDetails from '@mui/material/AccordionDetails';
 import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { toast } from "react-toastify";
-import UserMenu from "../../layout/UserMenu/UserMenu";
 import reminder from "../../assets/images/reminder.png"
 import Pagination from "../../utils/Pagination"
 
@@ -40,11 +39,13 @@ const History = () => {
     //     "returnUrl": "http://localhost:3000/medicalrecord"
     // })
     // let tempTotal = 0;
+
     const loadProfilePatient = async () => {
         try {
-            let res = await authApi().get(endpoints['load-profile-patient'](current_user.userId))
-            setProfilePatient(res.data);
-            console.log(res.data);
+            let e = endpoints['load-profile-patient'](current_user?.userId)
+            let res = await authApi().get(e)
+            setProfilePatient(res.data.content);
+            console.log(res.data.content);
         } catch (error) {
             console.log(error)
         }
@@ -52,7 +53,7 @@ const History = () => {
 
     useEffect(() => {
         loadProfilePatient();
-    }, [current_user.userId])
+    }, [current_user?.userId])
 
     const profilePatientChange = (e) => {
         const selectedId = e.target.value;
@@ -122,7 +123,8 @@ const History = () => {
         const process = async () => {
             try {
                 setLoading(true);
-                let res = await authApi().get(endpoints['prescription-detail-by-prescription-id'](pl.prescriptionId))
+                // let res = await authApi().get(endpoints['prescription-detail-by-prescription-id'](pl.prescriptionId))
+                let res = await authApi().get(endpoints['prescription-detail-reminder'](pl.prescriptionId))
                 setPrescriptionDetail(res.data)
                 console.log(res.data);
                 setLoading(false);
@@ -166,7 +168,6 @@ const History = () => {
 
     const prescriptionPages = Array.from({ length: totalPrescriptionPages }, (_, index) => index + 1);
     const handlePrescriptionPageChange = (pageNumber) => {
-        // TODO: Xử lý sự kiện khi người dùng chuyển trang
         setSelectedPage(pageNumber);
         loadPrescriptionPage(pageNumber);
         console.log(`Chuyển đến trang ${pageNumber}`);
@@ -237,12 +238,12 @@ const History = () => {
                 </div> */}
                 <div className="MedicalRecords_Middle">
                     <div className="MedicalRecords_Middle_Header">
-                        <h3>Lịch sử khám</h3>
+                        <h3>Lịch sử đơn thuốc</h3>
                     </div>
                     <div className="MedicalRecords_Middle_Content">
                         <div className="MedicalRecords_Middle_Container">
                             <div className="MedicalRecords_Middle_Info">
-                                <input type="text" placeholder="Nhập chuẩn đoán, triệu chứng..."></input>
+                                <input type="text" placeholder="Nhập tên hồ sơ cần tìm..."></input>
                                 <div className="MedicalRecords_List">
                                     {profilePatient.length === 0 ? <>
                                         <div className="MedicalRecords_List_404">
@@ -349,7 +350,7 @@ const History = () => {
                                                                                 <tr>
                                                                                     <th>#</th>
                                                                                     <th>Tên thuốc</th>
-                                                                                    <th>Hướng dẫn sử dụng</th>
+                                                                                    <th>Chỉ định</th>
                                                                                     <th>Số lượng</th>
                                                                                     <th>Đơn giá</th>
                                                                                     <th>Thành tiền</th>
@@ -360,15 +361,35 @@ const History = () => {
                                                                                 tempTotal += presd.quantity * presd.unitPrice;
                                                                             })} */}
                                                                                 {Object.values(prescriptionDetail).map(presd => {
-                                                                                    tempTotal += presd.quantity * presd.unitPrice
+                                                                                    tempTotal += presd.prescriptionDetail.quantity * presd.prescriptionDetail.unitPrice
+                                                                                    const timeReminderNames = presd.timeReminders.map(timeReminder => timeReminder.timeReminderId.timeReminderName);
                                                                                     return <>
-                                                                                        <tr key={presd.prescriptionDetailId}>
-                                                                                            <td>{presd.prescriptionDetailId}</td>
-                                                                                            <td>{presd.medicineName}</td>
-                                                                                            <td>{presd.usageInstruction}</td>
-                                                                                            <td>{presd.quantity}</td>
-                                                                                            <td>{presd.unitPrice} VNĐ</td>
-                                                                                            <td>{presd.quantity * presd.unitPrice} VNĐ</td>
+                                                                                        <tr key={presd.prescriptionDetail.prescriptionDetailId}>
+                                                                                            <td>{presd.prescriptionDetail.prescriptionDetailId}</td>
+                                                                                            <td>{presd.prescriptionDetail.medicineName}</td>
+                                                                                            <td>
+                                                                                                <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'center', justifyContent: 'center' }}>
+                                                                                                    <span>
+                                                                                                        <input className="Remember_Check" type="checkbox" checked={timeReminderNames.includes('Sáng')} />
+                                                                                                        Sáng
+                                                                                                    </span>
+                                                                                                    <span>
+                                                                                                        <input className="Remember_Check" type="checkbox" checked={timeReminderNames.includes('Trưa')} />
+                                                                                                        Trưa
+                                                                                                    </span>
+                                                                                                    <span>
+                                                                                                        <input className="Remember_Check" type="checkbox" checked={timeReminderNames.includes('Chiều')} />
+                                                                                                        Chiều
+                                                                                                    </span>
+                                                                                                    <span>
+                                                                                                        <input className="Remember_Check" type="checkbox" checked={timeReminderNames.includes('Tối')} />
+                                                                                                        Tối
+                                                                                                    </span>
+                                                                                                </div>
+                                                                                            </td>
+                                                                                            <td>{presd.prescriptionDetail.quantity}</td>
+                                                                                            <td>{presd.prescriptionDetail.unitPrice} VNĐ</td>
+                                                                                            <td>{presd.prescriptionDetail.quantity * presd.prescriptionDetail.unitPrice} VNĐ</td>
                                                                                         </tr>
                                                                                     </>
                                                                                     // { tempTotal += presd.quantity * presd.unitPrice } {/* Cập nhật giá trị tempTotal */ }

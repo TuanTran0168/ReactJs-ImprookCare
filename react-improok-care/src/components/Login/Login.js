@@ -10,12 +10,8 @@ import { toast } from "react-toastify";
 import cookie from "react-cookies";
 import { UserContext, WebSocketContext } from "../../App";
 import Apis, { authApi, endpoints } from "../../configs/Apis";
-import SockJS from "sockjs-client";
-import { over } from "stompjs";
 import { reConnectNotification } from "../../utils/WebSocket";
-// import { connectNotification } from "../../utils/WebSocket";
 
-var clientStomp = null
 var connectNoti = null
 
 const Login = () => {
@@ -26,19 +22,6 @@ const Login = () => {
     const [loading, setLoading] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
     const [q] = useSearchParams();
-
-    // const onErrorNotification = (err) => {
-    //     console.log(err);
-    // }
-
-    // const onPrivateNotification = (payload) => {
-    //     console.log("ĐÂY LÀ PAYLOAD");
-    //     console.log(payload);
-    //     var payloadData = JSON.parse(payload.body);
-    //     console.log("PAYLOAD LÀM SẠCH");
-    //     console.log(payloadData);
-    //     toast.info(payloadData.notificationContent);
-    // }
 
     const login = (evt) => {
         evt.preventDefault();
@@ -59,7 +42,6 @@ const Login = () => {
 
                 console.log(data)
                 cookie.save('user', data)
-                // connectNotification(data.userId);
 
                 // connectNoti = connectNotification(data.userId);
                 connectNoti = reConnectNotification(false, data.userId)
@@ -78,16 +60,6 @@ const Login = () => {
                 console.log("Login", connectNoti);
                 if (res.status === 200)
                     toast.success("Đăng nhập thành công!");
-                // const connectNotification = () => {
-                //     let Sock = new SockJS('http://localhost:2024/IMPROOK_CARE/api/public/notification/')
-                //     clientStomp = over(Sock)
-                //     clientStomp.connect({}, onConnectedNotification, onErrorNotification)
-                // }
-
-                // const onConnectedNotification = () => {
-                //     localStorage.setItem('isConnected', 'true');
-                //     clientStomp.subscribe('/user/' + data.userId + '/notification', onPrivateNotification);
-                // }
 
                 // connectNotification(clientStomp, data.userId);
             } catch (err) {

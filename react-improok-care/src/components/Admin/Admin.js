@@ -467,11 +467,6 @@ const Admin = () => {
             })
             setStatsDataServicePriceAllPaid(tempStatsDataServicePriceAllPaid);
             setStatsLabelsServicePriceAllPaid(tempStatsLabelsServicePriceAllPaid);
-            // for (let item in res.data) {
-            //     setStatsDataUserByBooking(item[2]);
-            //     setStatsLabelsUserByBooking(item[1]);
-            //     console.log(item[1]);
-            // }
         } catch (error) {
             console.log(error);
         }
@@ -620,7 +615,6 @@ const Admin = () => {
                 return <>
                     <Revenue />
                 </>
-            //Thái
             case "patient":
                 return <>
                     <div>Nội dung thống kê bệnh nhân</div>

@@ -2,20 +2,19 @@ import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../../App";
 import "./Appointment.css";
 import { authApi, endpoints } from "../../configs/Apis";
-import printer from "../../assets/images/printer.png"
-import { Badge } from "react-bootstrap";
-import schedule from "../../assets/images/schedule.png"
+import { NavLink, Outlet, useNavigate } from "react-router-dom";
 
 const Appointment = () => {
     const [current_user,] = useContext(UserContext);
     const [booking, setBooking] = useState([]);
     const [bookingDetail, setBookingDetail] = useState(null);
     const [selectedBooking, setSelectedBooking] = useState('');
+    const nav = useNavigate()
 
     const loadUserBooking = async () => {
         try {
             let res = await authApi().post(endpoints['booking-user-view'], {
-                "userId": current_user.userId
+                "userId": current_user?.userId
             })
             setBooking(res.data);
             console.log(res.data);
@@ -26,16 +25,16 @@ const Appointment = () => {
 
     useEffect(() => {
         loadUserBooking();
-    }, [current_user.userId])
+        nav("/user/appointment/paid")
+        // Load lại trang vẫn giữ nguyên tab đang chọn
+    }, [current_user?.userId])
 
     const viewBookingDetail = (evt, b) => {
         evt.preventDefault();
-        // setSelectedBooking(b[8]);
-        console.log(b[8])
+        console.log(b[8]);
 
         const process = async () => {
             try {
-                // console.log(selectedBooking)
                 let res = await authApi().post(endpoints['booking-details-user-view'], {
                     "bookingId": b[8]
                 })
@@ -67,15 +66,63 @@ const Appointment = () => {
         process();
     }
 
+    const [selectedItem, setSelectedItem] = useState(null);
+
+    const handleItemClick = (item) => {
+        setSelectedItem(item);
+    };
+
     return <>
         <div className="Appointment_Wrapper">
             <div className="Appointment">
+                <div className="Appointment_Menu">
+                    <div>
+                        <NavLink
+                            activeClassName="active"
+                            onClick={() => handleItemClick("paid")}
+                            to="paid"
+                        >
+                            <span className="text">Chờ thanh toán</span>
+                        </NavLink>
+                        <NavLink
+                            activeClassName="active"
+                            onClick={() => handleItemClick("waited")}
+                            to="waited">
+                            <span className="text">Chờ tiếp nhận</span>
+                        </NavLink>
+                        <NavLink
+                            activeClassName="active"
+                            onClick={() => handleItemClick("confirmed")}
+                            to="confirmed">
+                            <span className="text">Đã tiếp nhận</span>
+                        </NavLink>
+                        <NavLink
+                            activeClassName="active"
+                            onClick={() => handleItemClick("denied")}
+                            to="denied">
+                            <span className="text">Đã từ chối</span>
+                        </NavLink>
+                        <NavLink
+                            activeClassName="active"
+                            onClick={() => handleItemClick("canceled")}
+                            to="canceled">
+                            <span className="text">Đã hủy</span>
+                        </NavLink>
+                        <NavLink
+                            activeClassName="active"
+                            onClick={() => handleItemClick("completed")}
+                            to="completed">
+                            <span className="text">Đã khám</span>
+                        </NavLink>
+                    </div>
+                </div>
+                <Outlet />
                 {/* <div className="Appointment_Left">
                     <div className="Appointment_Left_Content">
                         <UserMenu />
                     </div>
                 </div> */}
-                <div className="Appointment_Middle">
+                {/* <div className="Appointment_Middle">
                     <div className="Appoitment_Middle_Header">
                         <h3>Lịch khám</h3>
                     </div>
@@ -96,8 +143,8 @@ const Appointment = () => {
                                                     const isCancelled = b[7] === true;
                                                     const created_date = new Date(b[6]);
 
-                                                    const formattedDate = created_date.toLocaleDateString(); // Định dạng ngày
-                                                    const formattedTime = created_date.toLocaleTimeString(); // Định dạng giờ
+                                                    const formattedDate = created_date.toLocaleDateString();
+                                                    const formattedTime = created_date.toLocaleTimeString();
                                                     return <>
                                                         <div className="Appointment_List_Detail" value={selectedBooking} onClick={(e) => viewBookingDetail(e, b)}>
                                                             <li key={b[8]} style={{ fontWeight: 'bold', fontSize: '1.25rem' }} value={b[8]}>{b[4]}</li>
@@ -116,8 +163,8 @@ const Appointment = () => {
                             </div>
                         </div>
                     </div>
-                </div>
-                <div className="Appointment_Right">
+                </div> */}
+                {/* <div className="Appointment_Right">
                     <section>
                         <div className="Appointment_Right_Header"><h3 className="text-center mb-4">Thông tin lịch khám</h3></div>
                         <div className="Appointment_Right_Content">
@@ -129,8 +176,6 @@ const Appointment = () => {
                             </> :
                                 <>
                                     {Object.values(bookingDetail).map(bd => {
-                                        // const formattedDate = created_date.toLocaleDateString(); // Định dạng ngày
-                                        // const formattedTime = created_date.toLocaleTimeString(); // Định dạng giờ
                                         return <>
                                             <div className="Doctor_In4">
                                                 <div className="Doctor_Avatar_Name">
@@ -201,7 +246,7 @@ const Appointment = () => {
                                 </>}
                         </div>
                     </section>
-                </div>
+                </div> */}
             </div>
         </div>
     </>

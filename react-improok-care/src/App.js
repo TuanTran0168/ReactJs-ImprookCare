@@ -54,6 +54,31 @@ import UpdateMedicine from "./components/Admin/UpdateMedicine";
 import WebSocketReducer from "./reducers/WebSocketReducer";
 import BookingResultReducer from "./reducers/BookingResultReducer";
 import BookingResult from "./components/BookingResult/BookingResult";
+import ConsultantChat from "./components/ConsultantChat/ConsultantChat";
+import ConfirmedAppointment from "./components/Appointment/ConfirmedAppointment";
+import WaitedAppointment from "./components/Appointment/WaitedAppointment";
+import DeniedAppointment from "./components/Appointment/DeniedAppointment";
+import PaidAppointment from "./components/Appointment/PaidAppointment";
+import CanceledAppointment from "./components/Appointment/CanceledAppointment";
+import CompletedAppointment from "./components/Appointment/CompletedAppointment";
+import AppointmentDetail from "./components/Appointment/AppointmentDetail";
+import Payment from "./components/Payment/Payment";
+import PaymentHistory from "./components/Payment/PaymentHistory";
+import PrescriptionHistory from "./components/PrescriptionHistory/PrescriptionHistory";
+import ReExamination from "./components/Re-examination/ReExamination";
+import TestService from "./components/TestService/TestService";
+import Examination from "./components/Examination/Examination";
+import Nurse from "./components/Nurse/Nurse";
+import MedicalTest from "./components/Nurse/MedicalTest";
+import TestPdf from "./components/Test/TestPdf";
+import CheckedTest from "./components/Nurse/CheckedTest";
+import UncheckedTest from "./components/Nurse/UncheckedTest";
+import CheckTestService from "./components/TestService/CheckTestService";
+import UncheckTestService from "./components/TestService/UncheckTestService";
+import UpdatePrescription from "./components/Doctor/UpdatePrescription";
+import Reminder from "./components/Reminder/Reminder";
+import PrescriptionReminder from "./components/Reminder/PrescriptionReminder";
+import CustomReminder from "./components/Reminder/CustomReminder";
 
 export const UserContext = createContext();
 export const BookingManagementContext = createContext();
@@ -79,6 +104,7 @@ const App = () => {
               <Routes>
                 <Route exact path='/' element={<Home />} />
                 <Route path='/login' element={<Login />} />
+                <Route path='/testpdf' element={<TestPdf />} />
                 <Route path='/register' element={<Register />} />
                 <Route path='/forgetpassword' element={<ForgetPassword />} />
                 <Route path='/collaboration' element={<Collaboration />} />
@@ -89,14 +115,29 @@ const App = () => {
                 <Route path='/doctor/:profileDoctorId' element={<BookingDoctor />} />
                 <Route path='/booking/doctor/:profileDoctorId' element={<BookingDetail />} />
                 <Route path='/paymentresult' element={<PaymentResult />} />
+                <Route path='/payment' element={<Payment />} />
                 <Route path='/search' element={<Search />} />
                 <Route path='/zego' element={<ZegoVideo />} />
+                <Route path='/appointmentdetail' element={<AppointmentDetail />} />
                 <Route path='/user' element={<User />}>
                   <Route path='personal' element={<Personal />} />
-                  <Route path='appointment' element={<Appointment />} />
+                  <Route path='appointment' element={<Appointment />} >
+                    <Route path='confirmed' element={<ConfirmedAppointment />} />
+                    <Route path='waited' element={<WaitedAppointment />} />
+                    <Route path='paid' element={<PaidAppointment />} />
+                    <Route path='denied' element={<DeniedAppointment />} />
+                    <Route path='canceled' element={<CanceledAppointment />} />
+                    <Route path='completed' element={<CompletedAppointment />} />
+                  </Route>
                   <Route path='history' element={<History />} />
+                  <Route path='paymenthistory' element={<PaymentHistory />} />
+                  <Route path='reminder' element={<Reminder />} >
+                    <Route path='prescriptionreminder' element={<PrescriptionReminder />} />
+                    <Route path='customreminder' element={<CustomReminder />} />
+                  </Route>
                   <Route path='profile' element={<Profile />} />
                   <Route path='message' element={<Message />} />
+                  <Route path='consultantchat' element={<ConsultantChat />} />
                 </Route>
                 <Route path='/doctor' element={<Doctor />} >
                   <Route path='doctorinformation' element={<DoctorInformation />} />
@@ -106,7 +147,16 @@ const App = () => {
                   <Route path='profiledoctor' element={<ProfileDoctor />} />
                   <Route path='doctormessage' element={<DoctorMessage />} />
                   <Route path='videocall' element={<VideoCall />} />
-                  <Route path='prescription' element={<Prescription />} />
+                  <Route path='updateprescription/:bookingId' element={<UpdatePrescription />} />
+                  <Route path='examination' element={<Examination />}>
+                    <Route path='prescription' element={<Prescription />} />
+                    <Route path='prescriptionhistory' element={<PrescriptionHistory />} />
+                    <Route path='testservice' element={<TestService />}>
+                      <Route path='checktestservice' element={<CheckTestService />} />
+                      <Route path='unchecktestservice' element={<UncheckTestService />} />
+                    </Route>
+                    <Route path='reexamination' element={<ReExamination />} />
+                  </Route>
                   {/* <Route path='zego' element={<ZegoVideo />} /> */}
                 </Route>
                 <Route path='/admin' element={<Admin />} >
@@ -120,6 +170,12 @@ const App = () => {
                   <Route path='addmedicine' element={<AddMedicine />} />
                   <Route path='collab' element={<Collab />} />
                   <Route path='revenue' element={<Revenue />} />
+                </Route>
+                <Route path='/nurse' element={<Nurse />}>
+                  <Route path='medicaltest' element={<MedicalTest />}>
+                    <Route path='checked' element={<CheckedTest />} />
+                    <Route path='unchecked' element={<UncheckedTest />} />
+                  </Route>
                 </Route>
               </Routes>
               <ScrollToTop />

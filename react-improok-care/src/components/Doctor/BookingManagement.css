@@ -41,7 +41,7 @@ div.BookingManagement_Right_Body_1 {
 }
 
 .List_Action li.active {
-    background-color: blue;
+    background-color: #183e9f;
     color: white;
     font-weight: bold;
 }

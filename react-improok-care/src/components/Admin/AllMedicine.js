@@ -21,7 +21,6 @@ const AllMedicine = () => {
 
     const medicinePages = Array.from({ length: totalMedicinePages }, (_, index) => index + 1);
     const handleMedicinePageChange = (pageNumber) => {
-        // TODO: Xử lý sự kiện khi người dùng chuyển trang
         setSelectedPage(pageNumber);
         loadMedicinePage(pageNumber);
         console.log(`Chuyển đến trang ${pageNumber}`);

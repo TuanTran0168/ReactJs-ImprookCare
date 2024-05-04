@@ -1,0 +1,43 @@
+div.NurseMenu {
+    display: grid;
+    list-style: none;
+    background: white;
+}
+
+.NurseMenu>div>a {
+    text-decoration: none;
+    color: black;
+    width: 100%;
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
+    font-size: 16px;
+}
+
+.NurseMenu>div>div {
+    width: 100%;
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+    /* justify-content: center; */
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.active {
+    background-color: #183e9f;
+    /* padding-left: 10%; */
+    border-radius: 0.25rem;
+}
+
+.active .icon {
+    color: white;
+}
+  
+.active .text {
+    color: white;
+}

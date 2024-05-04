@@ -21,7 +21,7 @@ const Profile = () => {
     const [personalAddress, setPersonalAddress] = useState();
     const [email, setEmail] = useState();
     const [relationship, setRelationship] = useState();
-    const [birthday, setBirthday] = useState(null)
+    const [birthday, setBirthday] = useState(null);
 
     const [updateName, setUpdateName] = useState();
     const [updatePhonenumber, setUpdatePhonenumber] = useState();
@@ -60,6 +60,8 @@ const Profile = () => {
 
     const currentDate = new Date();
     const currentFormattedDate = currentDate.toISOString().split('T')[0];
+
+    const [lockProfile, setLockProfile] = useState([])
 
     const handleRelationshipChange = (e) => {
         setUpdateRelationship(e);
@@ -102,9 +104,24 @@ const Profile = () => {
 
     const loadProfilePatient = async () => {
         try {
-            let res = await authApi().get(endpoints['load-profile-patient'](current_user.userId))
-            setProfilePatient(res.data);
-            console.log(res.data);
+            let e = endpoints['load-profile-patient'](current_user?.userId)
+            let res = await authApi().get(e)
+            setProfilePatient(res.data.content);
+            console.log(res.data.content);
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    const loadLockProfile = async () => {
+        try {
+            let endpoint = endpoints['load-profile-patient'](current_user?.userId)
+            endpoint += `?isLock=false`
+            console.log(endpoint)
+            let response = await authApi().get(endpoint)
+            setLockProfile(response.data.content);
+            console.log(response.data.content);
+            console.log(response.data.content.length);
         } catch (error) {
             console.log(error)
         }
@@ -114,11 +131,14 @@ const Profile = () => {
         loadProfilePatient();
     }, [current_user?.userId])
 
+    useEffect(() => {
+        loadLockProfile()
+    }, [lockProfile])
+
     const viewProfilePatient = (evt, pp) => {
         evt.preventDefault();
         console.log("pp" + pp.profilePatientId)
         setSelectedProfile(pp.profilePatientId);
-        // console.log(selectedProfile);
 
         const process = async () => {
             try {
@@ -147,7 +167,7 @@ const Profile = () => {
                 setLoading(true);
                 ///console.log(name + '' + phonenumber + '' + provincename + '' + districtname + '' + wardname + '' + personalAddress + '' + email + '' + relationship)
                 const dateInput = document.getElementById('birthdayInput');
-                const selectedDate = dateInput.value; // Lấy giá trị ngày từ trường input
+                const selectedDate = dateInput.value;
 
                 const birthDate = new Date(selectedDate).toISOString().split('T')[0];
 
@@ -171,7 +191,6 @@ const Profile = () => {
                 setLoading(false);
                 setAddProfileInfo(false);
                 loadProfilePatient();
-
             } catch (error) {
                 console.log(error);
                 toast.error("Có lỗi xảy ra!")
@@ -195,7 +214,7 @@ const Profile = () => {
                 // setUpdateDistrictName("Vue.js");
                 // setUpdateWardName("Nue.js");
                 const dateInput = document.getElementById('dateInput');
-                const selectedDate = dateInput.value; // Lấy giá trị ngày từ trường input
+                const selectedDate = dateInput.value;
 
                 const birthDate = new Date(selectedDate).toISOString().split('T')[0]; // Định dạng lại ngày thành "yyyy-MM-dd"
 
@@ -279,7 +298,7 @@ const Profile = () => {
     //     setSelectedProfile(e.target.value);
     // }
 
-    if (profilePatient !== null && profilePatient.length !== 0) {
+    if ((profilePatient !== null && profilePatient.length !== 0) && lockProfile.length !== 0) {
         let next = q.get("next")
         if (next !== null)
             return <Navigate to={next} />

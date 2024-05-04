@@ -17,7 +17,7 @@ const Footer = () => {
                     </ul>
                 </div>
                 <div className="Footer1_2">
-                    <label style={{ fontWeight: 600 }}>Về I'MPROOK Care</label>
+                    <label style={{ fontWeight: 600 }}>Về I'MPROOK CARE</label>
                     <ul>
                         <li>Giới thiệu về I'MPROOK Care</li>
                         <li>Ban điều hành</li>
@@ -31,7 +31,7 @@ const Footer = () => {
                         <li>Đặt khám Bác sĩ</li>
                         <li>Đặt khám Bệnh viện</li>
                         <li>Đặt khám Phòng khám</li>
-                        <li>I'MPROOK Store</li>
+                        <li>I'MPROOK STORE</li>
                     </ul>
                 </div>
                 <div className="Footer1_4">
@@ -69,7 +69,7 @@ const Footer = () => {
                 </div>
             </div>
             <div className="Footer2">
-                <p>Các thông tin trên I'MPROOK Care chỉ dành cho mục đích tham khảo, tra cứu và không thay thế cho việc chuẩn đoán hoặc điều trị y khoa.
+                <p>Các thông tin trên I'MPROOK CARE chỉ dành cho mục đích tham khảo, tra cứu và không thay thế cho việc chuẩn đoán hoặc điều trị y khoa.
                     <br />
                     Cần tuyệt đối tuân theo hướng dẫn của Bác sĩ và Nhân viên y tế.
                 </p>

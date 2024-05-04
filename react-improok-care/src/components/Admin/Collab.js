@@ -50,7 +50,6 @@ const Collab = () => {
     }
     const collabDoctorPages = Array.from({ length: totalCollabDoctorPages }, (_, index) => index + 1);
     const handleCollabDoctorPageChange = (pageNumber) => {
-        // TODO: Xử lý sự kiện khi người dùng chuyển trang
         setSelectedPage(pageNumber);
         loadCollabDoctorPage(pageNumber);
         console.log(`Chuyển đến trang ${pageNumber}`);

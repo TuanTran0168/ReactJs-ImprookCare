@@ -1,5 +1,6 @@
 import { useContext, useState } from "react";
-import { FaCalendar, FaHistory, FaInfoCircle } from "react-icons/fa";
+import { FaBell, FaCalendar, FaHistory, FaInfoCircle, FaWallet } from "react-icons/fa";
+import { IoIosChatboxes } from "react-icons/io";
 import { ImProfile } from "react-icons/im";
 import { MdLogout, MdMessage } from "react-icons/md";
 import { NavLink, useNavigate } from "react-router-dom";
@@ -11,9 +12,8 @@ const UserMenu = () => {
     const [, dispatch] = useContext(UserContext);
     const [selectedItem, setSelectedItem] = useState(null);
 
-    const handleItemClick = (item, path) => {
+    const handleItemClick = (item) => {
         setSelectedItem(item);
-        // nav(path);
     };
 
     const logout = () => {
@@ -28,38 +28,59 @@ const UserMenu = () => {
             <div>
                 <NavLink
                     activeClassName="active"
-                    onClick={() => handleItemClick("personal", "/personal")}
+                    onClick={() => handleItemClick("personal")}
                     to="personal">
                     <FaInfoCircle className="icon" />
                     <span className="text">Thông tin cá nhân</span>
                 </NavLink>
                 <NavLink
                     activeClassName="active"
-                    onClick={() => handleItemClick("appointment", "/appointment")}
+                    onClick={() => handleItemClick("appointment")}
                     to="appointment">
                     <FaCalendar className="icon" />
-                    <span className="text">Lịch khám</span>
+                    <span className="text">Lịch sử đặt khám</span>
                 </NavLink>
                 <NavLink
                     activeClassName="active"
-                    onClick={() => handleItemClick("history", "/history")}
+                    onClick={() => handleItemClick("history")}
                     to="history">
                     <FaHistory className="icon" />
-                    <span className="text">Lịch sử khám</span>
+                    <span className="text">Lịch sử đơn thuốc</span>
                 </NavLink>
                 <NavLink
                     activeClassName="active"
-                    onClick={() => handleItemClick("profile", "/profile")}
+                    onClick={() => handleItemClick("payment")}
+                    to="paymenthistory">
+                    <FaWallet className="icon" />
+                    <span className="text">Lịch sử thanh toán</span>
+                </NavLink>
+                <NavLink
+                    activeClassName="active"
+                    onClick={() => handleItemClick("reminder")}
+                    to="reminder">
+                    <FaBell className="icon" />
+                    <span className="text">Nhắc uống thuốc</span>
+                </NavLink>
+                <NavLink
+                    activeClassName="active"
+                    onClick={() => handleItemClick("profile")}
                     to="profile">
                     <ImProfile className="icon" />
                     <span className="text">Hồ sơ</span>
                 </NavLink>
                 <NavLink
                     activeClassName="active"
-                    onClick={() => handleItemClick("message", "/message")}
+                    onClick={() => handleItemClick("message")}
                     to="message">
                     <MdMessage className="icon" />
                     <span className="text">Tin nhắn</span>
+                </NavLink>
+                <NavLink
+                    activeClassName="active"
+                    onClick={() => handleItemClick("consultantmessage")}
+                    to="consultantchat">
+                    <IoIosChatboxes className="icon" />
+                    <span className="text">Tư vấn</span>
                 </NavLink>
                 <div onClick={logout}><MdLogout />Đăng xuất</div>
             </div>

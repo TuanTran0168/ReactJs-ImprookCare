@@ -1,0 +1,22 @@
+div.re-examination {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+div.re-examination > h3 {
+    color: #183e9f;
+}
+
+div.re-examination-header {
+    display: flex;
+    gap: 5rem;
+}
+
+div.re-examination-header>div {
+    width: 48%;
+    display: flex;
+    justify-content: center;
+    gap: 3rem;
+    align-items: center;
+}

@@ -9,7 +9,6 @@ import { toast } from "react-toastify";
 import printer from "../../assets/images/printer.png"
 import profileicon from "../../assets/images/profile-icon.png"
 import profile404 from "../../assets/images/profile.png"
-import DoctorMenu from "../../layout/DoctorLayout/DoctorMenu";
 
 const ProfileDoctor = () => {
     const [current_user,] = useContext(UserContext);

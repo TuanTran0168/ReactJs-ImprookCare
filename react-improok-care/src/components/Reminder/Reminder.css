@@ -1,0 +1,48 @@
+div.reminder {
+    display: flex;
+    max-width: 85rem;
+    /* flex-wrap: wrap; */
+    flex-direction: column;
+    gap: 2.5rem;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+
+div.reminder_menu>div {
+    display: flex;
+    width: 100%;
+    gap: 1rem;
+}
+
+div.reminder_menu {
+    display: flex;
+    list-style: none;
+    background: white;
+    width: 100%;
+}
+
+div.reminder_menu>div>a {
+    text-decoration: none;
+    color: black;
+    width: 100%;
+    display: flex;
+    gap: 1.5rem;
+    align-items: center;
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
+    font-size: 16px;
+    border: 1px solid black;
+    padding-left: 0.75rem !important;
+    border-top-left-radius: 0.75rem;
+    border-top-right-radius: 0.75rem;
+}
+
+.active {
+    background-color: #183e9f;
+    border-radius: 0.25rem;
+}
+  
+.active .text {
+    color: white;
+}

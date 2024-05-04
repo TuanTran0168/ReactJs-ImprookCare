@@ -1,5 +1,6 @@
 import * as React from "react";
 import { ZegoUIKitPrebuilt } from "@zegocloud/zego-uikit-prebuilt";
+import { UserContext } from "../../App";
 
 function randomID(len) {
     let result = "";
@@ -21,6 +22,7 @@ export function getUrlParams(url = window.location.href) {
 
 export default function App() {
     const roomID = getUrlParams().get("roomID") || randomID(5);
+    const [user, dispatch] = React.useContext(UserContext);
     let myMeeting = async (element) => {
         // generate Kit Token
         const appID = 440776203;
@@ -30,7 +32,7 @@ export default function App() {
             serverSecret,
             roomID,
             randomID(5),
-            "Ngộ ha"
+            user?.firstname + " " + user?.lastname
         );
 
         // Create instance object from Kit Token.

@@ -9,6 +9,7 @@ import NewBooking from "./NewBooking";
 import DeclineBooking from "./DeclineBooking";
 import AcceptBooking from "./AcceptBooking";
 import CompleteBooking from "./CompleteBooking";
+import ReexaminationBooking from "./ReexaminationBooking";
 
 const BookingManagement = () => {
     const [current_user,] = useContext(UserContext);
@@ -141,6 +142,12 @@ const BookingManagement = () => {
                         <CompleteBooking profileDoctorId={selectedProfileDoctorId} />
                     }
                 </>
+            case "reexamination":
+                return <>
+                    {selectedProfileDoctorId === "" ? <h2>Vui lòng chọn bác sĩ</h2> :
+                        <ReexaminationBooking profileDoctorId={selectedProfileDoctorId} />
+                    }
+                </>
             default:
                 return null;
         }
@@ -174,15 +181,17 @@ const BookingManagement = () => {
                         <div className="List_Action">
                             <ul>
                                 <li className={selectedOption === "new" ? "active" : ""}
-                                    onClick={() => handleOptionClick("new")}>Bệnh nhân mới</li>
+                                    onClick={() => handleOptionClick("new")}>Chờ tiếp nhận</li>
                                 <li className={selectedOption === "confirmed" ? "active" : ""}
-                                    onClick={() => handleOptionClick("confirmed")}>Đã xác nhận</li>
+                                    onClick={() => handleOptionClick("confirmed")}>Đã tiếp nhận</li>
                                 <li className={selectedOption === "rejected" ? "active" : ""}
                                     onClick={() => handleOptionClick("rejected")}>Đã từ chối</li>
                                 <li className={selectedOption === "cancelled" ? "active" : ""}
                                     onClick={() => handleOptionClick("cancelled")}>Đã hủy</li>
                                 <li className={selectedOption === "completed" ? "active" : ""}
                                     onClick={() => handleOptionClick("completed")}>Đã hoàn thành</li>
+                                <li className={selectedOption === "reexamination" ? "active" : ""}
+                                    onClick={() => handleOptionClick("reexamination")}>Tái khám</li>
                             </ul>
                         </div>
                         <div>{renderContent()}</div>

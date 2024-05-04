@@ -26,7 +26,7 @@ const UpdateUser = () => {
             try {
                 console.log(userUpdate['gender'])
                 const dateInput = document.getElementById('doBUpdate');
-                const selectedDate = dateInput.value; // Lấy giá trị ngày từ trường input
+                const selectedDate = dateInput.value;
                 const userId = userUpdate['userId'];
 
                 const birthDate = new Date(selectedDate).toISOString().split('T')[0]; // Định dạng lại ngày thành "yyyy-MM-dd"
@@ -34,14 +34,13 @@ const UpdateUser = () => {
                 console.log(userId);
                 let form = new FormData();
 
-                console.log("For nhé cả nhà")
                 for (let field in userUpdate)
                     if (field !== "username" && field !== "password" && field !== "email" && field !== "createdDate" && field !== "updatedDate" && field !== "deletedDate" && field !== "active" && field !== "userId" && field !== "gender" && field !== "avatar" && field !== "birthday" && field !== "roleId") {
                         console.log(field)
                         console.log(userUpdate[field])
                         form.append(field, userUpdate[field]);
                     }
-                console.log("Bye for nhé cả nhà")
+
                 form.append("userId", userId);
 
                 if (avatar.current.files[0] !== undefined)
@@ -116,15 +115,14 @@ const UpdateUser = () => {
                 console.log(userId)
                 let res = await Apis.get(endpoints['load-user-by-Id'](userId))
                 setUserUpdate(res.data);
+                setSelectedRole(res.data.roleId.roleId);
                 setLoading(false);
-                console.log("Đây là userInfo");
                 console.log(res.data);
                 setGender(res.data['gender']);
             } catch (error) {
                 console.log(error);
             }
         }
-        loadUserById();
         const loadRole = async () => {
             try {
                 let res = await Apis.get(endpoints['roles'])
@@ -134,6 +132,7 @@ const UpdateUser = () => {
                 console.log(error);
             }
         }
+        loadUserById();
         loadRole();
     }, [])
 
@@ -171,7 +170,8 @@ const UpdateUser = () => {
                             <Form.Label style={{ width: "16%" }}>Ảnh đại diện</Form.Label>
                             <div className="Update_Avatar_Choice">
                                 <div>
-                                    {selectedImage ? <img src={selectedImage} alt="Selected" width={"100%"} /> : <img src={userUpdate?.avatar} alt="Selected" width="100%" />}
+                                    {selectedImage ? <img src={selectedImage} alt="Selected" width={"100%"} /> :
+                                        <div style={{ overflow: 'hidden', width: '10rem', height: '10rem', borderRadius: '5rem' }}><img src={userUpdate?.avatar} alt="Selected" style={{ width: '100%', height: '100%', objectFit: 'cover' }} /></div>}
                                 </div>
                                 <Form.Control type="File" ref={avatar} onChange={handleImageChange} width={'50%'} />
                             </div>
@@ -190,8 +190,8 @@ const UpdateUser = () => {
                             })()}
                         </div>
                         <div className="Update_User_Role">
-                            <Form.Label style={{ width: "20%" }}>Vai trò</Form.Label>
-                            <Form.Select defaultValue={userUpdate?.roleId} onChange={(e) => handleRoleChange(e)}>
+                            <Form.Label style={{ width: "20%" }}>Vai trò {userUpdate?.roleId.roleId}</Form.Label>
+                            <Form.Select value={selectedRole} onChange={(e) => handleRoleChange(e)}>
                                 {Object.values(roles).map(r => <option key={r.roleId} value={r.roleId}>{r.roleName}</option>)}
                             </Form.Select>
                         </div>

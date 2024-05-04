@@ -1,5 +1,5 @@
 import { useContext, useState } from "react";
-import { FaCalendarCheck, FaInfoCircle, FaVideo, FaCalendarPlus } from "react-icons/fa";
+import { FaCalendarCheck, FaInfoCircle, FaCalendarPlus } from "react-icons/fa";
 import { ImProfile } from "react-icons/im";
 import { MdEditCalendar, MdLogout, MdMessage } from "react-icons/md";
 import { useNavigate, NavLink } from "react-router-dom";
@@ -11,9 +11,8 @@ const DoctorMenu = () => {
     const [, dispatch] = useContext(UserContext);
     const [selectedItem, setSelectedItem] = useState(null);
 
-    const handleItemClick = (item, path) => {
+    const handleItemClick = (item) => {
         setSelectedItem(item);
-        // nav(path);
     };
 
     const logout = (item) => {

@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { useNavigate, Link, useParams, useSearchParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { BookingManagementContext, UserContext } from "../../App";
 import "./Prescription.css";
 import { Button, Form, Table } from "react-bootstrap";
@@ -7,7 +7,6 @@ import cookie from "react-cookies"
 import Apis, { authApi, endpoints } from "../../configs/Apis";
 import { toast } from "react-toastify";
 import { Autocomplete, Stack, TextField } from "@mui/material";
-import DoctorMenu from "../../layout/DoctorLayout/DoctorMenu";
 
 const Prescription = () => {
     const [current_user, dispatch] = useContext(UserContext);
@@ -28,8 +27,8 @@ const Prescription = () => {
     const [searchFromPrice, setSearchFromPrice] = useState(null);
     const [searchToPrice, setSearchToPrice] = useState(null);
 
-    const [diagnosis, setDiagnosis] = useState(null)
-    const [symptom, setSymptom] = useState(null)
+    const [diagnosis, setDiagnosis] = useState('')
+    const [symptom, setSymptom] = useState('')
     const [usageInstruction, setUsageInstruction] = useState(null);
 
     const [pres, setPres] = useState(cookie.load("pres") || null)
@@ -42,8 +41,6 @@ const Prescription = () => {
 
     // const { bookingId, profilePatientName, profileDoctorName, bookingPrice } = useContext(BookingManagementContext)
     const nav = useNavigate();
-    // const location = useLocation();
-    // const paramA = location.state?.paramA;
 
     const currentDate = new Date();
     const currentFormattedDate = currentDate.toISOString().split('T')[0];
@@ -98,7 +95,6 @@ const Prescription = () => {
     const loadMedicine = async () => {
         try {
             setLoading(true);
-
             let res = await Apis.get(endpoints['medicines'])
             setMedicineList(res.data);
             setLoading(false);
@@ -154,7 +150,6 @@ const Prescription = () => {
         loadMedicine();
     }, [])
 
-
     // const addMedicine = (medicineList) => {
     //     let pres = cookie.load("pres") || null
     //     if (pres === null)
@@ -187,7 +182,7 @@ const Prescription = () => {
         const medicineName = selectedMedicine.medicineName;
 
         if (medicineId in pres) {
-            pres[medicineId].quantity += 1; // Tăng số lượng thuốc
+            pres[medicineId].quantity += 1;
         } else {
             pres[medicineId] = {
                 medicineId,
@@ -195,6 +190,7 @@ const Prescription = () => {
                 quantity: 1,
                 unitPrice: selectedMedicine.unitPrice,
                 usageInstruction: selectedMedicine.usageInstruction,
+                medicalReminderDTO: {},
             };
         }
         cookie.save("pres", pres);
@@ -235,9 +231,9 @@ const Prescription = () => {
         // }
     }
 
-    const removePres = () => {
-        cookie.remove("pres");
-    }
+    // const removePres = () => {
+    //     cookie.remove("pres");
+    // }
 
     // const medicinePages = Array.from({ length: totalMedicinePages }, (_, index) => index + 1);
     // const handleMedicinePageChange = (pageNumber) => {
@@ -284,6 +280,8 @@ const Prescription = () => {
                 toast.success(res.data);
                 setLoading(false);
                 cookie.remove("pres");
+                setDiagnosis('');
+                setSymptom('');
                 setPres([]);
             } catch (error) {
                 console.log(error);
@@ -296,6 +294,24 @@ const Prescription = () => {
     if (bookingId === null)
         nav('/bookingmanagement');
 
+    const handleReminderChange = (medicineId, time) => {
+        const updatedPres = {
+            ...pres,
+            [medicineId]: {
+                ...pres[medicineId],
+                medicalReminderDTO: {
+                    ...pres[medicineId].medicalReminderDTO,
+                    [time]: {
+                        timeReminderId: time
+                    }
+                }
+            }
+        };
+        setPres(updatedPres);
+        cookie.save("pres", updatedPres);
+        console.log(updatedPres);
+    };
+
     return <>
         <div className="Prescription_Wrapper">
             <div className="Prescription">
@@ -306,7 +322,7 @@ const Prescription = () => {
                 </div> */}
                 <div className="Prescription_Right">
                     <div className="Prescription_Right_Header">
-                        <h2 className="text-center mb-4">THÔNG TIN ĐƠN THUỐC</h2>
+                        <h3 className="text-center mb-4">THÔNG TIN ĐƠN THUỐC</h3>
                     </div>
                     <div className="Prescription_Right_Body_1">
                         <div className="Patient_Name">
@@ -323,7 +339,7 @@ const Prescription = () => {
                         </div>
                         <div className="Booking_Price">
                             <Form.Label style={{ width: "40%" }}>Phí khám</Form.Label>
-                            <Form.Control type="Text" value={bookingPrice} disabled />
+                            <Form.Control type="Text" value={bookingPrice.toLocaleString('vi-VN') + ' VNĐ'} disabled />
                         </div>
                         <div className="Symptom">
                             <Form.Label style={{ width: "40%" }}>Triệu chứng</Form.Label>
@@ -445,6 +461,7 @@ const Prescription = () => {
                                             <th>Số lượng</th>
                                             <th>Đơn giá</th>
                                             <th>Cách dùng</th>
+                                            <th>Chỉ định</th>
                                             <th>Thao tác</th>
                                         </tr>
                                     </thead>
@@ -455,9 +472,9 @@ const Prescription = () => {
                                             {Object.values(pres).map(p => {
                                                 return <>
                                                     <tr key={p.medicineId}>
-                                                        <td>{p.medicineId}</td>
-                                                        <td style={{ width: "25%" }}>{p.medicineName}</td>
-                                                        <td>
+                                                        <td style={{ width: "4%" }}>{p.medicineId}</td>
+                                                        <td style={{ width: "18%" }}>{p.medicineName}</td>
+                                                        <td style={{ width: "10%" }}>
                                                             <Form.Control
                                                                 type="number"
                                                                 value={pres[p.medicineId].quantity}
@@ -478,8 +495,8 @@ const Prescription = () => {
                                                                 max="50"
                                                             />
                                                         </td>
-                                                        <td>{p.unitPrice} VNĐ</td>
-                                                        <td>
+                                                        <td style={{ width: "12%" }}>{p.unitPrice} VNĐ</td>
+                                                        <td style={{ width: "20%" }}>
                                                             {/* <Form.Control type="text" defaultValue={usageInstructions} onChange={(e) => setUsageInstructions(e.target.value)} required /> */}
                                                             <Form.Control
                                                                 type="text"
@@ -498,6 +515,14 @@ const Prescription = () => {
                                                             />
                                                         </td>
                                                         <td>
+                                                            <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'center', justifyContent: 'center' }}>
+                                                                <span><input className="Remember_Check" type="checkbox" onChange={() => handleReminderChange(p.medicineId, 1)} /> Sáng</span>
+                                                                <span><input className="Remember_Check" type="checkbox" onChange={() => handleReminderChange(p.medicineId, 2)} /> Trưa</span>
+                                                                <span><input className="Remember_Check" type="checkbox" onChange={() => handleReminderChange(p.medicineId, 3)} /> Chiều</span>
+                                                                <span><input className="Remember_Check" type="checkbox" onChange={() => handleReminderChange(p.medicineId, 4)} /> Tối</span>
+                                                            </div>
+                                                        </td>
+                                                        <td style={{ width: '9%' }}>
                                                             <Button variant="danger" onClick={() => deleteMedicine(p)}>Xóa</Button>
                                                         </td>
                                                     </tr>
@@ -507,7 +532,9 @@ const Prescription = () => {
                                     </tbody>
                                 </Table>
                             </div>
-                            {(pres === null || Object.keys(pres).length === 0) ? <Button variant="secondary" style={{ cursor: "not-allowed" }}>Lưu đơn thuốc</Button> : <Button variant="info" onClick={(e) => addPrescription(e)}>Lưu đơn thuốc</Button>}
+                            <div style={{ display: 'flex', gap: '1rem' }}>
+                                {(pres === null || Object.keys(pres).length === 0) ? <Button variant="secondary" style={{ cursor: "not-allowed" }}>Lưu đơn thuốc</Button> : <Button variant="info" onClick={(e) => addPrescription(e)}>Lưu đơn thuốc</Button>}
+                            </div>
                         </div>
                     </div>
                 </div>
