@@ -180,17 +180,17 @@ const ReExamination = () => {
                                 }}>
                                     <Modal.Title>{selectedEvent ? 'Chỉnh sửa tái khám' : 'Đăng ký tái khám'}</Modal.Title>
                                 </Modal.Header>
-                                <Modal.Body className="Schedule_Option">
-                                    <div className="Schedule_Profile_Option">
+                                <Modal.Body className="reexamination_bar">
+                                    <div className="reexamination_bar_option">
                                         <Form.Label style={{ width: "30%" }}>Nội dung</Form.Label>
-                                        <Form.Control as="textarea" aria-label="With textarea" value={note} onChange={(e) => setNote(e.target.value)} placeholder="Nhập nội dung ghi chú" />
+                                        <Form.Control as="textarea" aria-label="With textarea" value={note} onChange={(e) => setNote(e.target.value)} placeholder="Nhập nội dung ghi chú..." />
                                     </div>
-                                    <div className="Schedule_Profile_Option">
-                                        <Form.Label style={{ width: "30%" }}>Bắt đầu</Form.Label>
+                                    <div className="reexamination_bar_option">
+                                        <Form.Label style={{ width: "23%" }}>Bắt đầu</Form.Label>
                                         <DateTimePicker onChange={onTimeBeginChange} value={timeBegin} clearIcon={null} />
                                     </div>
-                                    <div className="Schedule_Profile_Option">
-                                        <Form.Label style={{ width: "30%" }}>Kết thúc</Form.Label>
+                                    <div className="reexamination_bar_option">
+                                        <Form.Label style={{ width: "23%" }}>Kết thúc</Form.Label>
                                         <DateTimePicker onChange={onTimeEndChange} value={timeEnd} clearIcon={null} />
                                     </div>
                                 </Modal.Body>

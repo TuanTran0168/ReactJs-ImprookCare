@@ -17,7 +17,6 @@ const Schedule = () => {
     const [selectedProfileDoctorId, setSeletedProfileDoctorId] = useState();
     const [selectedTimeDistanceId, setSelectedTimeDistanceId] = useState('1');
     const [selectedTimeSlots, setSelectedTimeSlots] = useState([]);
-    // const [timeSlotCheck, setTimeSlotCheck] = useState([]);
     const [checkSchedule, setCheckSchedule] = useState([]);
     const [loading, setLoading] = useState(false);
     const [scheduleDate, setScheduleDate] = useState(new Date().toISOString().split("T")[0]);
@@ -170,7 +169,7 @@ const Schedule = () => {
         const process = async () => {
             try {
                 const dateInput = document.getElementById('dateInput');
-                const selectedDate = dateInput.value; // Lấy giá trị ngày từ trường input
+                const selectedDate = dateInput.value;
 
                 const formattedDate = new Date(selectedDate).toISOString().split('T')[0];
                 console.log(selectedProfileDoctorId, formattedDate, timeSlotId)
@@ -276,7 +275,7 @@ const Schedule = () => {
                 </div> */}
                 <div className="Schedule_Right">
                     <div className="Schedule_Right_Content">
-                        <h2 className="text-center">Đăng ký lịch khám bệnh</h2>
+                        <h2 className="text-center">Đăng ký lịch khám</h2>
                         <div className="Schedule_Option">
                             <div className="Schedule_Date_Option">
                                 <Form.Label style={{ width: "30%" }}>Chọn ngày</Form.Label>

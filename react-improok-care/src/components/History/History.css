@@ -1,4 +1,4 @@
-div.MedicalRecords {
+div.History {
     display: flex;
     max-width: 85rem;
     flex-wrap: wrap;
@@ -7,15 +7,15 @@ div.MedicalRecords {
     margin-right: auto;
 }
 
-/* div.MedicalRecords_Left {
+/* div.History_Left {
     width: 20%;
 } */
 
-div.MedicalRecords_Middle {
+div.History_Middle {
     width: 30%;
 }
 
-div.MedicalRecords_Middle_Info>input {
+div.History_Middle_Info>input {
     width: 100%;
     border-radius: 5rem;
     height: 2.5rem;
@@ -23,7 +23,7 @@ div.MedicalRecords_Middle_Info>input {
     padding: .75rem;
 }
 
-div.MedicalRecords_List_404 {
+div.History_List_404 {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -34,7 +34,7 @@ div.MedicalRecords_List_404 {
     margin-bottom: 1rem;
 }
 
-div.MedicalRecords_Null {
+div.History_Null {
     display: flex;
     flex-direction: column;
     min-height: 25.25rem;
@@ -43,24 +43,24 @@ div.MedicalRecords_Null {
     align-items: center;
 }
 
-div.MedicalRecords_Null h5 {
+div.History_Null h5 {
     margin-top: 2rem;
 }
 
-div.MedicalRecords_List_Info {
+div.History_List_Info {
     margin-top: 1rem;
     margin-bottom: 1rem;
-    max-height: 15rem;
+    max-height: 22.75rem;
     border: .05rem solid black;
     overflow-y: scroll;
 }
 
-div.MedicalRecords_List_Info>ul {
+div.History_List_Info>ul {
     margin-top: .5rem;
     list-style: none;
 }
 
-div.MedicalRecords_List_Detail {
+div.History_List_Detail {
     display: flex;
     align-items: center;
     gap: 1rem;
@@ -68,7 +68,7 @@ div.MedicalRecords_List_Detail {
     margin-bottom: 1.5rem;
 }
 
-div.MedicalRecords_Right {
+div.History_Right {
     width: 60%;
 }
 
@@ -138,6 +138,6 @@ div.Payment_Button {
     box-shadow: 2px 2px 10px rgba(0, 0, 0, 1);
 } */
 
-div.MedicalRecords_Right_Header>h3 {
+div.History_Right_Header>h3 {
     color: #183e9f;
 }

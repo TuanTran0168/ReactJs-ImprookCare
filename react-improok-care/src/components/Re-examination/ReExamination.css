@@ -20,3 +20,18 @@ div.re-examination-header>div {
     gap: 3rem;
     align-items: center;
 }
+
+div.reexamination_bar {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin-top: 2rem;
+    gap: 1rem;
+}
+
+div.reexamination_bar_option {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}

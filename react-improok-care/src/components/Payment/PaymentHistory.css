@@ -50,7 +50,7 @@ div.payment_history_null h5 {
 div.payment_history_list_info {
     margin-top: 1rem;
     margin-bottom: 1rem;
-    max-height: 15rem;
+    max-height: 22.75rem;
     border: .05rem solid black;
     overflow-y: scroll;
 }

@@ -17,20 +17,15 @@ import Pagination from "../../utils/Pagination"
 
 const History = () => {
     const [current_user,] = useContext(UserContext);
-
     const [loading, setLoading] = useState(false);
-
     const [prescription, setPrescription] = useState([]);
     const [profilePatient, setProfilePatient] = useState([]);
-
     const [selectedProfilePatientId, setSelectedProfilePatientId] = useState('');
     const [selectedProfile, setSelectedProfile] = useState();
     const [selectedPage, setSelectedPage] = useState('1');
-
     const [totalPrescriptionPages, setTotalPrescriptionPages] = useState('1');
     const [prescriptionList, setPrescriptionList] = useState([]);
     const [prescriptionDetail, setPrescriptionDetail] = useState([]);
-
     const [total, setTotal] = useState(null);
 
     // const [requestBody, setRequestBody] = useState({
@@ -180,7 +175,6 @@ const History = () => {
             try {
                 setLoading(true);
                 console.log(tempTotal);
-
                 let res = await Apis.post(endpoints['vnpay-payment'], {
                     "amount": tempTotal,
                     "orderInfor": "2:-" + prescriptionId + "-Medicine Payment: " + profilePatientName + " đã thanh toán tiền thuốc cho đơn thuốc " + prescriptionId + " - ",
@@ -229,33 +223,33 @@ const History = () => {
     // }, [])
 
     return <>
-        <div className="MedicalRecords_Wrapper">
-            <div className="MedicalRecords">
-                {/* <div className="MedicalRecords_Left">
-                    <div className="MedicalRecords_Left_Content">
+        <div className="History_Wrapper">
+            <div className="History">
+                {/* <div className="History_Left">
+                    <div className="History_Left_Content">
                         <UserMenu />
                     </div>
                 </div> */}
-                <div className="MedicalRecords_Middle">
-                    <div className="MedicalRecords_Middle_Header">
+                <div className="History_Middle">
+                    <div className="History_Middle_Header">
                         <h3>Lịch sử đơn thuốc</h3>
                     </div>
-                    <div className="MedicalRecords_Middle_Content">
-                        <div className="MedicalRecords_Middle_Container">
-                            <div className="MedicalRecords_Middle_Info">
+                    <div className="History_Middle_Content">
+                        <div className="History_Middle_Container">
+                            <div className="History_Middle_Info">
                                 <input type="text" placeholder="Nhập tên hồ sơ cần tìm..."></input>
-                                <div className="MedicalRecords_List">
+                                <div className="History_List">
                                     {profilePatient.length === 0 ? <>
-                                        <div className="MedicalRecords_List_404">
+                                        <div className="History_List_404">
                                             <img src={printer} alt="404" width={'20%'} />
                                             <span>Không tìm thấy kết quả</span>
                                         </div>
                                     </> : <>
-                                        <div className="MedicalRecords_List_Info">
+                                        <div className="History_List_Info">
                                             <ul>
                                                 {Object.values(profilePatient).map(pp => {
                                                     return <>
-                                                        <div className="MedicalRecords_List_Detail" value={selectedProfile} onClick={(e) => viewPrescription(e, pp)}>
+                                                        <div className="History_List_Detail" value={selectedProfile} onClick={(e) => viewPrescription(e, pp)}>
                                                             <img src={profileicon} alt="profileicon" width={'20%'} />
                                                             <li key={pp.profilePatientId} value={pp.profilePatientId}>{pp.name}</li>
                                                         </div>
@@ -269,13 +263,13 @@ const History = () => {
                         </div>
                     </div>
                 </div>
-                <div className="MedicalRecords_Right">
+                <div className="History_Right">
                     <>
                         <section>
-                            <div className="MedicalRecords_Right_Header"><h3 className="text-center mb-4">Thông tin đơn thuốc</h3></div>
-                            <div className="MedicalRecords_Right_Content">
+                            <div className="History_Right_Header"><h3 className="text-center mb-4">Thông tin đơn thuốc</h3></div>
+                            <div className="History_Right_Content">
                                 {profilePatient === null ? <>
-                                    <div className="MedicalRecords_Null">
+                                    <div className="History_Null">
                                         <h5 className="mb-4">Chọn đơn thuốc cần xem</h5>
                                         <img src={profile404} alt="Not found" width={'20%'} />
                                     </div>

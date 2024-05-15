@@ -1,4 +1,4 @@
-div.Schedule {
+div.Custom_Schedule {
     display: flex;
     max-width: 85rem;
     flex-wrap: wrap;
@@ -7,43 +7,48 @@ div.Schedule {
     margin-right: auto;
 }
 
-/* div.Schedule_Left {
+/* div.Custom_Schedule_Left {
     width: 20%;
 } */
 
-div.Schedule_Right {
+div.Custom_Schedule_Right {
     width: 100%;
 }
 
-div.Schedule_Right_Content {
+div.Custom_Schedule_Right_Content {
     margin-bottom: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
 }
 
-div.Schedule_Option {
+div.Custom_Schedule_Option {
     display: flex;
     flex-direction: column;
     width: 100%;
-    margin-top: 3rem;
-    gap: 0.75rem;
+    margin-top: 2rem;
+    gap: 1rem;
 }
 
-div.Schedule_Date_Option {
+div.Custom_Schedule_Date_Option {
     width: 100%;
     display: flex;
 }
 
-div.Schedule_Profile_Option {
+div.Custom_Schedule_Profile_Option {
     width: 100%;
     display: flex;
+    align-items: center;
+    gap: 0.5rem;
 }
 
-div.Schedule_Date_Option>input, div.Schedule_Profile_Option>select, div.Schedule_Distance_Option>select {
+div.Custom_Schedule_Date_Option>input, div.Custom_Schedule_Profile_Option>select, div.Custom_Schedule_Distance_Option>select {
     width: 100%;
     border: var(--bs-border-width) solid var(--bs-border-color);
     padding: 0.25rem;
 }
 
-div.Schedule_Right_Content>h2 {
+div.Custom_Schedule_Right_Content>h2 {
     color: #183e9f;
 }
 

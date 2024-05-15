@@ -7,7 +7,6 @@ import { authApi, endpoints } from "../../configs/Apis";
 import cookie from "react-cookies";
 import { toast } from "react-toastify";
 import avatar_user from "../../assets/images/user.png"
-import Moment from "react-moment";
 
 const DoctorInformation = () => {
     const [current_user, dispatch] = useContext(UserContext);
@@ -40,8 +39,6 @@ const DoctorInformation = () => {
     }, [current_user])
 
     const [current_avatar, setCurrent_avatar] = useState(current_user?.avatar);
-    const [current_birthday, setCurrent_birthday] = useState(current_user?.birthday);
-    const [birthday, setBirthday] = useState(null);
     const [gender, setGender] = useState(null);
     const avatar = useRef();
     const nav = useNavigate();
@@ -55,17 +52,11 @@ const DoctorInformation = () => {
         "avatar": current_user?.avatar
     });
     const [checkPersonalInfo, setCheckPersonalInfo] = useState(true);
-    const formattedBirthday = (
-        <Moment locale="vi" format="DD/MM/YYYY">
-            {current_user?.birthday}
-        </Moment>
-    );
 
     const formattedDate = new Date(current_user?.birthday);
     formattedDate.setHours(formattedDate.getHours() + 7);
     const formattedDateTime = formattedDate.toISOString().substring(0, 10);
-    // console.log(typeof (current_birthday))
-    // console.log(typeof (current_user.birthday))
+
     // const formattedDate = current_user.birthDate.toISOString();
     // const formattedDate = new Date(current_birthday).toISOString();
 
@@ -82,7 +73,7 @@ const DoctorInformation = () => {
 
                 console.log(user);
                 const dateInput = document.getElementById('dateInput');
-                const selectedDate = dateInput.value; // Lấy giá trị ngày từ trường input
+                const selectedDate = dateInput.value;
 
                 const birthDate = new Date(selectedDate).toISOString().split('T')[0];
 
@@ -140,7 +131,6 @@ const DoctorInformation = () => {
                     // else
                     //     setErr("Có lỗi xảy ra!")
                     toast.error(err.request.responseText);
-                    // console.log(err.request.status);
                     setLoading(false);
                 }
                 setCheckPersonalInfo(!checkPersonalInfo);
@@ -161,7 +151,6 @@ const DoctorInformation = () => {
     // }
 
     const change = (evt, field) => {
-        // setUser({...user, [field]: evt.target.value})
         setUser(current => {
             return { ...current, [field]: evt.target.value }
         })
@@ -172,8 +161,6 @@ const DoctorInformation = () => {
     //         return { ...current, [field]: evt.target.value }
     //     }
     // };
-
-    // console.log(current_user)
 
     return <>
         <div className="Doctor_Wrapper">

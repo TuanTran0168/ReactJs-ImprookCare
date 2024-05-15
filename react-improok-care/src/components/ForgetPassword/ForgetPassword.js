@@ -10,7 +10,7 @@ import "./ForgetPassword.css"
 import { Lock, Password, Phone, Visibility, VisibilityOff } from "@mui/icons-material";
 
 const ForgetPassword = () => {
-    const [user,] = useContext(UserContext)
+    const [current_user,] = useContext(UserContext)
     const [err, setErr] = useState(null);
     const [code, setCode] = useState('');
     const [phonenumber, setPhonenumber] = useState('');
@@ -85,10 +85,8 @@ const ForgetPassword = () => {
                     toast.warning("Vui lòng nhập OTP");
                     setLoading(false);
                 }
-
                 console.log("code" + code)
                 console.log("phonenumber" + phonenumber)
-
                 let res = await Apis.post(endpoints['verification-check'], {
                     "code": code,
                     "phonenumber": phonenumber
@@ -109,15 +107,12 @@ const ForgetPassword = () => {
         const process = async () => {
             try {
                 setLoading(true)
-
                 console.log("code" + code)
                 console.log("phonenumber" + phonenumber)
-
                 let res = await Apis.post(endpoints['forgot-password'], {
                     "username": phonenumber,
                     "newPassword": newPassword
                 })
-
                 if (res.data === "Đổi mật khẩu thành công!") {
                     toast.success(res.data)
                     nav('/login')
@@ -158,7 +153,7 @@ const ForgetPassword = () => {
     }
 
     return <>
-        {successVerification === false ?
+        {successVerification === true ?
             <>
                 <div className="ForgetPassword_Wrapper">
                     <div className="ForgetPassword_Content">

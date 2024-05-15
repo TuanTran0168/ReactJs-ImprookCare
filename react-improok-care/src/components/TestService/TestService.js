@@ -6,13 +6,14 @@ import { useState } from 'react';
 import Apis, { authApi, endpoints } from '../../configs/Apis';
 import { BookingManagementContext } from '../../App';
 import { toast } from 'react-toastify';
-import { NavLink, Outlet } from 'react-router-dom';
+import { NavLink, Outlet, useNavigate } from 'react-router-dom';
 
 const TestService = () => {
     const [booking,] = useContext(BookingManagementContext)
     const [testType, setTestType] = useState([])
     const [testChoice, setTestChoice] = useState(null)
     const [testResult, setTestResult] = useState([])
+    const nav = useNavigate()
 
     const loadTestResult = async () => {
         try {
@@ -28,6 +29,7 @@ const TestService = () => {
 
     useEffect(() => {
         loadTestResult()
+        nav('/doctor/examination/testservice/unchecktestservice')
     }, [])
 
     useEffect(() => {

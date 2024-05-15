@@ -76,7 +76,6 @@ const Profile = () => {
                 console.log(error);
             }
         }
-
         const loadDistrict = async () => {
             try {
                 let res = await Apis.get(endpoints['districts'](selectedProvinceCode))
@@ -85,7 +84,6 @@ const Profile = () => {
                 console.log(error);
             }
         }
-
         const loadWard = async () => {
             try {
                 let res = await Apis.get(endpoints['wards'](selectedDistrictCode))
@@ -94,7 +92,6 @@ const Profile = () => {
                 console.log(error)
             }
         }
-
         loadProvince();
         // if (selectedProvinceCode)
         loadDistrict();
@@ -137,14 +134,13 @@ const Profile = () => {
 
     const viewProfilePatient = (evt, pp) => {
         evt.preventDefault();
-        console.log("pp" + pp.profilePatientId)
+        console.log(pp.profilePatientId)
         setSelectedProfile(pp.profilePatientId);
 
         const process = async () => {
             try {
                 setLoading(true);
                 let res = await authApi().get(endpoints['view-profile-patient'](pp.profilePatientId))
-
                 setProfile(res.data);
                 console.log(res.data);
                 setLoading(false);
@@ -168,7 +164,6 @@ const Profile = () => {
                 ///console.log(name + '' + phonenumber + '' + provincename + '' + districtname + '' + wardname + '' + personalAddress + '' + email + '' + relationship)
                 const dateInput = document.getElementById('birthdayInput');
                 const selectedDate = dateInput.value;
-
                 const birthDate = new Date(selectedDate).toISOString().split('T')[0];
 
                 console.log(name, phonenumber, gender, birthDate, province[0].name, district[0].name, ward[0].name, personalAddress, relationship, current_user.userId)

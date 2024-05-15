@@ -50,7 +50,7 @@ div.Profile_Null h5 {
 div.Profile_List_Info {
     margin-top: 1rem;
     margin-bottom: 1rem;
-    max-height: 15rem;
+    max-height: 25rem;
     border: .05rem solid black;
     overflow-y: scroll;
 }

@@ -131,6 +131,7 @@ const Message = () => {
             setUserDoctorId(res.data.content[0][0].userId.userId);
             console.log(res.data.content[0][1].messageId);
             setLastMessageId(res.data.content[0][1].messageId);
+            setDoctorName(res.data.content[0][0].name)
             let mes = await authApi().get(endpoints['get-message-for-all-view'](res.data.content[0][0].profileDoctorId, current_user?.userId));
             setListMessage(mes.data);
         } catch (error) {

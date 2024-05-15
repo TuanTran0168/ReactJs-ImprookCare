@@ -25,21 +25,25 @@ div.Schedule_Option {
     width: 100%;
     margin-top: 3rem;
     gap: 0.75rem;
+    align-items: center;
 }
 
 div.Schedule_Date_Option {
     width: 100%;
     display: flex;
+    align-items: center;
 }
 
 div.Schedule_Profile_Option {
     width: 100%;
     display: flex;
+    align-items: center;
 }
 
 div.Schedule_Distance_Option {
     width: 100%;
     display: flex;
+    align-items: center;
 }
 
 div.Schedule_Date_Option>input, div.Schedule_Profile_Option>select, div.Schedule_Distance_Option>select {
@@ -61,7 +65,6 @@ div.TimeSlot_Option {
     width: 100%;
     overflow: auto;
     gap: 1rem;
-    /* padding-top: 2rem; */
     padding-bottom: 2rem;
 }
 

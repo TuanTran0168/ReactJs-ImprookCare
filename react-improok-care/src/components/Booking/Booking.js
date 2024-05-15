@@ -5,7 +5,6 @@ import googleplay from "../../assets/images/googleplay.svg"
 import appstore from "../../assets/images/appstore.svg"
 import maledoctor from "../../assets/images/male-doctor.png"
 import femaledoctor from "../../assets/images/female-doctor.png"
-// import profileicon from "../../assets/images/profile-icon.png"
 import { TiTick } from "react-icons/ti";
 import { FcSearch } from "react-icons/fc";
 import { Link, useNavigate } from "react-router-dom";
@@ -29,20 +28,7 @@ const Booking = () => {
 
     const [searchKw, setSearchKw] = useState('');
 
-    const nav = useNavigate();
-
-    // useEffect(() => {
-    //     const loadProfileDoctorById = async () => {
-    //         try {
-    //             let res = await Apis.get(endpoints['specialty']);
-    //             setSpecialty(res.data);
-    //             console.log(res.data);
-    //         } catch (error) {
-    //             console.log(error);
-    //         }
-    //     }
-    //     loadProfileDoctorById();
-    // }, [])
+    const nav = useNavigate()
 
     useEffect(() => {
         const loadSpecialty = async () => {
@@ -139,7 +125,7 @@ const Booking = () => {
                                             <div className="image-container"><img src={ld.userId?.avatar === null ? doctorprofile : ld.userId?.avatar} alt="404" /></div>
                                             <span style={{ fontSize: '1.2rem' }}><strong>{ld.name}</strong></span>
                                             <span>{ld.specialtyId.specialtyName}</span>
-                                            <button className="Booking_Now"><Link to={url} style={{ color: 'white' }}>Đặt khám ngay</Link></button>
+                                            <button className="Booking_Now"><Link to={url} style={{ color: 'white' }}>Đặt khám</Link></button>
                                         </div>
                                     )
                                 })}
@@ -180,14 +166,6 @@ const Booking = () => {
                                 <div onClick={checkImageClick} style={{ padding: '1.5rem' }}>
                                     <h5 style={{ fontWeight: 'bold', fontSize: '1.25rem' }}>Đội ngũ bác sĩ</h5>
                                     <h6 style={{ fontWeight: '400' }}>Tất cả các bác sĩ đều liên kết chính thức với I'MPROOK CARE.</h6>
-                                </div>
-                            </div>
-                            <hr />
-                            <div>
-                                <div className="Separate"></div>
-                                <div onClick={checkImageClick} style={{ padding: '1.5rem' }}>
-                                    <h5 style={{ fontWeight: 'bold', fontSize: '1.25rem' }}>Đặt khám dễ dàng, nhanh chóng, chủ động</h5>
-                                    <h6 style={{ fontWeight: '400' }}>Chỉ với 1 phút, bạn có thể đặt khám thành công với bác sĩ.</h6>
                                 </div>
                             </div>
                             <hr />

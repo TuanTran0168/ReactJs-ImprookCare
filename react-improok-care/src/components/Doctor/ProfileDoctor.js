@@ -1,11 +1,10 @@
 import { useContext, useEffect, useState } from "react";
-import { Navigate, useNavigate } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import { UserContext } from "../../App";
 import "./ProfileDoctor.css";
 import { Form } from "react-bootstrap";
 import Apis, { authApi, endpoints } from "../../configs/Apis";
 import { toast } from "react-toastify";
-// import doctorprofile from "../../assets/images/doctor-profile-icon.png"
 import printer from "../../assets/images/printer.png"
 import profileicon from "../../assets/images/profile-icon.png"
 import profile404 from "../../assets/images/profile.png"
@@ -62,7 +61,6 @@ const ProfileDoctor = () => {
                 console.log(error);
             }
         }
-
         const loadDistrict = async () => {
             try {
                 let res = await Apis.get(endpoints['districts'](selectedProvinceCode))
@@ -71,7 +69,6 @@ const ProfileDoctor = () => {
                 console.log(error);
             }
         }
-
         const loadWard = async () => {
             try {
                 let res = await Apis.get(endpoints['wards'](selectedDistrictCode))
@@ -80,7 +77,6 @@ const ProfileDoctor = () => {
                 console.log(error)
             }
         }
-
         loadProvince();
         // if (selectedProvinceCode)
         loadDistrict();
@@ -117,7 +113,7 @@ const ProfileDoctor = () => {
 
     const viewProfileDoctor = (evt, pd) => {
         evt.preventDefault();
-        console.log("pp" + pd.profileDoctorId);
+        console.log(pd.profileDoctorId);
         setSelectedProfile(pd.profileDoctorId);
         // console.log(selectedProfile);
 
@@ -125,7 +121,6 @@ const ProfileDoctor = () => {
             try {
                 setLoading(true);
                 let res = await authApi().get(endpoints['load-profile-doctor-by-Id'](pd.profileDoctorId))
-
                 setProfile(res.data);
                 console.log(res.data);
                 setLoading(false);
@@ -146,7 +141,6 @@ const ProfileDoctor = () => {
         const process = async () => {
             try {
                 setLoading(true);
-
                 let res = await authApi().post(endpoints['add-profile-doctor'], {
                     "name": name,
                     "phonenumber": phonenumber,
@@ -169,7 +163,6 @@ const ProfileDoctor = () => {
                 toast.error("Có lỗi xảy ra!")
             }
         }
-
         process();
     }
 
@@ -265,7 +258,6 @@ const ProfileDoctor = () => {
         const selectedSpecialtyId = e.target.value;
         setSelectedSpecialty(selectedSpecialtyId);
     }
-
 
     if (current_user === null)
         <Navigate to="/" />

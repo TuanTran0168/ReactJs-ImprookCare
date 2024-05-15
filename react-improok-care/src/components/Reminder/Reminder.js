@@ -1,13 +1,18 @@
-import { useState } from "react";
-import { NavLink, Outlet } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import './Reminder.css'
 
 const Reminder = () => {
     const [selectedItem, setSelectedItem] = useState(null);
+    const nav = useNavigate()
 
     const handleItemClick = (item) => {
         setSelectedItem(item);
     };
+
+    useEffect(() => {
+        nav('/user/reminder/prescriptionreminder')
+    }, [])
 
     return (
         <>

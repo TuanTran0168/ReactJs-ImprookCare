@@ -78,20 +78,6 @@ const Prescription = () => {
         loadMedicineCategories();
     }, [])
 
-    // const loadMedicine = async () => {
-    //     try {
-    //         setLoading(true);
-
-    //         let res = await Apis.get(endpoints['search-medicines'])
-    //         setMedicineList(res.data.content);
-    //         setTotalMedicinePages(res.data.totalPages);
-    //         setLoading(false);
-    //         console.log(res.data.content);
-    //     } catch (error) {
-    //         console.log(error);
-    //     }
-    // }
-
     const loadMedicine = async () => {
         try {
             setLoading(true);
@@ -107,7 +93,6 @@ const Prescription = () => {
     const loadMedicinePage = async (pageNumber) => {
         try {
             setLoading(true);
-            // let e = endpoints['search-users'];
             let e = `${endpoints['search-medicines']}`;
             // let pageNumber = document.getElementsByClassName("active").id;
             console.log(pageNumber)
@@ -146,7 +131,6 @@ const Prescription = () => {
     }
 
     useEffect(() => {
-        loadMedicinePage();
         loadMedicine();
     }, [])
 

@@ -27,7 +27,6 @@ const CustomSchedule = () => {
     const [selectedTimeSlots, setSelectedTimeSlots] = useState([]);
     const [loading, setLoading] = useState(false);
     const [timeSlotId, setTimeSlotId] = useState(null);
-
     const [selectedEvent, setSelectedEvent] = useState(null);
 
     useEffect(() => {
@@ -63,7 +62,7 @@ const CustomSchedule = () => {
         }
         loadAll()
         setLoading(false)
-        console.log(value, timeB, timeE, formattedTime)
+        console.log(value, timeBegin, timeEnd, formattedTime)
     }, [selectedProfileDoctorId]);
 
     const profileDoctorChange = (e) => {
@@ -84,17 +83,16 @@ const CustomSchedule = () => {
 
     const formattedTime = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
 
-    const [timeB, setTimeB] = useState(new Date());
+    const [timeBegin, setTimeBegin] = useState(null);
 
-    const onTimeBChange = (newValue) => {
-        // setTimeB(newValue);
-        setSelectedDate(newValue);
+    const onTimeBeginChange = (newValue) => {
+        setTimeBegin(newValue);
     };
 
-    const [timeE, setTimeE] = useState(new Date());
+    const [timeEnd, setTimeEnd] = useState(new Date());
 
-    const onTimeEChange = (newValue) => {
-        setTimeE(newValue);
+    const onTimeEndChange = (newValue) => {
+        setTimeEnd(newValue);
     };
 
     const [note, setNote] = useState('')
@@ -113,12 +111,11 @@ const CustomSchedule = () => {
     const [events, setEvents] = useState([]);
 
     const [showModal, setShowModal] = useState(false)
-    const [selectedDate, setSelectedDate] = useState(null)
 
     const handleSelectSlot = (slotInfo) => {
         setShowModal(true)
-        setSelectedDate(moment(slotInfo.start).toDate())
-        setTimeE(moment(slotInfo.start).add(1, 'hours').toDate())
+        setTimeBegin(moment(slotInfo.start).toDate())
+        setTimeEnd(moment(slotInfo.start).add(1, 'hours').toDate())
         setSelectedEvent(null)
         console.log(slotInfo.start)
         console.log(slotInfo.slots)
@@ -128,29 +125,29 @@ const CustomSchedule = () => {
         setShowModal(true)
         setSelectedEvent(event)
         setNote(event.title)
-        setSelectedDate(event.start)
-        setTimeE(event.end)
+        setTimeBegin(event.start)
+        setTimeEnd(event.end)
         setTimeSlotId(event.id)
     }
 
     const saveEvent = async () => {
-        if (note && selectedDate) {
+        if (note && timeBegin) {
             if (selectedEvent) {
                 const updatedEvent = {
                     ...selectedEvent,
                     title: note,
-                    start: selectedDate,
-                    end: timeE
+                    start: timeBegin,
+                    end: timeEnd
                 };
                 const updatedEvents = events.map((event) =>
                     event === selectedEvent ? updatedEvent : event
                 );
                 setEvents(updatedEvents);
-                console.log(timeSlotId, selectedDate, timeE, note)
+                console.log(timeSlotId, timeBegin, timeEnd, note)
                 let res = await authApi().post(endpoints['edit-timeslot'], {
                     "timeSlotId": timeSlotId,
-                    "timeBegin": moment(selectedDate).format("YYYY-MM-DD HH:mm:ss"),
-                    "timeEnd": moment(timeE).format("YYYY-MM-DD HH:mm:ss"),
+                    "timeBegin": moment(timeBegin).format("YYYY-MM-DD HH:mm:ss"),
+                    "timeEnd": moment(timeEnd).format("YYYY-MM-DD HH:mm:ss"),
                     "note": note
                 })
                 console.log(res.data)
@@ -158,19 +155,17 @@ const CustomSchedule = () => {
             else {
                 const newEvent = {
                     title: note,
-                    start: selectedDate,
-                    end: timeE
+                    start: timeBegin,
+                    end: timeEnd
                 }
                 console.log(newEvent)
                 console.log()
                 setEvents([...events, newEvent])
-                console.log(selectedDate, timeE)
-                console.log(moment(selectedDate).format("YYYY-MM-DD HH:mm:ss"), moment(timeE).format("YYYY-MM-DD HH:mm:ss"))
+                console.log(timeBegin, timeEnd)
+                console.log(moment(timeBegin).format("YYYY-MM-DD HH:mm:ss"), moment(timeEnd).format("YYYY-MM-DD HH:mm:ss"))
                 let res = await authApi().post(endpoints['add-timeslot'], {
-                    // "timeBegin": "2024-09-10 16:00:00",
-                    // "timeEnd": "2024-09-10 17:00:00",
-                    "timeBegin": moment(selectedDate).format("YYYY-MM-DD HH:mm:ss"),
-                    "timeEnd": moment(timeE).format("YYYY-MM-DD HH:mm:ss"),
+                    "timeBegin": moment(timeBegin).format("YYYY-MM-DD HH:mm:ss"),
+                    "timeEnd": moment(timeEnd).format("YYYY-MM-DD HH:mm:ss"),
                     "note": note,
                     "profileDoctorId": selectedProfileDoctorId
                 })
@@ -183,17 +178,17 @@ const CustomSchedule = () => {
     }
 
     return <>
-        <div className="Schedule_Wrapper">
-            <div className="Schedule">
-                {/* <div className="Schedule_Left">
-                    <div className="Schedule_Left_Content">
+        <div className="Custom_Schedule_Wrapper">
+            <div className="Custom_Schedule">
+                {/* <div className="Custom_Schedule_Left">
+                    <div className="Custom_Schedule_Left_Content">
                         <DoctorMenu />
                     </div>
                 </div> */}
-                <div className="Schedule_Right">
-                    <div className="Schedule_Right_Content">
-                        <h2 className="text-center">Đăng ký lịch khám bệnh</h2>
-                        <div className="Schedule_Profile_Option">
+                <div className="Custom_Schedule_Right">
+                    <div className="Custom_Schedule_Right_Content">
+                        <h2 className="text-center">Đăng ký lịch khám tùy chỉnh</h2>
+                        <div className="Custom_Schedule_Profile_Option">
                             <Form.Label style={{ width: "30%" }}>Chọn hồ sơ</Form.Label>
                             <select className="value" defaultValue={selectedProfileDoctorId} onChange={(e) => profileDoctorChange(e)} onFocus={(e) => profileDoctorChange(e)}>
                                 {Object.values(profileDoctorByUserId).map(pd => <option key={pd.profileDoctorId} value={pd.profileDoctorId}>{pd.name}</option>)}
@@ -229,24 +224,24 @@ const CustomSchedule = () => {
                                         }}>
                                             <Modal.Title>{selectedEvent ? 'Chỉnh sửa lịch khám' : 'Đăng ký lịch khám'}</Modal.Title>
                                         </Modal.Header>
-                                        <Modal.Body className="Schedule_Option">
-                                            <div className="Schedule_Profile_Option">
+                                        <Modal.Body className="Custom_Schedule_Option">
+                                            <div className="Custom_Schedule_Profile_Option">
                                                 <Form.Label style={{ width: "30%" }}>Chọn hồ sơ</Form.Label>
                                                 <select className="value" defaultValue={selectedProfileDoctorId} onChange={(e) => profileDoctorChange(e)} onFocus={(e) => profileDoctorChange(e)}>
                                                     {Object.values(profileDoctorByUserId).map(pd => <option key={pd.profileDoctorId} value={pd.profileDoctorId}>{pd.name}</option>)}
                                                 </select>
                                             </div>
-                                            <div className="Schedule_Profile_Option">
+                                            <div className="Custom_Schedule_Profile_Option">
                                                 <Form.Label style={{ width: "30%" }}>Nội dung</Form.Label>
-                                                <Form.Control as="textarea" aria-label="With textarea" value={note} onChange={(e) => setNote(e.target.value)} placeholder="Nhập nội dung ghi chú" />
+                                                <Form.Control as="textarea" aria-label="With textarea" value={note} onChange={(e) => setNote(e.target.value)} placeholder="Nhập nội dung ghi chú..." />
                                             </div>
-                                            <div className="Schedule_Profile_Option">
-                                                <Form.Label style={{ width: "30%" }}>Bắt đầu</Form.Label>
-                                                <DateTimePicker onChange={onTimeBChange} value={selectedDate} clearIcon={null} />
+                                            <div className="Custom_Schedule_Profile_Option">
+                                                <Form.Label style={{ width: "23%" }}>Bắt đầu</Form.Label>
+                                                <DateTimePicker onChange={onTimeBeginChange} value={timeBegin} clearIcon={null} />
                                             </div>
-                                            <div className="Schedule_Profile_Option">
-                                                <Form.Label style={{ width: "30%" }}>Kết thúc</Form.Label>
-                                                <DateTimePicker onChange={onTimeEChange} value={timeE} clearIcon={null} />
+                                            <div className="Custom_Schedule_Profile_Option">
+                                                <Form.Label style={{ width: "23%" }}>Kết thúc</Form.Label>
+                                                <DateTimePicker onChange={onTimeEndChange} value={timeEnd} clearIcon={null} />
                                             </div>
                                         </Modal.Body>
                                         <Modal.Footer>

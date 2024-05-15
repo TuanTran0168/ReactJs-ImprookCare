@@ -1,7 +1,6 @@
 div.examination {
     display: flex;
     max-width: 85rem;
-    /* flex-wrap: wrap; */
     flex-direction: column;
     gap: 2.5rem;
     margin-left: auto;

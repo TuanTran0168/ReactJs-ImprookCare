@@ -4,14 +4,16 @@ import { useEffect, useState } from "react";
 import { Button, Form, Table } from "react-bootstrap";
 import { Autocomplete, Stack, TextField } from "@mui/material";
 import cookie from "react-cookies"
+import { toast } from "react-toastify";
 
 const UpdatePrescription = () => {
     const { bookingId } = useParams();
     const [pres, setPres] = useState([])
     const [medicineList, setMedicineList] = useState([])
     const [prescription, setPrescription] = useState([])
-
-    const [presList, setPresList] = useState([])
+    const [loading, setLoading] = useState(false)
+    const [diagnosis, setDiagnosis] = useState('')
+    const [symptom, setSymptom] = useState('')
 
     useEffect(() => {
         const loadPrescriptionDetailByBooking = async () => {
@@ -20,15 +22,25 @@ const UpdatePrescription = () => {
                 let res = await authApi().post(endpoints['prescription-by-booking'](bookingId))
                 console.log(res.data)
                 setPrescription(res.data)
-                let res1 = await authApi().get(endpoints['prescription-detail-by-prescription-id'](res.data.prescriptionId))
+                let res1 = await authApi().get(endpoints['prescription-detail-reminder'](res.data.prescriptionId))
                 console.log(res1.data)
-                const updatedPres = res1.data.map(item => ({
-                    medicineId: item.medicineId.medicineId,
-                    medicineName: item.medicineName,
-                    quantity: item.quantity,
-                    unitPrice: item.unitPrice,
-                    usageInstruction: item.usageInstruction
+                const updatedPres = res1.data.map((item) => ({
+                    medicineId: item.prescriptionDetail.medicineId.medicineId,
+                    medicineName: item.prescriptionDetail.medicineId.medicineName,
+                    quantity: item.prescriptionDetail.quantity,
+                    unitPrice: item.prescriptionDetail.unitPrice,
+                    usageInstruction: item.prescriptionDetail.usageInstruction,
+                    medicalReminderDTO: item.timeReminders.reduce((acc, reminder) => {
+                        const { timeReminderId } = reminder.timeReminderId;
+                        return {
+                            ...acc,
+                            [timeReminderId]: {
+                                timeReminderId
+                            }
+                        };
+                    }, {})
                 }));
+                console.log(updatedPres)
                 setPres(updatedPres);
             } catch (error) {
                 console.log(error)
@@ -73,7 +85,8 @@ const UpdatePrescription = () => {
             medicineName,
             quantity: 1,
             unitPrice,
-            usageInstruction
+            usageInstruction,
+            medicalReminderDTO: []
         };
         setPres(prevPres => [...prevPres, newMedicine]);
     };
@@ -92,6 +105,62 @@ const UpdatePrescription = () => {
         setPres(updatedPres);
         console.log(updatedPres)
     };
+
+    const handleReminderChange = (medicineId, time) => {
+        const updatedPres = pres.map(p => {
+            if (p.medicineId === medicineId) {
+                const updatedMedicalReminderDTO = { ...p.medicalReminderDTO };
+                if (updatedMedicalReminderDTO[time]) {
+                    delete updatedMedicalReminderDTO[time];
+                } else {
+                    updatedMedicalReminderDTO[time] = {
+                        timeReminderId: time,
+                    };
+                }
+                return {
+                    ...p,
+                    medicalReminderDTO: updatedMedicalReminderDTO
+                };
+            }
+            return p;
+        });
+        setPres(updatedPres);
+    };
+
+    const updatePrescription = (evt) => {
+        evt.preventDefault();
+
+        const process = async () => {
+            try {
+                setLoading(true);
+                const prescriptionDetailObject = pres.reduce((acc, item, index) => {
+                    return {
+                        ...acc,
+                        [index]: item
+                    };
+                }, {});
+                const request = {
+                    updatePrescriptionDTO: {
+                        "prescriptionId": prescription?.prescriptionId,
+                        "diagnosis": diagnosis !== "" ? diagnosis : prescription?.diagnosis,
+                        "symptom": symptom !== "" ? symptom : prescription?.symptoms,
+                        "servicePrice": prescription?.bookingId?.scheduleId.profileDoctorId.bookingPrice,
+                        "bookingId": prescription?.bookingId?.bookingId
+                    },
+                    prescriptionDetailDTO: prescriptionDetailObject
+                };
+                console.log(request)
+                let res = await authApi().post(endpoints['update-prescription'], request);
+                console.log(res.data);
+                toast.success(res.data);
+                setLoading(false);
+            } catch (error) {
+                console.log(error);
+                toast.error("Có lỗi xảy ra!")
+            }
+        }
+        process();
+    }
 
     return (
         <>
@@ -118,11 +187,11 @@ const UpdatePrescription = () => {
                     </div>
                     <div className="Symptom">
                         <Form.Label style={{ width: "40%" }}>Triệu chứng</Form.Label>
-                        <Form.Control type="Text" value={prescription?.symptoms} disabled />
+                        <Form.Control type="Text" defaultValue={prescription?.symptoms} onChange={(e) => setSymptom(e.target.value)} placeholder="Nhập triệu chứng..." required />
                     </div>
                     <div className="Diagnosis">
                         <Form.Label style={{ width: "40%" }}>Chuẩn đoán</Form.Label>
-                        <Form.Control type="Text" value={prescription?.diagnosis} disabled />
+                        <Form.Control type="Text" defaultValue={prescription?.diagnosis} onChange={(e) => setDiagnosis(e.target.value)} placeholder="Nhập chẩn đoán..." required />
                     </div>
                 </div>
                 <div className="Prescription_Right_Body_2">
@@ -175,31 +244,14 @@ const UpdatePrescription = () => {
                                         <span>Chưa có thuốc nào được chọn</span>
                                     </> : <>
                                         {Object.values(pres).map(p => {
+                                            const timeReminderNames = Object.values(p.medicalReminderDTO).map(obj => obj.timeReminderId);
+                                            console.log(p.medicalReminderDTO)
+                                            console.log(timeReminderNames)
+
                                             return <>
                                                 <tr key={p.prescriptionDetailId}>
                                                     <td style={{ width: "4%" }}>{p.medicineId}</td>
                                                     <td style={{ width: "18%" }}>{p.medicineName}</td>
-                                                    {/* <td style={{ width: "10%" }}>
-                                                        <Form.Control
-                                                            type="number"
-                                                            value={p.quantity}
-                                                            onChange={e => {
-                                                                const medicineId = p.medicineId;
-                                                                const updatedPres = {
-                                                                    ...pres,
-                                                                    [medicineId]: {
-                                                                        ...pres[medicineId],
-                                                                        quantity: parseInt(e.target.value),
-                                                                    },
-                                                                };
-                                                                setPres(updatedPres);
-                                                                cookie.save("pres", updatedPres)
-                                                                console.log(updatedPres);
-                                                            }}
-                                                            min="0"
-                                                            max="50"
-                                                        />
-                                                    </td> */}
                                                     <td style={{ width: "10%" }}>
                                                         <Form.Control
                                                             type="number"
@@ -235,10 +287,42 @@ const UpdatePrescription = () => {
                                                     </td>
                                                     <td>
                                                         <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'center', justifyContent: 'center' }}>
-                                                            <span><input className="Remember_Check" type="checkbox" /> Sáng</span>
-                                                            <span><input className="Remember_Check" type="checkbox" /> Trưa</span>
-                                                            <span><input className="Remember_Check" type="checkbox" /> Chiều</span>
-                                                            <span><input className="Remember_Check" type="checkbox" /> Tối</span>
+                                                            <span>
+                                                                <input
+                                                                    className="Remember_Check"
+                                                                    type="checkbox"
+                                                                    checked={timeReminderNames.includes(1)}
+                                                                    onChange={() => handleReminderChange(p.medicineId, 1)}
+                                                                />
+                                                                Sáng
+                                                            </span>
+                                                            <span>
+                                                                <input
+                                                                    className="Remember_Check"
+                                                                    type="checkbox"
+                                                                    checked={timeReminderNames.includes(2)}
+                                                                    onChange={() => handleReminderChange(p.medicineId, 2)}
+                                                                />
+                                                                Trưa
+                                                            </span>
+                                                            <span>
+                                                                <input
+                                                                    className="Remember_Check"
+                                                                    type="checkbox"
+                                                                    checked={timeReminderNames.includes(3)}
+                                                                    onChange={() => handleReminderChange(p.medicineId, 3)}
+                                                                />
+                                                                Chiều
+                                                            </span>
+                                                            <span>
+                                                                <input
+                                                                    className="Remember_Check"
+                                                                    type="checkbox"
+                                                                    checked={timeReminderNames.includes(4)}
+                                                                    onChange={() => handleReminderChange(p.medicineId, 4)}
+                                                                />
+                                                                Tối
+                                                            </span>
                                                         </div>
                                                     </td>
                                                     <td style={{ width: '9%' }}>
@@ -250,6 +334,9 @@ const UpdatePrescription = () => {
                                     </>}
                                 </tbody>
                             </Table>
+                            <div style={{ display: 'flex', gap: '1rem' }}>
+                                {(pres === null || Object.keys(pres).length === 0) ? <Button variant="secondary" style={{ cursor: "not-allowed" }}>Lưu đơn thuốc</Button> : <Button variant="info" onClick={(e) => updatePrescription(e)}>Lưu đơn thuốc</Button>}
+                            </div>
                         </div>
                     </div>
                 </div>
