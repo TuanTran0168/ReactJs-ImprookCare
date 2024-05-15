@@ -4,6 +4,7 @@ import Apis, { authApi, endpoints } from "../../configs/Apis";
 import { Autocomplete, Stack, TextField } from "@mui/material";
 import cookie from "react-cookies"
 import { useNavigate } from "react-router-dom";
+import moment from "moment";
 
 const CompleteBooking = (props) => {
     const [completeBooking, setCompleteBooking] = useState([]);
@@ -119,7 +120,7 @@ const CompleteBooking = (props) => {
                                 <tr key={index}>
                                     <td>{cb[0]}</td>
                                     <td>{cb[6]}</td>
-                                    <td>{cb[2]}</td>
+                                    <td>{moment(cb[2]).format('DD-MM-YYYY')}</td>
                                     <td>{timeBegin} - {timeEnd}</td>
                                     <td><Badge bg="warning">{cb[5]}</Badge></td>
                                     <td><Button variant="primary">Tạo tái khám</Button></td>

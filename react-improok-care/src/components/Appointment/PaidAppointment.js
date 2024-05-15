@@ -4,6 +4,7 @@ import { Badge, Button, Table } from "react-bootstrap";
 import Apis, { authApi, endpoints } from "../../configs/Apis";
 import { useNavigate } from "react-router-dom";
 import cookie from "react-cookies";
+import moment from "moment";
 
 const PaidAppointment = () => {
     const [paidAppointment, setPaidAppointment] = useState([]);
@@ -37,13 +38,11 @@ const PaidAppointment = () => {
             e += "?pageNumber=0"
             console.log(e)
 
-            // Gửi yêu cầu lấy booking với bookingStatusId là 5
             let res1 = await authApi().post(e, {
                 "userId": current_user?.userId,
                 "bookingStatusId": "5"
             })
 
-            // Gửi yêu cầu lấy booking với bookingStatusId là 6
             let res2 = await authApi().post(e, {
                 "userId": current_user?.userId,
                 "bookingStatusId": "6"
@@ -52,9 +51,7 @@ const PaidAppointment = () => {
             console.log(res1.data.content)
             console.log(res2.data.content)
 
-            // Kết hợp kết quả từ hai yêu cầu vào cùng một danh sách
             const bookings = [...res1.data.content, ...res2.data.content]
-
             setPaidAppointment(bookings)
         } catch (error) {
             console.log(error)
@@ -110,7 +107,7 @@ const PaidAppointment = () => {
                                 <tr key={index}>
                                     <td>{pa.bookingId}</td>
                                     <td>{pa.profilePatientId.name}</td>
-                                    <td>{pa.scheduleId.date}</td>
+                                    <td>{moment(pa.scheduleId.date).format('DD-MM-YYYY')}</td>
                                     <td>{timeBegin} - {timeEnd}</td>
                                     <td><Badge bg="secondary">{pa.statusId.statusValue}</Badge></td>
                                     <td><Button variant="primary" onClick={(e) => viewBookingDetail(e, pa.bookingId)}>Chi tiết</Button></td>

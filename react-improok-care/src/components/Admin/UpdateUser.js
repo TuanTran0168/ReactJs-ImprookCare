@@ -192,7 +192,7 @@ const UpdateUser = () => {
                         <div className="Update_User_Role">
                             <Form.Label style={{ width: "20%" }}>Vai trò</Form.Label>
                             <Form.Select value={selectedRole} onChange={(e) => handleRoleChange(e)}>
-                                {Object.values(roles).map(r => <option key={r.roleId} value={r.roleId}>{r.roleName}</option>)}
+                                {Object.values(roles).map(r => <option key={r.roleId} value={r.roleId}>{r.roleName.substring(5)}</option>)}
                             </Form.Select>
                         </div>
                         <div className="Update_User_Button">

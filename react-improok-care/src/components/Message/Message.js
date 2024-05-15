@@ -3,7 +3,7 @@ import { Navigate } from "react-router-dom";
 import { UserContext } from "../../App";
 import "./Message.css";
 import { Form } from "react-bootstrap";
-import { authApi, endpoints } from "../../configs/Apis";
+import { SERVER, authApi, endpoints } from "../../configs/Apis";
 import printer from "../../assets/images/printer.png"
 import profile404 from "../../assets/images/profile.png"
 import message from "../../assets/images/message.png"
@@ -14,7 +14,6 @@ import SockJS from 'sockjs-client';
 import Spinner from "../../layout/Spinner"
 import { MdRemoveCircle } from "react-icons/md";
 import { toast } from "react-toastify";
-import { connectNotification } from "../../utils/WebSocket";
 var stompClient = null;
 var clientStomp = null;
 
@@ -42,7 +41,7 @@ const Message = () => {
     };
 
     const connect = () => {
-        let Sock = new SockJS('http://localhost:2024/IMPROOK_CARE/api/public/webSocket/');
+        let Sock = new SockJS(`${SERVER}${endpoints['web-socket']}`);
         stompClient = over(Sock);
         stompClient.connect({}, onConnected, onError);
     }
@@ -79,7 +78,7 @@ const Message = () => {
     }
 
     const connectNotification = () => {
-        let Sock = new SockJS('http://localhost:2024/IMPROOK_CARE/api/public/notification/');
+        let Sock = new SockJS(`${SERVER}${endpoints['web-notification']}`);
         clientStomp = over(Sock);
         clientStomp.connect({}, onConnectedNotification, onErrorNotification);
     }

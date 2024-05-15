@@ -2,16 +2,15 @@ import { useContext, useRef, useState } from "react";
 import { UserContext } from "../../App";
 import "./Personal.css";
 import { Form, Image } from "react-bootstrap";
-import Apis, { authApi, endpoints } from "../../configs/Apis";
+import { authApi, endpoints } from "../../configs/Apis";
 import cookie from "react-cookies";
 import { toast } from "react-toastify";
 import avatar_user from "../../assets/images/user.png"
-// import Moment from "react-moment";
+import moment from "moment";
 
 const Personal = () => {
     const [current_user, dispatch] = useContext(UserContext);
     const [current_avatar, setCurrent_avatar] = useState(current_user?.avatar);
-    // const [current_birthday, setCurrent_birthday] = useState('');
     const [birthday, setBirthday] = useState(null);
     const [gender, setGender] = useState(null);
     const avatar = useRef();
@@ -26,16 +25,11 @@ const Personal = () => {
     })
     const [checkPersonalInfo, setCheckPersonalInfo] = useState(true);
 
-    // const formattedBirthday = (
-    //     <Moment locale="vi" format="DD/MM/YYYY">
-    //         {current_user.birthday}
-    //     </Moment>
-    // );
-
     const formattedDate = new Date(current_user?.birthday);
     formattedDate.setHours(formattedDate.getHours() + 7);
-
     const formattedDateTime = formattedDate.toISOString().substring(0, 10);
+    const formattedBirthday = moment(current_user?.birthday).format('DD-MM-YYYY');
+
     // console.log(typeof (current_birthday))
     // console.log(typeof (current_user.birthday))
     // const formattedDate = current_user.birthDate.toISOString();
@@ -199,8 +193,7 @@ const Personal = () => {
                                         {current_user?.birthday === null ? <>
                                             <Form.Control value="Thiết lập ngày sinh" type="Text" disabled />
                                         </> : <>
-                                            {/* <Moment locale="vi" format="DD/MM/YYYY">{current_user.birthday}</Moment> */}
-                                            <Form.Control value={formattedDateTime} type="Text" disabled />
+                                            <Form.Control value={formattedBirthday} type="Text" disabled />
                                         </>}
                                     </div>
                                     <div className="Change_Button">

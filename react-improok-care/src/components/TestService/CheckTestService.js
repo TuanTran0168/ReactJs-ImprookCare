@@ -4,7 +4,7 @@ import medicaltest from "../../assets/images/medical-test.png"
 import { useState } from 'react';
 import Apis, { authApi, endpoints } from '../../configs/Apis';
 import { BookingManagementContext } from '../../App';
-import axios from "axios";
+import moment from "moment";
 
 const CheckTestService = () => {
     const [booking,] = useContext(BookingManagementContext)
@@ -80,17 +80,17 @@ const CheckTestService = () => {
 
     const createPdf = async () => {
         try {
-            let response = await axios.post('http://localhost:2024/IMPROOK_CARE/api/public/generate-pdf-test-result/', {
+            let response = await Apis.post(endpoints['create-pdf-result'], {
                 "profilePatientName": testResultDetail?.bookingId.profilePatientId.name,
                 "profileDoctorName": testResultDetail?.bookingId.scheduleId.profileDoctorId.name,
                 "nurseName": testResultDetail?.userId === null ? "Chưa xét nghiệm" : `${testResultDetail?.userId.lastname} ${testResultDetail?.userId.firstname}`,
-                "birthday": testResultDetail?.bookingId.profilePatientId.birthday?.substring(0, 4),
+                "birthday": moment(testResultDetail?.bookingId.profilePatientId.birthday).format('DD-MM-YYYY'),
                 "address": testResultDetail?.bookingId.profilePatientId.address,
                 "specialtyName": testResultDetail?.bookingId.scheduleId.profileDoctorId.specialtyId.specialtyName,
                 "testResultDiagnosis": testResultDetail?.testResultDiagnosis === null ? "Chưa có kết quả" : testResultDetail?.testResultDiagnosis,
                 "gender": testResultDetail?.bookingId.profilePatientId.gender === true ? "Nam" : "Nữ",
-                "createdDate": testResultDetail?.createdDate,
-                "updatedDate": testResultDetail?.updatedDate
+                "createdDate": moment(testResultDetail?.createdDate).format('DD-MM-YYYY'),
+                "updatedDate": moment(testResultDetail?.updatedDate).format('DD-MM-YYYY')
             },
                 {
                     responseType: 'blob',
@@ -106,7 +106,7 @@ const CheckTestService = () => {
                 console.log(url);
                 setPdfUrl(url);
             } else {
-                console.error('Failed to fetch PDF');
+                console.error('Tạo pdf thất bại!');
             }
         } catch (error) {
             console.log(error)
@@ -201,7 +201,7 @@ const CheckTestService = () => {
                                     <div className="test-image-choice">
                                         {testResultDetail?.testResultImage ? (
                                             <div>
-                                                <img src={testResultDetail?.testResultImage} alt="Selected" width="100%" />
+                                                <img src={testResultDetail?.testResultImage} alt="Selected" width="40%" />
                                             </div>
                                         ) : (
                                             <div className="Avatar_Null">

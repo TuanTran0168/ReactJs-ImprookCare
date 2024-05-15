@@ -116,49 +116,6 @@ const Register = (props) => {
                                     <div>ĐĂNG KÝ</div>
                                 </div>
                                 <div className="Register_Fill">
-                                    {/* <div className="Register_User">
-                                            <div className="Register_User_Input">
-                                                <input type="text" placeholder="Tên" required></input>
-                                            </div>
-                                            <div className="Separate"></div>
-                                        </div>
-                                        <div className="Register_User">
-                                            <div className="Register_User_Input">
-                                                <input type="text" placeholder="Họ và tên đệm" required></input>
-                                            </div>
-                                            <div className="Separate"></div>
-                                        </div>
-                                        <div className="Register_User">
-                                            <div className="Register_User_Gender">
-                                                <Form.Check type="radio" label="Nam" name="radioOption" defaultChecked onChange={(e) => setGender(true)} />
-                                                <Form.Check type="radio" label="Nữ" name="radioOption" onChange={(e) => setGender(false)} />
-                                            </div>
-                                            <div className="Separate"></div>
-                                        </div>
-                                        <div className="Register_User">
-                                            <div className="Register_User_Input">
-                                                <input type="text" disabled></input>
-                                            </div>
-                                            <div className="Separate"></div>
-                                        </div>
-                                        <div className="Register_Password">
-                                            <div className="Register_Password_Input">
-                                                <input type={showPassword ? 'text' : 'password'} placeholder="Nhập mật khẩu" required></input>
-                                                <button type="button" onClick={toggleShowPassword}>
-                                                    {showPassword ? <AiFillEyeInvisible /> : <AiFillEye />}
-                                                </button>
-                                            </div>
-                                            <div className="Separate"></div>
-                                        </div>
-                                        <div className="Password_Confirm">
-                                            <div className="Password_Confirm_Input">
-                                                <input type={showConfirmPassword ? 'text' : 'password'} placeholder="Xác nhận mật khẩu" required></input>
-                                                <button type="button" onClick={toggleShowConfirmPassword}>
-                                                    {showPassword ? <AiFillEyeInvisible /> : <AiFillEye />}
-                                                </button>
-                                            </div>
-                                            <div className="Separate"></div>
-                                        </div> */}
                                     <Form onSubmit={register}>
                                         <InputGroup className="mb-3">
                                             <InputGroup.Text><Person /></InputGroup.Text>
@@ -205,7 +162,7 @@ const Register = (props) => {
                                         <InputGroup className="mb-3">
                                             <InputGroup.Text><Lock /></InputGroup.Text>
                                             <Form.Control
-                                                placeholder="Password"
+                                                placeholder="Mật khẩu"
                                                 aria-label="Password"
                                                 type={showPassword ? 'text' : 'password'}
                                                 aria-describedby="basic-addon1"
@@ -221,7 +178,7 @@ const Register = (props) => {
                                         <InputGroup className="mb-3">
                                             <InputGroup.Text><Lock /></InputGroup.Text>
                                             <Form.Control
-                                                placeholder="Confirm Password"
+                                                placeholder="Xác nhận mật khẩu"
                                                 aria-label="Confirm Password"
                                                 type={showConfirmPassword ? 'text' : 'password'}
                                                 aria-describedby="basic-addon1"

@@ -2,6 +2,7 @@ import { toast } from 'react-toastify';
 import SockJS from 'sockjs-client';
 import { over } from 'stompjs';
 import cookie from "react-cookies";
+import { SERVER, endpoints } from '../configs/Apis';
 
 var clientStomp = null;
 var isToastDisplayed = false;
@@ -11,7 +12,7 @@ const connectNotification = (data) => {
     if (clientStomp !== null) {
         return;
     }
-    let Sock = new SockJS('http://localhost:2024/IMPROOK_CARE/api/public/notification/');
+    let Sock = new SockJS(`${SERVER}${endpoints['web-notification']}`);
     clientStomp = over(Sock);
     clientStomp.connect({}, () => onConnectedNotification(data, clientStomp), onErrorNotification);
     // return clientStomp;

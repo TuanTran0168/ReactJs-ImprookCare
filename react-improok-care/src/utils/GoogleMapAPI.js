@@ -66,7 +66,6 @@ function GoogleMapAPI(props) {
       <button className="Login_Butt" onClick={handleButtonClick}>
         Đăng nhập
       </button> */}
-
             {isLoaded ? (
                 <GoogleMap mapContainerStyle={containerStyle} center={coords} zoom={18}>
                     <Marker position={coords} />

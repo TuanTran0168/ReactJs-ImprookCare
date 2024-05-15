@@ -3,6 +3,7 @@ import { UserContext, BookingManagementContext } from "../../App";
 import { Badge, Button, Table } from "react-bootstrap";
 import cookie from "react-cookies"
 import Apis, { authApi, endpoints } from "../../configs/Apis";
+import moment from "moment"
 
 const ReexaminationBooking = (props) => {
     const [reexaminationBooking, setReexaminationBooking] = useState([]);
@@ -60,7 +61,6 @@ const ReexaminationBooking = (props) => {
     //     window.open(url, "_blank");
     // };
 
-
     useEffect(() => {
         loadDoctorById()
     }, [props.profileDoctorId])
@@ -87,7 +87,7 @@ const ReexaminationBooking = (props) => {
                                 <tr key={index}>
                                     <td>{rb[0]}</td>
                                     <td>{name}</td>
-                                    <td>{rb[2]}</td>
+                                    <td>{moment(rb[2]).format('DD-MM-YYYY')}</td>
                                     <td>{timeBegin} - {timeEnd}</td>
                                     <td><Badge bg="secondary">{rb[5]}</Badge></td>
                                 </tr>

@@ -42,7 +42,6 @@ const AllMedicine = () => {
     const loadMedicinePage = async (pageNumber) => {
         try {
             setLoading(true);
-            // let e = endpoints['search-users'];
             let e = `${endpoints['search-medicines']}`;
             // let pageNumber = document.getElementsByClassName("active").id;
             console.log(pageNumber)
@@ -85,15 +84,6 @@ const AllMedicine = () => {
         loadMedicinePage();
     }, [])
 
-    const handleOptionClick = (option) => {
-        // setSelectedOption(option);
-    };
-
-    const handleOptionClickAndUpdateMedicine = (e, medicineId) => {
-        // handleOptionClick("updatemedicine");
-        // loadMedicineById(e, medicineId);
-    };
-
     useEffect(() => {
         const loadMedicineCategories = async () => {
             try {
@@ -112,7 +102,7 @@ const AllMedicine = () => {
             <div>
                 <div>
                     <div className="Medicine">
-                        <button onClick={() => handleOptionClick("addmedicine")}><HiPlus /> Thêm 1 thuốc mới</button>
+                        <button onClick={() => nav('/admin/addmedicine')}><HiPlus /> Thêm 1 thuốc mới</button>
                     </div>
                     <div className="Medicine_Search_Group">
                         <div className="Medicine_Search_Input">
@@ -120,7 +110,7 @@ const AllMedicine = () => {
                             <Form.Control className="Medicine_Search_FromPrice" defaultValue={searchFromPrice} name="searchFromPrice" type="Text" onChange={(e) => setSearchFromPrice(e.target.value)} placeholder="Nhập giá bắt đầu..." />
                             <Form.Control className="Medicine_Search_ToPrice" defaultValue={searchToPrice} name="searchToPrice" type="Text" onChange={(e) => setSearchToPrice(e.target.value)} placeholder="Nhập giá kết thúc..." />
                             <Form.Select className="Medicine_Search_Category" value={searchCategory} name="searchCategory" onChange={(e) => setSearchCategory(e.target.value)}>
-                                <option value={null}>TẤT CẢ DANH MỤC</option>
+                                <option value={null}>Tất cả danh mục</option>
                                 {Object.values(medicineCategories).map(mc => <option key={mc.categoryId} value={mc.categoryId}>{mc.categoryName}</option>)}
                             </Form.Select>
                         </div>
@@ -129,7 +119,7 @@ const AllMedicine = () => {
                     <Table striped bordered hover>
                         <thead>
                             <tr>
-                                <th>Ảnh đại diện</th>
+                                <th>Hình ảnh</th>
                                 {/* <th>#</th> */}
                                 <th>Tên thuốc</th>
                                 <th>Mô tả</th>
@@ -164,13 +154,13 @@ const AllMedicine = () => {
                         </tbody>
                     </Table>
                     {/* <div className="Page_Nav">
-                                {medicinePages.map((page) => (
-                                    <button id={`${page}`} key={page} onClick={() => handleMedicinePageChange(page)}
-                                        className={page === selectedPage ? 'active' : ''}>
-                                        {page}
-                                    </button>
-                                ))}
-                            </div> */}
+                        {medicinePages.map((page) => (
+                            <button id={`${page}`} key={page} onClick={() => handleMedicinePageChange(page)}
+                                className={page === selectedPage ? 'active' : ''}>
+                                {page}
+                            </button>
+                        ))}
+                    </div> */}
                     <Pagination pages={medicinePages}
                         selectedPage={selectedPage}
                         handlePageChange={handleMedicinePageChange} />

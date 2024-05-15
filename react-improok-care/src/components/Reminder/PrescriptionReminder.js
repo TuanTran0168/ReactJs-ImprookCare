@@ -5,6 +5,7 @@ import { authApi, endpoints } from "../../configs/Apis";
 import { Accordion, AccordionDetails, AccordionSummary, Typography } from "@mui/material";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import reminder from "../../assets/images/reminder.png"
+import moment from "moment";
 
 const PrescriptionReminder = () => {
     const [current_user,] = useContext(UserContext)
@@ -192,7 +193,7 @@ const PrescriptionReminder = () => {
                                                                 </div>
                                                                 <div>
                                                                     <span><strong>Ngày khám: </strong></span>
-                                                                    <span>{pl.prescriptionDate}</span>
+                                                                    <span>{moment(pl.prescriptionDate).format('DD-MM-YYYY')}</span>
                                                                 </div>
                                                             </div>
                                                         </div>

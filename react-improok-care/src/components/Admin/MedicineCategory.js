@@ -41,6 +41,7 @@ const MedicineCategory = () => {
         }
         loadMedicineCategories();
     }, [])
+
     const addMedicineCategory = (evt) => {
         evt.preventDefault();
 
@@ -57,7 +58,6 @@ const MedicineCategory = () => {
                 });
                 if (res.status === 200) {
                     toast.success(res.data)
-                    handleOptionClick("medicinecategory");
                     loadMedicineCategories();
                 }
                 setLoading(false);
@@ -113,10 +113,6 @@ const MedicineCategory = () => {
         }
     }
 
-    const handleOptionClick = (option) => {
-        // setSelectedOption(option);
-    };
-
     const updateMedicineCategory = (evt, categoryName) => {
         evt.preventDefault();
 
@@ -130,7 +126,6 @@ const MedicineCategory = () => {
                 });
                 if (res.status === 200) {
                     toast.success(res.data)
-                    handleOptionClick("medicinecategory");
                     loadMedicineCategories();
                 }
                 console.log(res.data);
@@ -166,7 +161,7 @@ const MedicineCategory = () => {
                             <Form.Control type="text" defaultValue={medicineCategoryName} onChange={(e) => setMedicineCategoryName(e.target.value)} placeholder="Tên danh mục thuốc" required />
                             <Button variant="secondary" onClick={(e) => {
                                 addMedicineCategory(e);
-                                setMedicineCategoryName(''); // Xóa nội dung input
+                                setMedicineCategoryName('');
                             }}>Thêm</Button>
                         </div>
                     </div>
@@ -215,13 +210,13 @@ const MedicineCategory = () => {
                         </tbody>
                     </Table>
                     {/* <div className="Page_Nav">
-                                {categoryMedicinePages.map((page) => (
-                                    <button id={`${page}`} key={page} onClick={() => handleCategoryMedicinePageChange(page)}
-                                        className={page === selectedPage ? 'active' : ''}>
-                                        {page}
-                                    </button>
-                                ))}
-                            </div> */}
+                        {categoryMedicinePages.map((page) => (
+                            <button id={`${page}`} key={page} onClick={() => handleCategoryMedicinePageChange(page)}
+                                className={page === selectedPage ? 'active' : ''}>
+                                {page}
+                            </button>
+                        ))}
+                    </div> */}
                     <Pagination pages={categoryMedicinePages}
                         selectedPage={selectedPage}
                         handlePageChange={handleCategoryMedicinePageChange} />

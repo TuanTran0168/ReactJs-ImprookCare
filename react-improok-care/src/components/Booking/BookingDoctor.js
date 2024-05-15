@@ -1,7 +1,7 @@
 import { useContext, useEffect, useRef, useState } from "react";
 import "./BookingDoctor.css"
 import { useParams, Link } from "react-router-dom";
-import Apis, { authApi, endpoints } from "../../configs/Apis";
+import Apis, { SERVER, authApi, endpoints } from "../../configs/Apis";
 import verified from "../../assets/images/verified.svg"
 import Spinner from "../../layout/Spinner";
 import googleplay from "../../assets/images/googleplay.svg"
@@ -13,7 +13,6 @@ import Moment from "react-moment";
 import { Rating, Typography } from "@mui/material";
 import { Chat } from "@mui/icons-material";
 import { toast } from "react-toastify";
-// import ChatRoom from "../../utils/ChatRoom";
 // import Message from "./Message";
 // import { MessageBox } from "react-chat-elements";
 import 'react-chat-elements/dist/main.css'
@@ -67,7 +66,7 @@ const BookingDoctor = () => {
     // const updateAvatar = useRef();
 
     const connect = () => {
-        let Sock = new SockJS('http://localhost:2024/IMPROOK_CARE/api/public/webSocket/');
+        let Sock = new SockJS(`${SERVER}${endpoints['web-socket']}`);
         stompClient = over(Sock);
         stompClient.connect({}, onConnected, onError);
     }

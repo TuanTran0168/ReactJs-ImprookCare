@@ -5,9 +5,10 @@ import "./Profile.css";
 import { Button, Form } from "react-bootstrap";
 import Apis, { authApi, endpoints } from "../../configs/Apis";
 import { toast } from "react-toastify";
-import printer from "../../assets/images/printer.png"
-import profileicon from "../../assets/images/profile-icon.png"
-import profile404 from "../../assets/images/profile.png"
+import printer from "../../assets/images/printer.png";
+import profileicon from "../../assets/images/profile-icon.png";
+import profile404 from "../../assets/images/profile.png";
+import moment from "moment";
 
 const Profile = () => {
     const [current_user,] = useContext(UserContext);
@@ -386,11 +387,13 @@ const Profile = () => {
                                                             <Form.Control value="Thiết lập ngày sinh" type="Text" disabled />
                                                         </> : <>
                                                             {(() => {
-                                                                const formattedBirthDate = new Date(profile.birthday);
-                                                                formattedBirthDate.setHours(formattedBirthDate.getHours() + 7);
-                                                                const formattedBirthDateTime = formattedBirthDate.toISOString().substring(0, 10);
+                                                                // const formattedBirthDate = new Date(profile.birthday);
+                                                                // formattedBirthDate.setHours(formattedBirthDate.getHours() + 7);
+                                                                // const formattedBirthDateTime = formattedBirthDate.toISOString().substring(0, 10);
+                                                                const formattedBirthDateTime = moment(profile.birthday).format('DD-MM-YYYY')
                                                                 return (
-                                                                    <Form.Control value={new Date(formattedBirthDateTime).toISOString().substring(0, 10)} type="text" disabled />
+                                                                    // <Form.Control value={new Date(formattedBirthDateTime).toISOString().substring(0, 10)} type="text" disabled />
+                                                                    <Form.Control value={formattedBirthDateTime} type="text" disabled />
                                                                 );
                                                             })()}
                                                         </>}

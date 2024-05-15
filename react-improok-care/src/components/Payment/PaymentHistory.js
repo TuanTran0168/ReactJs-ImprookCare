@@ -6,7 +6,7 @@ import paymentcard from "../../assets/images/payment-card.png"
 import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../../App";
 import { authApi, endpoints } from "../../configs/Apis";
-import { Button, Table } from "react-bootstrap";
+import { Badge, Button, Table } from "react-bootstrap";
 
 const PaymentHistory = () => {
     const [current_user,] = useContext(UserContext);
@@ -101,11 +101,11 @@ const PaymentHistory = () => {
                                                             <Table striped bordered hover>
                                                                 <thead>
                                                                     <tr>
-                                                                        <th>#</th>
                                                                         <th>Bác sĩ</th>
                                                                         <th>Bệnh nhân</th>
                                                                         <th>Khung giờ</th>
                                                                         <th>Chuyên khoa</th>
+                                                                        <th>Tình trạng</th>
                                                                         <th>Chi tiết</th>
                                                                     </tr>
                                                                 </thead>
@@ -115,12 +115,12 @@ const PaymentHistory = () => {
                                                                         const timeEnd = new Date(pl.bookingId.scheduleId.timeSlotId?.timeEnd).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
                                                                         return <>
                                                                             <tr key={pl.paymentHistoryId}>
-                                                                                <td>{pl.paymentHistoryId}</td>
                                                                                 <td>{pl.bookingId.scheduleId.profileDoctorId.name}</td>
                                                                                 <td>{pl.bookingId.profilePatientId.name}</td>
                                                                                 <td>{timeBegin} - {timeEnd}</td>
                                                                                 <td>{pl.bookingId.scheduleId.profileDoctorId.specialtyId.specialtyName}</td>
-                                                                                <td><Button variant="primary">Chi Tiết</Button></td>
+                                                                                <td>{pl.vnpTransactionstatus === "00" ? <Badge bg="success">Thành công</Badge> : <Badge bg="danger">Thất bại</Badge>}</td>
+                                                                                <td><Button variant="primary">Chi tiết</Button></td>
                                                                             </tr>
                                                                         </>
                                                                     })}

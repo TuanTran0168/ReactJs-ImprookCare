@@ -40,7 +40,6 @@ import DoctorInformation from "./components/Doctor/DoctorInformation";
 import ZegoVideo from "./components/ZegoVideo/ZegoVideo";
 import User from "./components/User/User";
 import Search from "./components/Search/Search";
-import ScrollToTop from "./utils/ScrollToTop";
 import Revenue from "./components/Admin/Revenue";
 import Collab from "./components/Admin/Collab";
 import AddMedicine from "./components/Admin/AddMedicine";
@@ -70,7 +69,6 @@ import TestService from "./components/TestService/TestService";
 import Examination from "./components/Examination/Examination";
 import Nurse from "./components/Nurse/Nurse";
 import MedicalTest from "./components/Nurse/MedicalTest";
-import TestPdf from "./components/Test/TestPdf";
 import CheckedTest from "./components/Nurse/CheckedTest";
 import UncheckedTest from "./components/Nurse/UncheckedTest";
 import CheckTestService from "./components/TestService/CheckTestService";
@@ -104,7 +102,6 @@ const App = () => {
               <Routes>
                 <Route exact path='/' element={<Home />} />
                 <Route path='/login' element={<Login />} />
-                <Route path='/testpdf' element={<TestPdf />} />
                 <Route path='/register' element={<Register />} />
                 <Route path='/forgetpassword' element={<ForgetPassword />} />
                 <Route path='/collaboration' element={<Collaboration />} />
@@ -178,7 +175,6 @@ const App = () => {
                   </Route>
                 </Route>
               </Routes>
-              <ScrollToTop />
               <Footer />
               <ToastContainer />
             </BrowserRouter>

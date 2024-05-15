@@ -3,6 +3,7 @@ import { UserContext } from "../../App";
 import { Badge, Button, Table } from "react-bootstrap";
 import { authApi, endpoints } from "../../configs/Apis";
 import { useNavigate } from "react-router-dom";
+import moment from "moment";
 
 const WaitedAppointment = () => {
     const [waitedAppointment, setWaitedAppointment] = useState([]);
@@ -60,7 +61,7 @@ const WaitedAppointment = () => {
                                 <tr key={index}>
                                     <td>{wa.bookingId}</td>
                                     <td>{wa.profilePatientId.name}</td>
-                                    <td>{wa.scheduleId.date}</td>
+                                    <td>{moment(wa.scheduleId.date).format('DD-MM-YYYY')}</td>
                                     <td>{timeBegin} - {timeEnd}</td>
                                     <td><Badge bg="warning">{wa.statusId.statusValue}</Badge></td>
                                     <td><Button variant="primary" onClick={(e) => viewBookingDetail(e, wa.bookingId)}>Chi tiết</Button></td>

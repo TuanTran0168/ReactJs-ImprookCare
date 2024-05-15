@@ -4,6 +4,7 @@ import { Badge, Button, Table } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import cookie from "react-cookies"
 import Apis, { authApi, endpoints } from "../../configs/Apis";
+import moment from "moment";
 
 const AcceptBooking = (props) => {
     const [allowBooking, setAllowBooking] = useState([]);
@@ -88,7 +89,6 @@ const AcceptBooking = (props) => {
         window.open(url, "_blank");
     };
 
-
     useEffect(() => {
         loadDoctorById()
     }, [props.profileDoctorId])
@@ -117,7 +117,7 @@ const AcceptBooking = (props) => {
                                 <tr key={index}>
                                     <td>{ab[0]}</td>
                                     <td>{name}</td>
-                                    <td>{ab[2]}</td>
+                                    <td>{moment(ab[2]).format('DD-MM-YYYY')}</td>
                                     <td>{timeBegin} - {timeEnd}</td>
                                     <td><Badge bg="success">{ab[5]}</Badge></td>
                                     {/* <td><Button variant="primary" onClick={(e) => handleCreatePrescription(e, bl[0], bl[6])}>

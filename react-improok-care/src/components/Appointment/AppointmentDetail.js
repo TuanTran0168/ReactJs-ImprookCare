@@ -3,6 +3,7 @@ import { authApi, endpoints } from "../../configs/Apis";
 import { Badge } from "react-bootstrap";
 import "./AppointmentDetail.css"
 import { useSearchParams } from "react-router-dom";
+import moment from "moment";
 
 const AppointmentDetail = () => {
     const [bookingDetail, setBookingDetail] = useState([]);
@@ -60,7 +61,7 @@ const AppointmentDetail = () => {
                     <div style={{ fontSize: '1.1rem', fontWeight: '600' }}>Thông tin đặt khám</div>
                     <div className="Booking_In4_1">
                         <span>Ngày khám</span>
-                        <span>{bookingDetail[4]}</span>
+                        <span>{moment(bookingDetail[4]).format('DD-MM-YYYY')}</span>
                     </div>
                     <div className="Booking_In4_2">
                         <span>Chuyên khoa</span>
@@ -79,7 +80,7 @@ const AppointmentDetail = () => {
                     </div>
                     <div className="Patient_In4_2">
                         <span>Ngày sinh</span>
-                        <span>{bookingDetail[6] === null ? 'Chưa cập nhật' : bookingDetail[6]?.substring(0, 10)}</span>
+                        <span>{bookingDetail[6] === null ? 'Chưa cập nhật' : moment(bookingDetail[6]).format('DD-MM-YYYY')}</span>
                     </div>
                     <div className="Patient_In4_3">
                         <span>Giới tính</span>
@@ -106,7 +107,7 @@ const AppointmentDetail = () => {
                     </div>
                 </div>
                 <div className="Cancel_Button">
-                    {bookingDetail[12]?.statusValue === "Đã khám xong" || bookingDetail[12]?.statusValue === "Đã xác nhận" ? '' : <button type="button" onClick={(evt) => cancelBooking(evt)}>Hủy Lịch</button>}
+                    {bookingDetail[12]?.statusValue === "Đã khám xong" || bookingDetail[12]?.statusValue === "Đã xác nhận" ? '' : <button type="button" onClick={(evt) => cancelBooking(evt)}>Hủy lịch</button>}
                 </div>
             </div>
         </div>

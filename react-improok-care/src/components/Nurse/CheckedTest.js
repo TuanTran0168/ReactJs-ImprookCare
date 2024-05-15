@@ -1,19 +1,17 @@
 import { useContext, useEffect, useState } from "react";
 import { Button, Form, Modal, Table } from "react-bootstrap";
 import { UserContext } from "../../App";
-import { authApi, endpoints } from "../../configs/Apis";
+import Apis, { authApi, endpoints } from "../../configs/Apis";
 import medicaltest from "../../assets/images/medical-test.png"
-import axios from "axios";
+import moment from "moment";
 
 const CheckedTest = () => {
     const [current_user,] = useContext(UserContext)
     const [testList, setTestList] = useState([])
     const [showModal, setShowModal] = useState(false)
     const [pdfUrl, setPdfUrl] = useState(null)
-
     const [testResultValue, setTestResultValue] = useState('')
     const [testResultDiagnosis, setTestResultDiagnosis] = useState('')
-
     // const [selectedImage, setSelectedImage] = useState('');
     const [testResultDetail, setTestResultDetail] = useState(null);
     // const testImage = useRef();
@@ -58,17 +56,17 @@ const CheckedTest = () => {
 
     const createPdf = async () => {
         try {
-            let response = await axios.post('http://localhost:2024/IMPROOK_CARE/api/public/generate-pdf-test-result/', {
+            let response = await Apis.post(endpoints['create-pdf-result'], {
                 "profilePatientName": testResultDetail?.bookingId.profilePatientId.name,
                 "profileDoctorName": testResultDetail?.bookingId.scheduleId.profileDoctorId.name,
                 "nurseName": testResultDetail?.userId === null ? "Chưa xét nghiệm" : `${testResultDetail?.userId.lastname} ${testResultDetail?.userId.firstname}`,
-                "birthday": testResultDetail?.bookingId.profilePatientId.birthday?.substring(0, 4),
+                "birthday": moment(testResultDetail?.bookingId.profilePatientId.birthday).format('DD-MM-YYYY'),
                 "address": testResultDetail?.bookingId.profilePatientId.address,
                 "specialtyName": testResultDetail?.bookingId.scheduleId.profileDoctorId.specialtyId.specialtyName,
                 "testResultDiagnosis": testResultDetail?.testResultDiagnosis === null ? "Chưa có kết quả" : testResultDetail?.testResultDiagnosis,
                 "gender": testResultDetail?.bookingId.profilePatientId.gender === true ? "Nam" : "Nữ",
-                "createdDate": testResultDetail?.createdDate,
-                "updatedDate": testResultDetail?.updatedDate
+                "createdDate": moment(testResultDetail?.createdDate).format('DD-MM-YYYY'),
+                "updatedDate": moment(testResultDetail?.updatedDate).format('DD-MM-YYYY')
             },
                 {
                     responseType: 'blob',
@@ -84,7 +82,7 @@ const CheckedTest = () => {
                 console.log(url);
                 setPdfUrl(url);
             } else {
-                console.error('Failed to fetch PDF');
+                console.error('Tạo pdf thất bại!');
             }
         } catch (error) {
             console.log(error)
@@ -163,7 +161,7 @@ const CheckedTest = () => {
                                 <div>
                                     <Form.Label style={{ width: "50%" }}>Tình trạng</Form.Label>
                                     {testResultDetail?.testResultValue === null ?
-                                        <Form.Control type="Text" defaultValue={testResultValue} onChange={(e) => setTestResultValue(e.target.value)} placeholder="Nhập kết quả..." />
+                                        <Form.Control type="Text" defaultValue={testResultValue} onChange={(e) => setTestResultValue(e.target.value)} placeholder="Nhập tình trạng..." />
                                         :
                                         <Form.Control type="Text" value={testResultDetail?.testResultValue} disabled />
                                     }
@@ -186,7 +184,7 @@ const CheckedTest = () => {
                                 <div className="test-image-choice">
                                     {testResultDetail?.testResultImage ? (
                                         <div>
-                                            <img src={testResultDetail?.testResultImage} alt="Selected" width="100%" />
+                                            <img src={testResultDetail?.testResultImage} alt="Selected" width="40%" />
                                         </div>
                                     ) : (
                                         <div className="Avatar_Null">

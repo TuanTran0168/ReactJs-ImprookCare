@@ -12,8 +12,9 @@ import AccordionDetails from '@mui/material/AccordionDetails';
 import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { toast } from "react-toastify";
-import reminder from "../../assets/images/reminder.png"
-import Pagination from "../../utils/Pagination"
+import reminder from "../../assets/images/reminder.png";
+import Pagination from "../../utils/Pagination";
+import moment from "moment"
 
 const History = () => {
     const [current_user,] = useContext(UserContext);
@@ -331,7 +332,7 @@ const History = () => {
                                                                                 </div>
                                                                                 <div>
                                                                                     <span><strong>Ngày khám: </strong></span>
-                                                                                    <span>{pl.prescriptionDate}</span>
+                                                                                    <span>{moment(pl.prescriptionDate).format('DD-MM-YYYY')}</span>
                                                                                 </div>
                                                                                 <div style={{ display: 'flex', flexDirection: 'column' }}>
                                                                                     {pl.medicinePaymentStatusId.medicinePaymentStatusId === 1 ? <span><strong>Tiền thuốc: </strong><Badge bg="danger"> Chưa thanh toán</Badge></span> : <span><strong>Tiền thuốc: </strong><Badge bg="success"> Đã thanh toán</Badge></span>}
@@ -395,7 +396,6 @@ const History = () => {
                                                                             <span>{tempTotal} VNĐ</span>
                                                                         </div>
                                                                         <div className="Payment_Button">
-                                                                            {pl.servicePaymentStatusId.servicePaymentStatusId === 1 ? <Button variant="primary" onClick={(e) => servicePayment(e, pl.servicePrice, pl.bookingId.profilePatientId.name, pl.prescriptionId)}>Thanh toán tiền khám</Button> : <Button variant="secondary" style={{ cursor: "not-allowed" }}>Thanh toán tiền khám</Button>}
                                                                             {pl.medicinePaymentStatusId.medicinePaymentStatusId === 1 ? <Button variant="warning" onClick={(e) => prescriptionPayment(e, tempTotal, pl.bookingId.profilePatientId.name, pl.prescriptionId)}>Thanh toán tiền thuốc</Button> : <Button variant="secondary" style={{ cursor: "not-allowed" }}>Thanh toán tiền thuốc</Button>}
                                                                         </div>
                                                                     </div>

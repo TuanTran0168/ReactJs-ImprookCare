@@ -14,10 +14,9 @@ const AllUser = () => {
     const [roles, setRoles] = useState([]);
     const [userList, setUserList] = useState([]);
     const [totalPages, setTotalPages] = useState('1');
+    const [loading, setLoading] = useState(false);
 
     const nav = useNavigate();
-
-    const [loading, setLoading] = useState(false);
 
     const loadUser = async () => {
         try {
@@ -35,7 +34,6 @@ const AllUser = () => {
     const loadUserPage = async (pageNumber) => {
         try {
             setLoading(true);
-            // let e = endpoints['search-users'];
             let e = `${endpoints['search-users']}`;
             // let pageNumber = document.getElementsByClassName("active").id;
             console.log(pageNumber)
@@ -71,8 +69,8 @@ const AllUser = () => {
     }
 
     useEffect(() => {
-        loadUserPage();
         loadUser();
+        loadUserPage();
     }, [])
 
     const pages = Array.from({ length: totalPages }, (_, index) => index + 1);
@@ -96,16 +94,12 @@ const AllUser = () => {
         loadRole();
     }, [])
 
-    const handleOptionClick = (option) => {
-        // nav(option)
-    };
-
     return (
         <>
             <div>
                 <div>
                     <div className="Add_User">
-                        <button onClick={() => handleOptionClick("adduser")}><HiPlus /> Thêm 1 người dùng mới</button>
+                        <button onClick={() => nav('/admin/adduser')}><HiPlus /> Thêm người dùng mới</button>
                     </div>
                     <div className="User_Search_Group">
                         <div className="User_Search_Input">
@@ -113,7 +107,7 @@ const AllUser = () => {
                             <Form.Control className="User_Search_Firstname" defaultValue={searchFirstname} name="searchLastname" type="Text" onChange={(e) => setSearchFirstname(e.target.value)} placeholder="Nhập tên..." />
                             <Form.Select className="User_Search_Role" value={searchRole} name="searchRole" onChange={(e) => setSearchRole(e.target.value)}>
                                 <option value={null}>TẤT CẢ ROLE</option>
-                                {Object.values(roles).map(r => <option key={r.roleId} value={r.roleId}>{r.roleName}</option>)}
+                                {Object.values(roles).map(r => <option key={r.roleId} value={r.roleId}>{r.roleName.substring(5)}</option>)}
                             </Form.Select>
                         </div>
                         <button className="User_Search_Butt" onClick={loadUserPage}>Tìm kiếm</button>
@@ -121,34 +115,30 @@ const AllUser = () => {
                     <Table striped bordered hover>
                         <thead>
                             <tr>
-                                {/* <th>#</th> */}
                                 <th>Ảnh đại diện</th>
                                 <th>Họ và tên đệm</th>
                                 <th>Tên</th>
-                                <th>Tài khoản/Số điện thoại</th>
+                                <th>Tài khoản</th>
                                 <th>Ngày sinh</th>
                                 <th>Giới tính</th>
-                                <th>Email</th>
                                 <th>Vai trò</th>
                                 <th>Thao tác</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {Object.values(userList).map((u, index) => {
+                            {Object.values(userList).map(u => {
                                 let url = `/admin/updateuser/${u.userId}`
                                 const dateTimeString = u.birthday;
                                 const formattedDate = moment(dateTimeString).format('DD-MM-YYYY');
                                 return <>
                                     <tr key={u.userId}>
-                                        {/* <td>{index + 1}</td> */}
                                         <td><div style={{ width: "90px", height: "90px", overflow: 'hidden' }}><img src={u.avatar} alt="avatar" style={{ width: "100%", height: "100%", objectFit: "cover", borderRadius: "45px" }} /></div></td>
                                         <td>{u.lastname}</td>
                                         <td>{u.firstname}</td>
                                         <td>{u.username}</td>
                                         <td>{formattedDate}</td>
                                         <td>{u.gender === true ? 'Nam' : 'Nữ'}</td>
-                                        <td>{u.email}</td>
-                                        <td>{u.roleId.roleName}</td>
+                                        <td>{u.roleId.roleName.substring(5)}</td>
                                         <td>
                                             <Button variant="success" onClick={(e) => {
                                                 // handleOptionClickAndUpdateUser(e, u.userId)
@@ -161,19 +151,18 @@ const AllUser = () => {
                         </tbody>
                     </Table>
                     {/* <div className="Page_Nav">
-                                {pages.map((page) => (
-                                    <button id={`${page}`} key={page} onClick={() => handlePageChange(page)}
-                                        className={page === selectedPage ? 'active' : ''}>
-                                        {page}
-                                    </button>
-                                ))}
-                            </div> */}
+                        {pages.map((page) => (
+                            <button id={`${page}`} key={page} onClick={() => handlePageChange(page)}
+                                className={page === selectedPage ? 'active' : ''}>
+                                {page}
+                            </button>
+                        ))}
+                    </div> */}
                     <Pagination pages={pages}
                         selectedPage={selectedPage}
                         handlePageChange={handlePageChange} />
                 </div>
             </div>
-            {/* <ListUser handleOptionClick={handleOptionClick} /> */}
         </>
     )
 }

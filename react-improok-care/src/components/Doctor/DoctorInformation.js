@@ -7,6 +7,7 @@ import { authApi, endpoints } from "../../configs/Apis";
 import cookie from "react-cookies";
 import { toast } from "react-toastify";
 import avatar_user from "../../assets/images/user.png"
+import moment from 'moment';
 
 const DoctorInformation = () => {
     const [current_user, dispatch] = useContext(UserContext);
@@ -56,6 +57,7 @@ const DoctorInformation = () => {
     const formattedDate = new Date(current_user?.birthday);
     formattedDate.setHours(formattedDate.getHours() + 7);
     const formattedDateTime = formattedDate.toISOString().substring(0, 10);
+    const formattedBirthday = moment(current_user?.birthday).format('DD-MM-YYYY');
 
     // const formattedDate = current_user.birthDate.toISOString();
     // const formattedDate = new Date(current_birthday).toISOString();
@@ -205,7 +207,7 @@ const DoctorInformation = () => {
                                         {current_user.birthday === null ? <>
                                             <Form.Control value="Thiết lập ngày sinh" type="Text" disabled />
                                         </> : <>
-                                            <Form.Control value={formattedDateTime} type="Text" disabled />
+                                            <Form.Control value={formattedBirthday} type="Text" disabled />
                                         </>}
                                     </div>
                                     <div className="Change_Button">

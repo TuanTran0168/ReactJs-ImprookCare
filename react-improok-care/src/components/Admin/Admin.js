@@ -625,7 +625,6 @@ const Admin = () => {
     };
 
     const handleOptionClick = (path) => {
-        // setSelectedItem(item);
         navigate(path);
     };
 
@@ -744,7 +743,7 @@ const Admin = () => {
                                                             </ListItemIcon>
                                                             <ListItemText primary="Thống kê doanh thu" />
                                                         </ListItemButton>
-                                                        <ListItemButton sx={{ pl: 4 }} onClick={() => handleOptionClick("patient")}>
+                                                        <ListItemButton sx={{ pl: 4 }}>
                                                             <ListItemIcon>
                                                                 <LocalHospital />
                                                             </ListItemIcon>

@@ -1,6 +1,4 @@
 import "./PhoneVerification.css"
-// import { FaFacebook, FaGoogle } from "react-icons/fa";
-// import logo from "../assests/images/improokcare-logo.png"
 import Logo from "../../assets/images/login-banner.png"
 import { useContext, useState } from "react";
 import { Form, InputGroup } from "react-bootstrap"
@@ -149,41 +147,13 @@ const PhoneVerification = () => {
                                         <div>XÁC THỰC SỐ ĐIỆN THOẠI</div>
                                     </div>
                                     <div className="PhoneVerification_Fill">
-                                        {/* <div className="PhoneVerification_User">
-                                            <div className="PhoneVerification_Warning">
-                                                <div className="PhoneVerification_User_OTP">
-                                                    <div className="PhoneVerification_User_Input">
-                                                        <input type="text" id="phoneNumberInput" defaultValue={phonenumber} onChange={(e) => validatePhoneNumber(e)} placeholder="Số điện thoại" pattern="[0-9]+" required></input>
-                                                    </div>
-                                                    {isPhonenumbervalid === true ? <button type="button" className="OTP" onClick={OTPSender}>Gửi OTP</button> : <button type="button" className="OTP" disabled style={{ color: "gray", cursor: "auto" }}>Gửi OTP</button>}
-                                                </div>
-                                                <p id="errorMsg" style={{ color: 'red', display: 'none' }}>Số điện thoại không hợp lệ</p>
-                                            </div>
-                                            <div className="Separate"></div>
-                                        </div>
-                                        <div className="PhoneVerification_User">
-                                            <div className="PhoneVerification_User_Input">
-                                                <input type="text" defaultValue={code} onChange={(e) => setCode(e.target.value)} placeholder="Mã OTP" pattern="[0-9]+" required></input>
-                                            </div>
-                                            <div className="Separate"></div>
-                                        </div>
-                                        <div className="PhoneVerification_User">
-                                            <div className="PhoneVerification_User_PolicyCheck">
-                                                <span><input type="checkbox" onChange={handleCheck} /> Tôi đã đọc và đồng ý với
-                                                    các điều khoản và điều kiện sử dụng</span>
-                                            </div>
-                                            <div className="Separate"></div>
-                                        </div> */}
-                                        {/* <button type="button" className="PhoneVerification_Butt" onClick={toRegister}>Register</button>
-                                        <button className="PhoneVerification_Butt">Đăng ký</button> */}
-                                        {/* {loading === true ? <Spinner /> : <button type="button" className="PhoneVerification_Butt" onClick={verification}>Xác thực</button>} */}
                                         <Form onSubmit={verification}>
                                             <InputGroup className="mb-3 PhoneVerification_Warning">
                                                 <div className="PhoneVerification_User_OTP">
                                                     <InputGroup className="PhoneVerification_User_Input">
                                                         <InputGroup.Text><Phone /></InputGroup.Text>
                                                         <Form.Control
-                                                            placeholder="Username/Phone"
+                                                            placeholder="Tài khoản"
                                                             aria-label="Username"
                                                             aria-describedby="basic-addon1"
                                                             id="phoneNumberInput"

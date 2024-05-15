@@ -3,7 +3,7 @@ import { Navigate } from "react-router-dom";
 import { UserContext } from "../../App";
 import "./DoctorMessage.css";
 import { Form } from "react-bootstrap";
-import Apis, { authApi, endpoints } from "../../configs/Apis";
+import Apis, { SERVER, authApi, endpoints } from "../../configs/Apis";
 import printer from "../../assets/images/printer.png"
 import profile404 from "../../assets/images/profile.png"
 import message from "../../assets/images/message.png"
@@ -12,7 +12,6 @@ import 'react-chat-elements/dist/main.css';
 import { over } from 'stompjs';
 import SockJS from 'sockjs-client';
 import Spinner from "../../layout/Spinner"
-
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import Avatar from '@mui/material/Avatar';
@@ -79,8 +78,7 @@ function SimpleDialog(props) {
                 <ListItem disableGutters>
                     <ListItemButton
                         autoFocus
-                        onClick={() => handleListItemClick('addAccount')}
-                    >
+                        onClick={() => handleListItemClick('addAccount')}>
                         <ListItemAvatar>
                             <Avatar>
                                 <AddIcon />
@@ -127,7 +125,7 @@ const DoctorMessage = () => {
     }
 
     const connectNotification = () => {
-        let Sock = new SockJS('http://localhost:2024/IMPROOK_CARE/api/public/notification/')
+        let Sock = new SockJS(`${SERVER}${endpoints['web-notification']}`)
         clientStomp = over(Sock)
         clientStomp.connect({}, onConnectedNotification, onErrorNotification)
     }
@@ -203,7 +201,6 @@ const DoctorMessage = () => {
     }, [listMessage])
 
     const getUserSendMessageToDoctor = async (pd) => {
-        // setSelectedProfile(pd.profileDoctorId);
         setSelectedProfile(pd.profileDoctorId, () => {
             console.log(selectedProfile);
         });
@@ -211,11 +208,10 @@ const DoctorMessage = () => {
             console.log(profile)
         })
         const connect = () => {
-            let Sock = new SockJS('http://localhost:2024/IMPROOK_CARE/api/public/webSocket/');
+            let Sock = new SockJS(`${SERVER}${endpoints['web-socket']}`);
             stompClient = over(Sock);
             stompClient.connect({}, onConnected, onError);
         }
-
         const onConnected = () => {
             stompClient.subscribe('/user/' + pd.profileDoctorId + '/private', onPrivateMessage);
             // stompClient.subscribe('/user/private', onPrivateMessage);
@@ -233,6 +229,7 @@ const DoctorMessage = () => {
             console.log(res.data.content[0][0].userId);
             setLastMessageId(res.data.content[0][1]);
             setSelectedPatient(res.data.content[0][0].userId);
+            setPatientName(`${res.data.content[0][0].firstname} ${res.data.content[0][0].lastname}`);
             let mes = await authApi().get(endpoints['get-message-for-all-view'](pd.profileDoctorId, res.data.content[0][0].userId));
             setListMessage(mes.data);
         } catch (error) {

@@ -97,7 +97,7 @@ const Login = () => {
                                         <InputGroup className="mb-3">
                                             <InputGroup.Text><Person /></InputGroup.Text>
                                             <Form.Control
-                                                placeholder="Username/Phone"
+                                                placeholder="Tài khoản"
                                                 aria-label="Username"
                                                 aria-describedby="basic-addon1"
                                                 required
@@ -108,7 +108,7 @@ const Login = () => {
                                         <InputGroup className="mb-3">
                                             <InputGroup.Text><Lock /></InputGroup.Text>
                                             <Form.Control
-                                                placeholder="Password"
+                                                placeholder="Mật khẩu"
                                                 aria-label="Password"
                                                 type={showPassword ? 'text' : 'password'}
                                                 aria-describedby="basic-addon1"
@@ -120,18 +120,18 @@ const Login = () => {
                                             </button>
                                         </InputGroup>
                                         <div className="Separate"></div>
-                                        {loading === true ? <Spinner /> : <button className="Login_Butt" type="submit">Login</button>}
+                                        {loading === true ? <Spinner /> : <button className="Login_Butt" type="submit">Đăng nhập</button>}
                                     </Form>
                                     <div className="Login_Help">
                                         <span>
-                                            <span><input className="Remember_Check" type="checkbox" /> Remember Me</span>
+                                            <span><input className="Remember_Check" type="checkbox" /> Nhớ mật khẩu</span>
                                         </span>
-                                        <Link to="/forgetpassword">Forget Password?</Link>
+                                        <Link to="/forgetpassword">Quên mật khẩu?</Link>
                                     </div>
                                     <div className="Login_Option">
                                         <div className="Login_Or">
                                             <div></div>
-                                            <span>Or</span>
+                                            <span>Hoặc</span>
                                             <div></div>
                                         </div>
                                         <div className="Login_Another">

@@ -140,7 +140,7 @@ const UncheckedTest = () => {
                                 <div>
                                     <Form.Label style={{ width: "50%" }}>Tình trạng</Form.Label>
                                     {testResultDetail?.testResultValue === null ?
-                                        <Form.Control type="Text" defaultValue={testResultValue} onChange={(e) => setTestResultValue(e.target.value)} placeholder="Nhập kết quả..." />
+                                        <Form.Control type="Text" defaultValue={testResultValue} onChange={(e) => setTestResultValue(e.target.value)} placeholder="Nhập tình trạng..." />
                                         :
                                         <Form.Control type="Text" value={testResultDetail?.testResultValue} disabled />
                                     }
@@ -148,7 +148,7 @@ const UncheckedTest = () => {
                                 <div>
                                     <Form.Label style={{ width: "50%" }}>Chẩn đoán</Form.Label>
                                     {testResultDetail?.testResultDiagnosis === null ?
-                                        <Form.Control type="Text" defaultValue={testResultDiagnosis} onChange={(e) => setTestResultDiagnosis(e.target.value)} placeholder="Nhập triệu chứng..." />
+                                        <Form.Control type="Text" defaultValue={testResultDiagnosis} onChange={(e) => setTestResultDiagnosis(e.target.value)} placeholder="Nhập chẩn đoán..." />
                                         :
                                         <Form.Control type="Text" value={testResultDetail?.testResultDiagnosis} disabled />
                                     }

@@ -3,7 +3,7 @@ import { useContext, useEffect, useRef, useState } from "react";
 import { MessageBox } from "react-chat-elements";
 import { UserContext } from "../../App";
 import { Form } from "react-bootstrap";
-import { authApi, endpoints } from "../../configs/Apis";
+import { SERVER, authApi, endpoints } from "../../configs/Apis";
 import SockJS from "sockjs-client";
 import { over } from "stompjs";
 import Spinner from "../../layout/Spinner"
@@ -25,7 +25,7 @@ const MessageChat = (props) => {
     // const [disconnected, setDisconnected] = useState(false);
 
     const connect = () => {
-        let Sock = new SockJS('http://localhost:2024/IMPROOK_CARE/api/public/webSocket/');
+        let Sock = new SockJS(`${SERVER}${endpoints['web-socket']}`);
         stompClient = over(Sock);
         stompClient.connect({}, onConnected, onError);
     }

@@ -278,21 +278,37 @@ const Prescription = () => {
     if (bookingId === null)
         nav('/bookingmanagement');
 
+    // const handleReminderChange = (medicineId, time) => {
+    //     const updatedPres = {
+    //         ...pres,
+    //         [medicineId]: {
+    //             ...pres[medicineId],
+    //             medicalReminderDTO: {
+    //                 ...pres[medicineId].medicalReminderDTO,
+    //                 [time]: {
+    //                     timeReminderId: time
+    //                 }
+    //             }
+    //         }
+    //     };
+    //     setPres(updatedPres);
+    //     cookie.save("pres", updatedPres);
+    //     console.log(updatedPres);
+    // };
+
     const handleReminderChange = (medicineId, time) => {
-        const updatedPres = {
-            ...pres,
-            [medicineId]: {
-                ...pres[medicineId],
-                medicalReminderDTO: {
-                    ...pres[medicineId].medicalReminderDTO,
-                    [time]: {
-                        timeReminderId: time
-                    }
-                }
-            }
-        };
+        const updatedPres = { ...pres };
+
+        if (updatedPres[medicineId]?.medicalReminderDTO?.[time]) {
+            delete updatedPres[medicineId].medicalReminderDTO[time]
+        } else {
+            updatedPres[medicineId].medicalReminderDTO[time] = {
+                timeReminderId: time
+            };
+        }
+
         setPres(updatedPres);
-        cookie.save("pres", updatedPres);
+        cookie.save('pres', updatedPres);
         console.log(updatedPres);
     };
 
@@ -339,76 +355,6 @@ const Prescription = () => {
                             <div className="Prescription_Detail_Header">
                                 <h4 className="mt-4">Chi tiết đơn thuốc</h4>
                             </div>
-                            {/* <div class="Medicine_Search_Group">
-                                <div class="Medicine_Search_Input">
-                                    <Form.Control class="Medicine_Search_MedicineName" defaultValue={searchMedicineName} name="searchMedicineName" type="Text" onChange={(e) => setSearchMedicineName(e.target.value)} placeholder="Nhập tên thuốc..." />
-                                    <Form.Control class="Medicine_Search_FromPrice" defaultValue={searchFromPrice} name="searchFromPrice" type="Text" onChange={(e) => setSearchFromPrice(e.target.value)} placeholder="Nhập giá bắt đầu..." />
-                                    <Form.Control class="Medicine_Search_ToPrice" defaultValue={searchToPrice} name="searchToPrice" type="Text" onChange={(e) => setSearchToPrice(e.target.value)} placeholder="Nhập giá kết thúc..." />
-                                    <Form.Select class="Medicine_Search_Category" value={searchCategory} name="searchCategory" onChange={(e) => setSearchCategory(e.target.value)}>
-                                        <option value={null}>TẤT CẢ DANH MỤC</option>
-                                        {Object.values(medicineCategories).map(mc => <option key={mc.categoryId} value={mc.categoryId}>{mc.categoryName}</option>)}
-                                    </Form.Select>
-                                </div>
-                                <button class="Medicine_Search_Butt" onClick={loadMedicinePage}>Tìm kiếm</button>
-                            </div>
-                            <div class="Prescription_Detail_Search_Medicine">
-                                <Table striped bordered hover>
-                                    <thead>
-                                        <tr>
-                                            <th>#</th>
-                                            <th>Tên thuốc</th>
-                                            <th>Thao tác</th>
-                                            <th>Mô tả</th>
-                                            <th>Đơn giá</th>
-                                            <th>Loại</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {Object.values(medicineList).map(ml => {
-                                            return <>
-                                                <tr key={ml.medicineId}>
-                                                    <td>{ml.medicineId}</td>
-                                                    <td>{ml.medicineName}</td>
-                                                    <td>{ml.description}</td>
-                                                    <td>{ml.unitPrice}</td>
-                                                    <td>{ml.categoryId.categoryName}</td>
-                                                    <td>
-                                                        <Button variant="success" onClick={() => addMedicine(ml)}>Thêm</Button>
-                                                    </td>
-                                                </tr>
-                                            </>
-                                        })}
-                                    </tbody>
-                                </Table>
-                                <div className="Page_Nav">
-                                    {medicinePages.map((page) => (
-                                        <button id={`${page}`} key={page} onClick={() => handleMedicinePageChange(page)}
-                                            className={page === selectedPage ? 'active' : ''}>
-                                            {page}
-                                        </button>
-                                    ))}
-                                </div>
-                            </div> */}
-                            {/* <div class="Prescription_Detail_Search_Medicine">
-                                <Stack spacing={2} sx={{ width: 300 }}>
-                                    <Autocomplete
-                                        freeSolo
-                                        id="free-solo-2-demo"
-                                        disableClearable
-                                        options={Object.values(medicineList).map(ml => ml.medicineName)}
-                                        renderInput={(params) => (
-                                            <TextField
-                                                {...params}
-                                                label="Tìm thuốc"
-                                                InputProps={{
-                                                    ...params.InputProps,
-                                                    type: 'search',
-                                                }}
-                                            />
-                                        )}
-                                    />
-                                </Stack>
-                            </div> */}
                             <div className="Prescription_Detail_Search_Medicine">
                                 <Stack spacing={2} sx={{ width: 300 }}>
                                     <Autocomplete
@@ -498,12 +444,20 @@ const Prescription = () => {
                                                                 required
                                                             />
                                                         </td>
+                                                        {/* <td>
+                                                            <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'center', justifyContent: 'center' }}>
+                                                                <span><input className="Remember_Check" type="checkbox" onChange={() => handleReminderChange(p.medicineId, 1)} checked={pres[p.medicineId]['medicalReminderDTO'][1]} /> Sáng</span>
+                                                                <span><input className="Remember_Check" type="checkbox" onChange={() => handleReminderChange(p.medicineId, 2)} checked={pres[p.medicineId]['medicalReminderDTO'][2]} /> Trưa</span>
+                                                                <span><input className="Remember_Check" type="checkbox" onChange={() => handleReminderChange(p.medicineId, 3)} checked={pres[p.medicineId]['medicalReminderDTO'][3]} /> Chiều</span>
+                                                                <span><input className="Remember_Check" type="checkbox" onChange={() => handleReminderChange(p.medicineId, 4)} checked={pres[p.medicineId]['medicalReminderDTO'][4]} /> Tối</span>
+                                                            </div>
+                                                        </td> */}
                                                         <td>
                                                             <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'center', justifyContent: 'center' }}>
-                                                                <span><input className="Remember_Check" type="checkbox" onChange={() => handleReminderChange(p.medicineId, 1)} /> Sáng</span>
-                                                                <span><input className="Remember_Check" type="checkbox" onChange={() => handleReminderChange(p.medicineId, 2)} /> Trưa</span>
-                                                                <span><input className="Remember_Check" type="checkbox" onChange={() => handleReminderChange(p.medicineId, 3)} /> Chiều</span>
-                                                                <span><input className="Remember_Check" type="checkbox" onChange={() => handleReminderChange(p.medicineId, 4)} /> Tối</span>
+                                                                <span><input className="Remember_Check" type="checkbox" onChange={() => handleReminderChange(p.medicineId, 1)} checked={pres[p.medicineId]?.medicalReminderDTO?.[1]?.timeReminderId === 1} /> Sáng</span>
+                                                                <span><input className="Remember_Check" type="checkbox" onChange={() => handleReminderChange(p.medicineId, 2)} checked={pres[p.medicineId]?.medicalReminderDTO?.[2]?.timeReminderId === 2} /> Trưa</span>
+                                                                <span><input className="Remember_Check" type="checkbox" onChange={() => handleReminderChange(p.medicineId, 3)} checked={pres[p.medicineId]?.medicalReminderDTO?.[3]?.timeReminderId === 3} /> Chiều</span>
+                                                                <span><input className="Remember_Check" type="checkbox" onChange={() => handleReminderChange(p.medicineId, 4)} checked={pres[p.medicineId]?.medicalReminderDTO?.[4]?.timeReminderId === 4} /> Tối</span>
                                                             </div>
                                                         </td>
                                                         <td style={{ width: '9%' }}>

@@ -3,6 +3,7 @@ import { Badge, Button, Table } from "react-bootstrap";
 import { toast } from "react-toastify";
 import Apis, { authApi, endpoints } from "../../configs/Apis";
 import ModalNotification from "../../layout/Modal";
+import moment from "moment"
 
 const NewBooking = (props) => {
     const [newBooking, setNewBooking] = useState([]);
@@ -120,7 +121,7 @@ const NewBooking = (props) => {
                                 <tr key={index}>
                                     <td>{nb[0]}</td>
                                     <td>{nb[6]}</td>
-                                    <td>{nb[2]}</td>
+                                    <td>{moment(nb[2]).format('DD-MM-YYYY')}</td>
                                     <td>{timeBegin} - {timeEnd}</td>
                                     <td><Badge bg="warning">{nb[5]}</Badge></td>
                                     <td>

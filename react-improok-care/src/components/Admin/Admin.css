@@ -5,7 +5,7 @@ div.Admin_Content {
 }
 
 div.Admin_Content_Left {
-    width: 20%;
+    width: 23%;
 }
 
 div.Admin_Content_Left>ul {
@@ -581,7 +581,7 @@ div.Tab_List>ul li {
 }
 
 .Tab_List li.active {
-    background-color: blue;
+    background-color: #183e9f;
     color: white;
     font-weight: bold;
 }
