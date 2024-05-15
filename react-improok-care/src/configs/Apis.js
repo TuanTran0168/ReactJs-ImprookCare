@@ -2,7 +2,7 @@ import axios from "axios";
 import cookie from "react-cookies";
 
 const SERVER_CONTEXT = "/IMPROOK_CARE";
-export const SERVER = "https://springboot-improokcare.onrender.com/";
+export const SERVER = "https://springboot-improokcare.onrender.com";
 
 export const endpoints = {
     "login": `${SERVER_CONTEXT}/api/public/login/`,
