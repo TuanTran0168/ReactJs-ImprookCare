@@ -4,6 +4,7 @@ import { Badge, Button, Table } from "react-bootstrap";
 import { authApi, endpoints } from "../../configs/Apis";
 import { useNavigate } from "react-router-dom";
 import moment from "moment";
+import { MdMenu } from "react-icons/md";
 
 const WaitedAppointment = () => {
     const [waitedAppointment, setWaitedAppointment] = useState([]);
@@ -50,7 +51,7 @@ const WaitedAppointment = () => {
                             <th>Ngày</th>
                             <th>Khung giờ</th>
                             <th>Tình trạng</th>
-                            <th>Thao tác</th>
+                            <th>Chi tiết</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -64,7 +65,7 @@ const WaitedAppointment = () => {
                                     <td>{moment(wa.scheduleId.date).format('DD-MM-YYYY')}</td>
                                     <td>{timeBegin} - {timeEnd}</td>
                                     <td><Badge bg="warning">{wa.statusId.statusValue}</Badge></td>
-                                    <td><Button variant="primary" onClick={(e) => viewBookingDetail(e, wa.bookingId)}>Chi tiết</Button></td>
+                                    <td><Button variant="primary" onClick={(e) => viewBookingDetail(e, wa.bookingId)}><MdMenu /></Button></td>
                                 </tr>
                             </>
                         })}

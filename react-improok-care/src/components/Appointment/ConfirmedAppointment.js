@@ -4,6 +4,8 @@ import { Badge, Button, Table } from "react-bootstrap";
 import { authApi, endpoints } from "../../configs/Apis";
 import { useNavigate } from "react-router-dom";
 import moment from "moment"
+import { FaVideo } from "react-icons/fa";
+import { MdMenu } from "react-icons/md";
 
 const ConfirmedAppointment = () => {
     const [confirmedAppointment, setConfirmedAppointment] = useState([]);
@@ -55,7 +57,7 @@ const ConfirmedAppointment = () => {
                             <th>Ngày</th>
                             <th>Khung giờ</th>
                             <th>Tình trạng</th>
-                            <th>Thao tác</th>
+                            <th>Chi tiết</th>
                             <th>Meeting</th>
                         </tr>
                     </thead>
@@ -70,8 +72,8 @@ const ConfirmedAppointment = () => {
                                     <td>{moment(ca.scheduleId.date).format('DD-MM-YYYY')}</td>
                                     <td>{timeBegin} - {timeEnd}</td>
                                     <td><Badge bg="success">{ca.statusId.statusValue}</Badge></td>
-                                    <td><Button variant="primary" onClick={(e) => viewBookingDetail(e, ca.bookingId)}>Chi tiết</Button></td>
-                                    <td><Button variant="primary" onClick={() => handleMeetingClick(ca.linkVideoCall)}>Meeting</Button></td>
+                                    <td><Button variant="primary" onClick={(e) => viewBookingDetail(e, ca.bookingId)}><MdMenu /></Button></td>
+                                    <td><Button variant="primary" onClick={() => handleMeetingClick(ca.linkVideoCall)}><FaVideo /></Button></td>
                                 </tr>
                             </>
                         })}

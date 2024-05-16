@@ -7,6 +7,7 @@ import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../../App";
 import { authApi, endpoints } from "../../configs/Apis";
 import { Badge, Button, Table } from "react-bootstrap";
+import { MdMenu } from "react-icons/md"
 
 const PaymentHistory = () => {
     const [current_user,] = useContext(UserContext);
@@ -120,7 +121,7 @@ const PaymentHistory = () => {
                                                                                 <td>{timeBegin} - {timeEnd}</td>
                                                                                 <td>{pl.bookingId.scheduleId.profileDoctorId.specialtyId.specialtyName}</td>
                                                                                 <td>{pl.vnpTransactionstatus === "00" ? <Badge bg="success">Thành công</Badge> : <Badge bg="danger">Thất bại</Badge>}</td>
-                                                                                <td><Button variant="primary">Chi tiết</Button></td>
+                                                                                <td><Button variant="primary"><MdMenu /></Button></td>
                                                                             </tr>
                                                                         </>
                                                                     })}

@@ -4,6 +4,8 @@ import { toast } from "react-toastify";
 import Apis, { authApi, endpoints } from "../../configs/Apis";
 import ModalNotification from "../../layout/Modal";
 import moment from "moment"
+import Swal from "sweetalert2";
+
 
 const NewBooking = (props) => {
     const [newBooking, setNewBooking] = useState([]);
@@ -24,7 +26,7 @@ const NewBooking = (props) => {
                 loadNewBooking();
                 console.log(requestBody)
                 if (res.status === 200) {
-                    toast.success(res.data);
+                    // toast.success(res.data);
                     let link = `http://localhost:3000/zego/?roomID=${res.data.linkVideoCall}`
                     let mes = await Apis.post(endpoints['send-custom-email'], {
                         "mailTo": "2051052125thai@ou.edu.vn",
@@ -55,7 +57,7 @@ const NewBooking = (props) => {
                 })
                 loadNewBooking();
                 if (res.data === "Từ chối thành công lịch đặt khám!") {
-                    toast.success(res.data);
+                    // toast.success(res.data);
                     let mes = await Apis.post(endpoints['send-custom-email'], {
                         "mailTo": "2051050549tuan@ou.edu.vn",
                         "mailSubject": "Từ chối lịch khám",
@@ -92,11 +94,38 @@ const NewBooking = (props) => {
         // loadWaitingBooking();
     }, [props.profileDoctorId])
 
-    const handleShowModal = (bookingId, modalTitle, action) => {
-        setBookingAction(action);
-        setBookingId(bookingId);
-        setTitle(modalTitle);
-        setShowModal(true);
+    // const handleShowModal = (bookingId, modalTitle, action) => {
+    //     setBookingAction(action);
+    //     setBookingId(bookingId);
+    //     setTitle(modalTitle);
+    //     setShowModal(true);
+    // };
+
+    const handleShowModal = (title, buttText, cfmText, action, bookingId) => {
+        const swalWithBootstrapButtons = Swal.mixin({
+            customClass: {
+                confirmButton: 'btn btn-success mr-2',
+                cancelButton: 'btn btn-danger',
+            },
+            buttonsStyling: false
+        });
+
+        swalWithBootstrapButtons.fire({
+            title: title,
+            text: "Bạn sẽ không thể hoàn tác tác vụ này!",
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonText: buttText,
+            cancelButtonText: 'Hủy',
+        }).then((result) => {
+            if (result.isConfirmed) {
+                action(bookingId)
+                swalWithBootstrapButtons.fire(
+                    'Thành công', cfmText, 'success'
+                );
+            } else if (result.dismiss === Swal.DismissReason.cancel) {
+            }
+        });
     };
 
     return <>
@@ -127,11 +156,13 @@ const NewBooking = (props) => {
                                     <td>
                                         <Button style={{ marginRight: '.5rem' }} variant="success"
                                             // onClick={(evt) => { acceptBooking(evt, nb[0]); setShowModal(true) }}
-                                            onClick={() => handleShowModal(nb[0], 'Bạn có chắc muốn xác nhận lịch khám?', "acceptBooking")}
+                                            // onClick={() => handleShowModal(nb[0], 'Bạn có chắc muốn xác nhận lịch khám?', "acceptBooking")}
+                                            onClick={() => handleShowModal("Bạn có chắc chắc muốn xác nhận lịch khám?", "Xác nhận", "Xác nhận thành công lịch khám", acceptBooking, nb[0])}
                                         >Xác nhận</Button>
                                         <Button variant="danger"
                                             // onClick={(evt) => denyBooking(evt, nb[0])}
-                                            onClick={() => handleShowModal(nb[0], 'Bạn có chắc muốn từ chối lịch khám?', "denyBooking")}
+                                            // onClick={() => handleShowModal(nb[0], 'Bạn có chắc muốn từ chối lịch khám?', "denyBooking")}
+                                            onClick={() => handleShowModal("Bạn có chắc chắc muốn từ chối lịch khám?", "Từ chối", "Từ chối thành công lịch khám", denyBooking, nb[0])}
                                         >Từ chối</Button>
                                     </td>
                                 </tr>
@@ -139,12 +170,12 @@ const NewBooking = (props) => {
                         })}
                     </tbody>
                 </Table>
-                <ModalNotification showModal={showModal}
+                {/* <ModalNotification showModal={showModal}
                     setShowModal={setShowModal}
                     title={title}
                     // acceptBooking={() => acceptBooking(bookingId)}
                     // denyBooking={() => denyBooking(bookingId)}
-                    bookingAction={bookingAction === "acceptBooking" ? () => acceptBooking(bookingId) : bookingAction === 'denyBooking' ? () => denyBooking(bookingId) : null} />
+                    bookingAction={bookingAction === "acceptBooking" ? () => acceptBooking(bookingId) : bookingAction === 'denyBooking' ? () => denyBooking(bookingId) : null} /> */}
             </div>
         </div>
     </>

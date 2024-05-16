@@ -6,11 +6,11 @@ import Form from 'react-bootstrap/Form'
 import Spinner from "../../layout/Spinner"
 import { Facebook, Google, Lock, Person, Visibility, VisibilityOff } from "@mui/icons-material";
 import { InputGroup } from "react-bootstrap";
-import { toast } from "react-toastify";
 import cookie from "react-cookies";
 import { UserContext, WebSocketContext } from "../../App";
 import Apis, { authApi, endpoints } from "../../configs/Apis";
 import { reConnectNotification } from "../../utils/WebSocket";
+import Swal from 'sweetalert2'
 
 var connectNoti = null
 
@@ -59,12 +59,21 @@ const Login = () => {
                 setLoading(false)
                 console.log("Login", connectNoti);
                 if (res.status === 200)
-                    toast.success("Đăng nhập thành công!");
+                    // toast.success("Đăng nhập thành công!");
+                    Swal.fire({
+                        text: "Đăng nhập thành công!",
+                        icon: "success"
+                    });
 
                 // connectNotification(clientStomp, data.userId);
             } catch (err) {
                 setLoading(false);
-                toast.error("Sai tài khoản hoặc mật khẩu!");
+                // toast.error("Sai tài khoản hoặc mật khẩu!");
+                Swal.fire({
+                    text: "Sai tài khoản hoặc mật khẩu",
+                    icon: "error",
+                    confirmButtonText: "Thử lại"
+                });
             }
         }
         process();

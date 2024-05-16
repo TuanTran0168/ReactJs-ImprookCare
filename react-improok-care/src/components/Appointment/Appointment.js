@@ -9,7 +9,7 @@ const Appointment = () => {
     const [booking, setBooking] = useState([]);
     const [bookingDetail, setBookingDetail] = useState(null);
     const [selectedBooking, setSelectedBooking] = useState('');
-    const nav = useNavigate()
+    const nav = useNavigate();
 
     const loadUserBooking = async () => {
         try {

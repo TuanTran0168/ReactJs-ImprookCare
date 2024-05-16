@@ -1,15 +1,17 @@
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import "./Header.css"
 import { useNavigate, Link } from "react-router-dom"
-import { Dropdown, Image, NavDropdown } from "react-bootstrap";
+import { Button, Dropdown, Image, NavDropdown, OverlayTrigger, Popover } from "react-bootstrap";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { UserContext } from "../../App";
-import { FaHome, FaInfoCircle, FaHistory, FaUserNurse } from "react-icons/fa";
+import { FaHome, FaInfoCircle, FaHistory, FaUserNurse, FaBell } from "react-icons/fa";
 import { MdSecurity, MdLogout, MdAccountCircle, MdAdminPanelSettings } from "react-icons/md";
+import { authApi, endpoints } from "../../configs/Apis";
 
 const Header = () => {
-    const [user, dispatch] = useContext(UserContext);
+    const [current_user, dispatch] = useContext(UserContext);
     const nav = useNavigate();
+    const [notificationList, setNotificationList] = useState([]);
 
     const logout = () => {
         dispatch({
@@ -17,6 +19,21 @@ const Header = () => {
         })
         nav("/")
     }
+
+    const loadNotification = async () => {
+        try {
+            let res = await authApi().get(endpoints['load-notification'](current_user?.userId))
+            setNotificationList(res.data.content)
+            console.log(res.data.content)
+            console.log(res.data.content[0].notificationContent)
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    useEffect(() => {
+        loadNotification()
+    }, [])
 
     const handleItemClick = (to) => {
         nav(to);
@@ -76,15 +93,15 @@ const Header = () => {
                     </ul>
                 </div>
                 <div className="Header3">
-                    {user === null ?
+                    {current_user === null ?
                         <><button className="Sign-in"><Link to="/phoneverification">Đăng ký</Link></button>
                             <button className="Log-in"><Link to="/login">Đăng nhập</Link></button></>
                         :
                         <>
                             {/* <span class="User-profile"><a href="/">Chào {user.lastname} {user.firstname}</a></span> */}
                             <Dropdown style={{ display: 'flex', gap: '0.75rem', justifyContent: 'center', alignItems: 'center' }}>
-                                <div className="avatar_container"><Image src={user?.avatar} alt="Avatar" roundedCircle /></div>
-                                <NavDropdown title={`Chào, ${user.lastname} ${user.firstname}!`} id="basic-nav-dropdown">
+                                <div className="avatar_container"><Image src={current_user?.avatar} alt="Avatar" roundedCircle /></div>
+                                <NavDropdown title={`Chào, ${current_user.lastname} ${current_user.firstname}!`} id="basic-nav-dropdown">
                                     {/* <NavDropdown.Item style={{ display: 'flex', gap: '0.75rem', alignItems: 'center' }} onClick={handleItemClick()}><Link to="/"><FaHome />Về trang chủ</Link></NavDropdown.Item>
                                     <NavDropdown.Item style={{ display: 'flex', gap: '0.75rem', alignItems: 'center' }}><Link to="/personal"><FaInfoCircle />Thông tin cá nhân</Link></NavDropdown.Item>
                                     <NavDropdown.Item style={{ display: 'flex', gap: '0.75rem', alignItems: 'center' }}><Link to="/history"><FaHistory />Lịch sử khám bệnh</Link></NavDropdown.Item>
@@ -98,18 +115,18 @@ const Header = () => {
                                             <Link to={item.to}>{item.icon}{item.text}</Link>
                                         </NavDropdown.Item>
                                     ))}
-                                    {user.roleId.roleId === 1 ?
+                                    {current_user.roleId.roleId === 1 ?
                                         <>
                                             <NavDropdown.Item style={{ display: 'flex', gap: '0.75rem', alignItems: 'center' }} onClick={handleAdminClick}><Link to="/admin/overview"><MdAdminPanelSettings />Quản trị</Link></NavDropdown.Item>
                                             {/* <button class="Admin"><Link to="/admin">Quản trị</Link></button> */}
                                         </> :
                                         <>
-                                            {user.roleId.roleId === 2 ?
+                                            {current_user.roleId.roleId === 2 ?
                                                 <>
                                                     <NavDropdown.Item style={{ display: 'flex', gap: '0.75rem', alignItems: 'center' }} onClick={handleDoctorClick}><Link to="/doctor/doctorinformation"><MdAccountCircle />Bác sĩ</Link></NavDropdown.Item>
                                                     {/* <button class="Doctor"><Link to="/doctor">Bác sĩ</Link></button> */}
                                                 </> : <>
-                                                    {user.roleId.roleId === 4 ?
+                                                    {current_user.roleId.roleId === 4 ?
                                                         <>
                                                             <NavDropdown.Item style={{ display: 'flex', gap: '0.75rem', alignItems: 'center' }} onClick={handleNurseClick}><Link to="/nurse/medicaltest"><FaUserNurse />Y tá</Link></NavDropdown.Item>
                                                             {/* <button class="Doctor"><Link to="/doctor">Bác sĩ</Link></button> */}
@@ -119,6 +136,38 @@ const Header = () => {
                                     }
                                     <NavDropdown.Item onClick={logout} style={{ display: 'flex', gap: '0.75rem', alignItems: 'center' }}><MdLogout />Đăng xuất</NavDropdown.Item>
                                 </NavDropdown>
+                                <OverlayTrigger
+                                    trigger="click"
+                                    key='bottom'
+                                    placement='bottom'
+                                    overlay={
+                                        <Popover id="popover-positioned-bottom" className="custom-popover" style={{ zIndex: '99999' }}>
+                                            <Popover.Header as="h3">Thông báo</Popover.Header>
+                                            <Popover.Body>
+                                                {notificationList.length === 0 ?
+                                                    <div>Chưa có thông báo nào</div>
+                                                    :
+                                                    <>
+                                                        <div className="notification_container">
+                                                            {Object.values(notificationList).map((nl) => {
+                                                                return (
+                                                                    <div className="notification_content">
+                                                                        <div className="notification_avatar"><Image src={nl.senderId.avatar} alt="Avatar" roundedCircle /></div>
+                                                                        <div>{nl.notificationContent}</div>
+                                                                    </div>
+                                                                )
+                                                            })}
+                                                        </div>
+                                                    </>
+                                                }
+                                            </Popover.Body>
+                                        </Popover>
+                                    }
+                                >
+                                    <Button onClick={() => loadNotification()} variant="warning" className="bell-button">
+                                        <FaBell />
+                                    </Button>
+                                </OverlayTrigger>
                             </Dropdown>
                         </>
                     }

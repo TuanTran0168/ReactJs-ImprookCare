@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import cookie from "react-cookies"
 import Apis, { authApi, endpoints } from "../../configs/Apis";
 import moment from "moment";
+import { FaBookMedical, FaVideo } from "react-icons/fa";
 
 const AcceptBooking = (props) => {
     const [allowBooking, setAllowBooking] = useState([]);
@@ -104,7 +105,7 @@ const AcceptBooking = (props) => {
                             <th>Ngày</th>
                             <th>Khung giờ</th>
                             <th>Tình trạng</th>
-                            <th>Thao tác</th>
+                            <th>Khám bệnh</th>
                             <th>Meeting</th>
                         </tr>
                     </thead>
@@ -121,10 +122,10 @@ const AcceptBooking = (props) => {
                                     <td>{timeBegin} - {timeEnd}</td>
                                     <td><Badge bg="success">{ab[5]}</Badge></td>
                                     {/* <td><Button variant="primary" onClick={(e) => handleCreatePrescription(e, bl[0], bl[6])}>
-                                                    <Link to={`/prescription/?bookingId=${bl[0]}&&profilePatientName=${bl[6]}&&profileDoctorName=${profileDoctor.name}&&bookingPrice=${profileDoctor.bookingPrice}`}>Tạo đơn thuốc</Link></Button></td> */}
-                                    <td><Button variant="primary" onClick={(e) => handleCreatePrescription(e, ab[0], ab[6], ab[10].profilePatientId, ab[11].profileDoctorId)}><Link to='/doctor/examination/prescription' class="toPrescription" onClick={() => removePres()}>Đơn thuốc</Link></Button></td>
+                                    <Link to={`/prescription/?bookingId=${bl[0]}&&profilePatientName=${bl[6]}&&profileDoctorName=${profileDoctor.name}&&bookingPrice=${profileDoctor.bookingPrice}`}>Tạo đơn thuốc</Link></Button></td> */}
+                                    <td><Button variant="primary" onClick={(e) => handleCreatePrescription(e, ab[0], ab[6], ab[10].profilePatientId, ab[11].profileDoctorId)}><Link to='/doctor/examination/prescription' class="toPrescription" onClick={() => removePres()}><FaBookMedical /></Link></Button></td>
                                     {/* <td><Button variant="primary"><Link to={`/zego/?roomID=${ab[9]}`} class="toPrescription">Meeting</Link></Button></td> */}
-                                    <td><Button variant="primary" onClick={() => handleMeetingClick(ab[9])}>Meeting</Button></td>
+                                    <td><Button variant="primary" onClick={() => handleMeetingClick(ab[9])}><FaVideo /></Button></td>
                                 </tr>
                             </>
                         })}

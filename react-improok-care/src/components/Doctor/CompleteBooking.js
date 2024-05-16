@@ -5,6 +5,8 @@ import { Autocomplete, Stack, TextField } from "@mui/material";
 import cookie from "react-cookies"
 import { useNavigate } from "react-router-dom";
 import moment from "moment";
+import { FaEdit } from "react-icons/fa";
+import { IoArrowBackCircle } from "react-icons/io5";
 
 const CompleteBooking = (props) => {
     const [completeBooking, setCompleteBooking] = useState([]);
@@ -109,7 +111,7 @@ const CompleteBooking = (props) => {
                             <th>Khung giờ</th>
                             <th>Tình trạng</th>
                             <th>Tái khám</th>
-                            <th>Thao tác</th>
+                            <th>Sửa đơn thuốc</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -123,8 +125,8 @@ const CompleteBooking = (props) => {
                                     <td>{moment(cb[2]).format('DD-MM-YYYY')}</td>
                                     <td>{timeBegin} - {timeEnd}</td>
                                     <td><Badge bg="warning">{cb[5]}</Badge></td>
-                                    <td><Button variant="primary">Tạo tái khám</Button></td>
-                                    <td><Button variant="primary" onClick={() => handleEditPrescription(cb[0])}>Sửa đơn thuốc</Button></td>
+                                    <td><Button variant="primary"><IoArrowBackCircle /></Button></td>
+                                    <td><Button variant="primary" onClick={() => handleEditPrescription(cb[0])}><FaEdit /></Button></td>
                                 </tr>
                             </>
                         })}

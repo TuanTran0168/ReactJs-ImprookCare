@@ -4,6 +4,7 @@ import { Badge, Button, Table } from "react-bootstrap";
 import { authApi, endpoints } from "../../configs/Apis";
 import { useNavigate } from "react-router-dom";
 import moment from "moment";
+import { MdMenu } from "react-icons/md";
 
 const CompletedAppointment = () => {
     const [completedAppointment, setCompletedAppointment] = useState([]);
@@ -64,7 +65,7 @@ const CompletedAppointment = () => {
                                     <td>{moment(ca.scheduleId.date).format('DD-MM-YYYY')}</td>
                                     <td>{timeBegin} - {timeEnd}</td>
                                     <td><Badge bg="success">{ca.statusId.statusValue}</Badge></td>
-                                    <td><Button variant="primary" onClick={(e) => viewBookingDetail(e, ca.bookingId)}>Chi tiết</Button></td>
+                                    <td><Button variant="primary" onClick={(e) => viewBookingDetail(e, ca.bookingId)}><MdMenu /></Button></td>
                                 </tr>
                             </>
                         })}

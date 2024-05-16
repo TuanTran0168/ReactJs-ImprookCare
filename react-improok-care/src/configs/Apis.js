@@ -95,6 +95,7 @@ export const endpoints = {
     "seen-message": (messageId) => `${SERVER_CONTEXT}/api/auth/message/${messageId}/seenMessage/`,
     "search-function": `${SERVER_CONTEXT}/api/public/search-profile-doctors/`,
     "add-notification": `${SERVER_CONTEXT}/api/auth/add-notification/`,
+    "load-notification": (userId) => `${SERVER_CONTEXT}/api/auth/user/${userId}/get-notification/`,
     "add-chatgpt-consult": `${SERVER_CONTEXT}/api/auth/chatgptConsult/add-chatgptConsult/`,
     "load-chatgpt-consult": (userId) => `${SERVER_CONTEXT}/api/auth/user/${userId}/get-chatgptConsult/`,
     "add-payment": `${SERVER_CONTEXT}/api/auth/add-payment/`,
