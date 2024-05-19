@@ -3,8 +3,8 @@ import "./Booking.css"
 import Apis, { endpoints } from "../../configs/Apis";
 import googleplay from "../../assets/images/googleplay.svg"
 import appstore from "../../assets/images/appstore.svg"
-import maledoctor from "../../assets/images/male-doctor.png"
-import femaledoctor from "../../assets/images/female-doctor.png"
+import maledoctor from "../../assets/images/male_banner.png"
+import femaledoctor from "../../assets/images/medical-app.png"
 import { TiTick } from "react-icons/ti";
 import { FcSearch } from "react-icons/fc";
 import { Link, useNavigate } from "react-router-dom";
@@ -116,8 +116,7 @@ const Booking = () => {
                                 responsive={responsive}
                                 sliderClass="Doctor_Carousel"
                                 itemClass="custom-item"
-                                centerMode={true}
-                            >
+                                centerMode={true}>
                                 {Object.values(listDoctor).map(ld => {
                                     let url = `/doctor/${ld.profileDoctorId}`
                                     return (
@@ -158,14 +157,14 @@ const Booking = () => {
                     </div>
                     <div className="Booking_Content_4_Content">
                         <div className="Booking_Content_4_LeftContent">
-                            {imageClick === true ? <img src={femaledoctor} alt="doctor" style={{ width: '100%' }} /> : <img src={maledoctor} alt="doctor" style={{ width: '100%' }} />}
+                            {imageClick === true ? <img src={femaledoctor} alt="doctor" style={{ width: '60%' }} /> : <img src={maledoctor} alt="doctor" style={{ width: '60%' }} />}
                         </div>
                         <div className="Booking_Content_4_RightContent">
                             <div>
                                 <div className="Separate"></div>
                                 <div onClick={checkImageClick} style={{ padding: '1.5rem' }}>
                                     <h5 style={{ fontWeight: 'bold', fontSize: '1.25rem' }}>Đội ngũ bác sĩ</h5>
-                                    <h6 style={{ fontWeight: '400' }}>Tất cả các bác sĩ đều liên kết chính thức với I'MPROOK CARE.</h6>
+                                    <h6 style={{ fontWeight: '400' }}>Tất cả các bác sĩ đều liên kết chính thức với I'MPROOK CARE. Đảm bảo lịch hẹn của bạn sẽ được tiếp nhận</h6>
                                 </div>
                             </div>
                             <hr />
@@ -173,7 +172,7 @@ const Booking = () => {
                                 <div className="Separate"></div>
                                 <div onClick={checkImageClick} style={{ padding: '1.5rem' }}>
                                     <h5 style={{ fontWeight: 'bold', fontSize: '1.25rem' }}>Đặt khám dễ dàng, nhanh chóng, chủ động</h5>
-                                    <h6 style={{ fontWeight: '400' }}>Chỉ với 1 phút, bạn có thể đặt khám thành công với bác sĩ.</h6>
+                                    <h6 style={{ fontWeight: '400' }}>Chỉ với 1 phút, bạn có thể đặt khám thành công với bác sĩ. Phiếu khám của bạn sẽ bao gồm thời gian dự kiến</h6>
                                 </div>
                             </div>
                         </div>

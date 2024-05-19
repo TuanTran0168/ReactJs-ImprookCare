@@ -375,8 +375,13 @@ div.Profile_Doctor_Total_Rating {
 div.User_Message_Content {
     height: 22rem;
     overflow: auto;
+    max-width: 22rem;
 }
 
 div.User_Comment, div.Avatar_Comment, div.Comment_Content {
     margin-bottom: .25rem;
+}
+
+.rce-mbox-body {
+    max-width: 14rem;
 }

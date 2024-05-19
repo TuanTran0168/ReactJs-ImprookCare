@@ -9,6 +9,7 @@ import { UserContext } from "../../App";
 import { toast } from "react-toastify";
 import cookie from "react-cookies"
 import { Facebook, Google, Password, Phone } from "@mui/icons-material";
+import Swal from "sweetalert2";
 
 const PhoneVerification = () => {
     const [user,] = useContext(UserContext)
@@ -69,10 +70,14 @@ const PhoneVerification = () => {
             try {
                 setLoading(true)
                 if (code === '') {
-                    toast.warning("Vui lòng nhập OTP");
+                    Swal.fire(
+                        'Cảnh báo', "Vui lòng nhập mã OTP!", 'warning'
+                    );
                     setLoading(false);
                 } else if (check === false) {
-                    toast.warning("Vui lòng đồng ý với điều khoản dịch vụ");
+                    Swal.fire(
+                        'Cảnh báo', "Vui lòng đồng ý với điều khoản và dịch vụ!", 'warning'
+                    );
                     setLoading(false);
                 }
 
@@ -140,7 +145,7 @@ const PhoneVerification = () => {
                         <img src={Logo} alt="IMPROOKCARE" />
                     </div>
                     <div className="PhoneVerification_Right">
-                        <Form className="PhoneVerification_Form">
+                        <div className="PhoneVerification_Frm">
                             <div className="PhoneVerification_Form">
                                 <div className="PhoneVerification_Detail">
                                     <div className="PhoneVerification_Header">
@@ -218,7 +223,7 @@ const PhoneVerification = () => {
                                     </div>
                                 </div>
                             </div>
-                        </Form>
+                        </div>
                     </div>
                 </div>
             </div>

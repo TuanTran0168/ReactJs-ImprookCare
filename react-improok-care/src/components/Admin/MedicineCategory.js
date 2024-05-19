@@ -145,7 +145,7 @@ const MedicineCategory = () => {
 
     useEffect(() => {
         loadMedicineCategories();
-        loadMedicineCategoriesPage();
+        // loadMedicineCategoriesPage();
     }, [])
 
     return (

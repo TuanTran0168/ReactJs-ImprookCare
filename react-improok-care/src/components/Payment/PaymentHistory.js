@@ -6,7 +6,8 @@ import paymentcard from "../../assets/images/payment-card.png"
 import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../../App";
 import { authApi, endpoints } from "../../configs/Apis";
-import { Badge, Button, Table } from "react-bootstrap";
+import { Badge, Button, Modal, Table } from "react-bootstrap";
+import success from "../../assets/images/success.png"
 import { MdMenu } from "react-icons/md"
 
 const PaymentHistory = () => {
@@ -14,6 +15,9 @@ const PaymentHistory = () => {
     const [profilePatient, setProfilePatient] = useState([]);
     const [selectedProfile, setSelectedProfile] = useState();
     const [paymentList, setPaymentList] = useState([])
+    const [showModal, setShowModal] = useState(false)
+
+    const [paymentDetail, setPaymentDetail] = useState([])
 
     const loadProfilePatient = async () => {
         try {
@@ -36,6 +40,17 @@ const PaymentHistory = () => {
             let res = await authApi().get(endpoints['load-payment-history'](pp.profilePatientId))
             setPaymentList(res.data.content)
             console.log(res.data.content)
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    const viewPaymentDetail = async (pl) => {
+        try {
+            let res = await authApi().get(endpoints['payment-detail'](pl.paymentHistoryId))
+            console.log(res.data)
+            setPaymentDetail(res.data)
+            setShowModal(true)
         } catch (error) {
             console.log(error)
         }
@@ -105,7 +120,7 @@ const PaymentHistory = () => {
                                                                         <th>Bác sĩ</th>
                                                                         <th>Bệnh nhân</th>
                                                                         <th>Khung giờ</th>
-                                                                        <th>Chuyên khoa</th>
+                                                                        {/* <th>Chuyên khoa</th> */}
                                                                         <th>Tình trạng</th>
                                                                         <th>Chi tiết</th>
                                                                     </tr>
@@ -119,14 +134,80 @@ const PaymentHistory = () => {
                                                                                 <td>{pl.bookingId.scheduleId.profileDoctorId.name}</td>
                                                                                 <td>{pl.bookingId.profilePatientId.name}</td>
                                                                                 <td>{timeBegin} - {timeEnd}</td>
-                                                                                <td>{pl.bookingId.scheduleId.profileDoctorId.specialtyId.specialtyName}</td>
+                                                                                {/* <td>{pl.bookingId.scheduleId.profileDoctorId.specialtyId.specialtyName}</td> */}
                                                                                 <td>{pl.vnpTransactionstatus === "00" ? <Badge bg="success">Thành công</Badge> : <Badge bg="danger">Thất bại</Badge>}</td>
-                                                                                <td><Button variant="primary"><MdMenu /></Button></td>
+                                                                                <td><Button variant="primary" onClick={() => viewPaymentDetail(pl)}><MdMenu /></Button></td>
                                                                             </tr>
                                                                         </>
                                                                     })}
                                                                 </tbody>
                                                             </Table>
+                                                            {showModal && (
+                                                                <Modal fullscreen={true} show={showModal} onHide={() => { setShowModal(false) }}
+                                                                    style={{ display: 'block', backgroundColor: 'rgba(0.0.0.0.5)', position: 'fixed', top: 0, bottom: 0, left: 0, right: 0, zIndex: 9999 }}
+                                                                >
+                                                                    <Modal.Header closeButton>
+                                                                        <Modal.Title>Thông tin thanh toán</Modal.Title>
+                                                                    </Modal.Header>
+                                                                    <Modal.Body>
+                                                                        <div className="payment_detail_wrapper">
+                                                                            <div className="payment_detail_header">
+                                                                                <h3 className="text-muted">KẾT QUẢ THANH TOÁN</h3>
+                                                                                <div className="payment_detail_image">
+                                                                                    <img src={success} alt="success" width={"20%"} />
+                                                                                </div>
+                                                                            </div>
+                                                                            <div className="payment_detail_content">
+                                                                                <div className="form-group">
+                                                                                    <label>Mã giao dịch thanh toán:</label>
+                                                                                    <label>{paymentDetail.vnpTxnref}</label>
+                                                                                </div>
+                                                                                <div className="form-group">
+                                                                                    <label>Số tiền:</label>
+                                                                                    <label>{paymentDetail.vnpAmount} VNĐ</label>
+                                                                                </div>
+                                                                                <div className="form-group">
+                                                                                    <label>Mô tả giao dịch:</label>
+                                                                                    <label style={{ whiteSpace: 'normal' }}>{paymentDetail.vnpOrderinfo}</label>
+                                                                                </div>
+                                                                                <div className="form-group">
+                                                                                    <label>Mã lỗi thanh toán:</label>
+                                                                                    <label>{paymentDetail.vnpResponsecode}</label>
+                                                                                </div>
+                                                                                <div className="form-group">
+                                                                                    <label>Mã giao dịch tại CTT VNPAY-QR:</label>
+                                                                                    <label>{paymentDetail.vnpTransactionno}</label>
+                                                                                </div>
+                                                                                <div className="form-group">
+                                                                                    <label>Mã ngân hàng thanh toán:</label>
+                                                                                    <label>{paymentDetail.vnpBankcode}</label>
+                                                                                </div>
+                                                                                <div className="form-group">
+                                                                                    <label>Thời gian thanh toán:</label>
+                                                                                    <label>{paymentDetail.vnpPaydate}</label>
+                                                                                </div>
+                                                                                <div className="form-group">
+                                                                                    <label>Tình trạng giao dịch:</label>
+                                                                                    <label>
+                                                                                        {paymentDetail
+                                                                                            ? paymentDetail.vnpTransactionstatus === "00"
+                                                                                                ? <Badge bg="success">Thành công</Badge>
+                                                                                                : <Badge bg="warning">Không thành công</Badge>
+                                                                                            : <Badge bg="danger">Invalid Signature</Badge>}
+                                                                                    </label>
+                                                                                </div>
+                                                                            </div>
+                                                                            <p>&nbsp;</p>
+                                                                            <footer className="footer">
+                                                                                <p>&copy; IMPROOK_CARE 2024</p>
+                                                                            </footer>
+                                                                        </div>
+                                                                    </Modal.Body>
+                                                                    <Modal.Footer>
+                                                                        <Button variant="secondary" onClick={() => setShowModal(false)}>Đóng</Button>
+                                                                    </Modal.Footer>
+                                                                </Modal>
+                                                            )}
                                                         </>
                                                     }
                                                 </div>

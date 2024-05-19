@@ -15,6 +15,7 @@ import { toast } from "react-toastify";
 import { reConnectNotification } from "../../utils/WebSocket";
 import cookie from "react-cookies";
 import MySpinner from "../../layout/Spinner";
+import Swal from "sweetalert2";
 
 const BookingDetail = () => {
     const [current_user,] = useContext(UserContext);
@@ -147,11 +148,15 @@ const BookingDetail = () => {
                     console.log(res.data.bookingId);
                     console.log(bookingId);
                     nav('/bookingresult');
-                    toast.success("Đặt lịch thành công");
+                    Swal.fire(
+                        'Thành công', "Đặt lịch thành công!", 'success'
+                    );
                     setLoading(false)
                 }
                 else {
-                    toast.error("Lỗi rồi");
+                    Swal.fire(
+                        'Thất bại', "Có lỗi xảy ra!", 'error'
+                    );
                     setLoading(false)
                 }
             } catch (error) {

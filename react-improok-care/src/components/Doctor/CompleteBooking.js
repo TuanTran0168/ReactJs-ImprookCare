@@ -7,14 +7,16 @@ import { useNavigate } from "react-router-dom";
 import moment from "moment";
 import { FaEdit } from "react-icons/fa";
 import { IoArrowBackCircle } from "react-icons/io5";
+import Pagination from "../../utils/Pagination"
 
 const CompleteBooking = (props) => {
     const [completeBooking, setCompleteBooking] = useState([]);
     const [showModal, setShowModal] = useState(false)
     const [pres, setPres] = useState([])
-
     const [prescription, setPrescription] = useState([])
     const [medicineList, setMedicineList] = useState([])
+    const [totalPages, setTotalPages] = useState('1');
+    const [selectedPage, setSelectedPage] = useState('1');
 
     const nav = useNavigate()
 
@@ -27,6 +29,21 @@ const CompleteBooking = (props) => {
             })
             console.log(res.data.content)
             setCompleteBooking(res.data.content)
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    const loadCompleteBookingPage = async (pageNumber) => {
+        try {
+            let res = await authApi().post(endpoints['booking-doctor-view-page'], {
+                "profileDoctorId": props.profileDoctorId,
+                "bookingStatusId": "4",
+                "pageNumber": pageNumber - 1
+            })
+            console.log(res.data.content)
+            setCompleteBooking(res.data.content)
+            setTotalPages(res.data.totalPages);
         } catch (error) {
             console.log(error)
         }
@@ -99,6 +116,14 @@ const CompleteBooking = (props) => {
         nav(url);
     };
 
+    const pages = Array.from({ length: totalPages }, (_, index) => index + 1);
+    const handlePageChange = (pageNumber) => {
+        // TODO: Xử lý sự kiện khi người dùng chuyển trang
+        setSelectedPage(pageNumber);
+        loadCompleteBookingPage(pageNumber);
+        console.log(`Chuyển đến trang ${pageNumber}`);
+    };
+
     return <>
         <div>
             <div>
@@ -132,6 +157,9 @@ const CompleteBooking = (props) => {
                         })}
                     </tbody>
                 </Table>
+                <Pagination pages={pages}
+                    selectedPage={selectedPage}
+                    handlePageChange={handlePageChange} />
                 {showModal && (
                     <Modal fullscreen={true} show={showModal} onHide={() => { setShowModal(false) }}
                         style={{ display: 'block', backgroundColor: 'rgba(0.0.0.0.5)', position: 'fixed', top: 0, bottom: 0, left: 0, right: 0, zIndex: 9999 }}

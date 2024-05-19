@@ -32,7 +32,9 @@ const Header = () => {
     }
 
     useEffect(() => {
-        loadNotification()
+        if (current_user !== null) {
+            loadNotification()
+        }
     }, [])
 
     const handleItemClick = (to) => {

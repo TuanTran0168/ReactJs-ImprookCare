@@ -1,9 +1,10 @@
 import { useContext, useEffect, useState } from "react";
 import { UserContext, BookingManagementContext } from "../../App";
-import { Badge, Button, Table } from "react-bootstrap";
+import { Badge, Table } from "react-bootstrap";
 import cookie from "react-cookies"
 import Apis, { authApi, endpoints } from "../../configs/Apis";
 import moment from "moment"
+import Pagination from "../../utils/Pagination"
 
 const ReexaminationBooking = (props) => {
     const [reexaminationBooking, setReexaminationBooking] = useState([]);
@@ -19,6 +20,8 @@ const ReexaminationBooking = (props) => {
     const [selectedBookingId, setSelectedBookingId] = useState("");
     const [selectedProfilePatientName, setSelectedProfilePatientName] = useState("");
     const [loading, setLoading] = useState(false);
+    const [totalPages, setTotalPages] = useState('1');
+    const [selectedPage, setSelectedPage] = useState('1');
 
     const removePres = () => {
         cookie.remove("pres");
@@ -33,6 +36,21 @@ const ReexaminationBooking = (props) => {
             })
             console.log(res.data.content)
             setReexaminationBooking(res.data.content)
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    const loadReexaminationBookingPage = async (pageNumber) => {
+        try {
+            let res = await authApi().post(endpoints['booking-doctor-view-page'], {
+                "profileDoctorId": props.profileDoctorId,
+                "bookingStatusId": "5",
+                "pageNumber": pageNumber - 1
+            })
+            console.log(res.data.content)
+            setReexaminationBooking(res.data.content)
+            setTotalPages(res.data.totalPages);
         } catch (error) {
             console.log(error)
         }
@@ -65,6 +83,14 @@ const ReexaminationBooking = (props) => {
         loadDoctorById()
     }, [props.profileDoctorId])
 
+    const pages = Array.from({ length: totalPages }, (_, index) => index + 1);
+    const handlePageChange = (pageNumber) => {
+        // TODO: Xử lý sự kiện khi người dùng chuyển trang
+        setSelectedPage(pageNumber);
+        loadReexaminationBookingPage(pageNumber);
+        console.log(`Chuyển đến trang ${pageNumber}`);
+    };
+
     return <>
         <div>
             <div>
@@ -95,6 +121,9 @@ const ReexaminationBooking = (props) => {
                         })}
                     </tbody>
                 </Table>
+                <Pagination pages={pages}
+                    selectedPage={selectedPage}
+                    handlePageChange={handlePageChange} />
             </div>
         </div>
     </>

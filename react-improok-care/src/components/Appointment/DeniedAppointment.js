@@ -5,15 +5,18 @@ import { authApi, endpoints } from "../../configs/Apis";
 import { useNavigate } from "react-router-dom";
 import moment from "moment";
 import { MdMenu } from "react-icons/md";
+import Pagination from "../../utils/Pagination"
 
 const DeniedAppointment = () => {
     const [deniedAppointment, setDeniedAppointment] = useState([]);
     const [current_user,] = useContext(UserContext);
+    const [totalPages, setTotalPages] = useState('1');
+    const [selectedPage, setSelectedPage] = useState('1');
 
     const nav = useNavigate();
     // const [selectedBookingId, setSelectedBookingId] = useState("");
     // const [selectedProfilePatientName, setSelectedProfilePatientName] = useState("");
-    // const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(false);
 
     const loadDeniedAppointment = async () => {
         try {
@@ -31,6 +34,28 @@ const DeniedAppointment = () => {
         }
     }
 
+    const loadDeniedAppointmentPage = async (pageNumber) => {
+        try {
+            setLoading(true);
+            let e = endpoints['booking-user-view-page']
+            e += `?pageNumber=${pageNumber - 1}`
+            console.log(e)
+
+            let res = await authApi().post(e, {
+                "userId": current_user?.userId,
+                "bookingStatusId": "3"
+            })
+            setDeniedAppointment(res.data.content)
+            setTotalPages(res.data.totalPages);
+            console.log(res.data.totalPages);
+            console.log(e);
+            setLoading(false);
+            console.log(res.data);
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
     useEffect(() => {
         loadDeniedAppointment()
     }, [])
@@ -39,6 +64,14 @@ const DeniedAppointment = () => {
         evt.preventDefault();
         nav(`/appointmentdetail?bookingId=${bookingId}`)
     }
+
+    const pages = Array.from({ length: totalPages }, (_, index) => index + 1);
+    const handlePageChange = (pageNumber) => {
+        // TODO: Xử lý sự kiện khi người dùng chuyển trang
+        setSelectedPage(pageNumber);
+        loadDeniedAppointmentPage(pageNumber);
+        console.log(`Chuyển đến trang ${pageNumber}`);
+    };
 
     return <>
         <div>
@@ -71,6 +104,9 @@ const DeniedAppointment = () => {
                         })}
                     </tbody>
                 </Table>
+                <Pagination pages={pages}
+                    selectedPage={selectedPage}
+                    handlePageChange={handlePageChange} />
             </div>
         </div>
     </>

@@ -75,3 +75,68 @@ div.payment_history_right {
 div.payment_history_right_header>h3 {
     color: #183e9f;
 }
+
+div.payment_detail_wrapper {
+    max-width: 80rem;
+    margin: auto;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    padding-top: 1rem;
+}
+
+div.payment_detail_header {
+    width: 100%;
+    margin-bottom: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+div.payment_detail_image>img {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+div.payment_detail_content {
+    width: 100%;
+}
+
+div.form-group {
+    margin-bottom: 0.5rem;
+}
+
+div.form-group>label:first-child {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-right: 0.5rem;
+}
+
+div.form-group>button>a {
+    text-decoration: none;
+    color: white;
+}
+
+div.form-group>button {
+    outline: 0;
+    grid-gap: 8px;
+    align-items: center;
+    background-color: #183e9f;
+    color: white !important;
+    font-weight: 600;
+    border: 1px solid #000;
+    border-radius: 4px;
+    cursor: pointer;
+    display: inline-flex;
+    flex-shrink: 0;
+    font-size: 16px;
+    gap: 8px;
+    justify-content: center;
+    line-height: 1.5;
+    overflow: hidden;
+    padding: 12px 16px;
+    text-decoration: none;
+    text-overflow: ellipsis;
+    transition: all .14s ease-out;
+    white-space: nowrap;
+}

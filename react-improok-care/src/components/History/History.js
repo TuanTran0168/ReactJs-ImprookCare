@@ -29,13 +29,6 @@ const History = () => {
     const [prescriptionDetail, setPrescriptionDetail] = useState([]);
     const [total, setTotal] = useState(null);
 
-    // const [requestBody, setRequestBody] = useState({
-    //     "amount": "10000",
-    //     "orderInfor": "Tuan Tran rich kid VN pay",
-    //     "returnUrl": "http://localhost:3000/medicalrecord"
-    // })
-    // let tempTotal = 0;
-
     const loadProfilePatient = async () => {
         try {
             let e = endpoints['load-profile-patient'](current_user?.userId)
@@ -50,11 +43,6 @@ const History = () => {
     useEffect(() => {
         loadProfilePatient();
     }, [current_user?.userId])
-
-    const profilePatientChange = (e) => {
-        const selectedId = e.target.value;
-        setSelectedProfilePatientId(selectedId);
-    };
 
     // const loadPrescriptionByProfilePatientId = async () => {
     //     try {
@@ -133,7 +121,7 @@ const History = () => {
 
     const viewPrescription = (evt, pp) => {
         evt.preventDefault();
-        console.log("pp" + pp.profilePatientId)
+        console.log(pp.profilePatientId)
         setSelectedProfile(pp.profilePatientId);
         // console.log(selectedProfile);
 
@@ -193,35 +181,10 @@ const History = () => {
         process();
     }
 
-    const servicePayment = (evt, servicePrice, profilePatientName, prescriptionId) => {
-        evt.preventDefault();
-
-        const process = async () => {
-            try {
-                setLoading(true);
-                console.log(servicePrice);
-                // console.log(requestBody)
-                let res = await Apis.post(endpoints['vnpay-payment'], {
-                    "amount": servicePrice,
-                    "orderInfor": "1:-" + prescriptionId + "-Service Payment: " + profilePatientName + " đã thanh toán tiền khám cho đơn thuốc " + prescriptionId + " - ",
-                    "returnUrl": "http://localhost:3000/paymentResult"
-                });
-                window.location.href = res.data;
-                // toast.success(res.data);
-                setLoading(false);
-                console.log(res.data);
-            } catch (error) {
-                toast.error(error);
-                console.log(error);
-            }
-        }
-        process();
-    }
-
-    // useEffect(() => {
-    //     loadPrescription();
-    //     loadPrescriptionPage();
-    // }, [])
+    useEffect(() => {
+        loadPrescription();
+        // loadPrescriptionPage();
+    }, [])
 
     return <>
         <div className="History_Wrapper">
@@ -296,12 +259,12 @@ const History = () => {
                                                                     onClick={(e) => loadPrescriptionDetail(e, pl)}>
                                                                     <Typography>Đơn thuốc: {pl.prescriptionId}</Typography>
                                                                     <Typography>Chuẩn đoán: {pl.diagnosis}</Typography>
-                                                                    {(pl.medicinePaymentStatusId.medicinePaymentStatusId === 2 && pl.servicePaymentStatusId.servicePaymentStatusId === 2) ?
+                                                                    {/* {(pl.medicinePaymentStatusId.medicinePaymentStatusId === 2 && pl.servicePaymentStatusId.servicePaymentStatusId === 2) ?
                                                                         <>
                                                                             <Typography><Badge bg="success">Đã thanh toán</Badge></Typography>
                                                                         </> : <>
                                                                             <Typography><Badge bg="danger">Chưa thanh toán</Badge></Typography>
-                                                                        </>}
+                                                                        </>} */}
                                                                 </AccordionSummary>
                                                                 <AccordionDetails className="Prescription_Detail">
                                                                     <div className="Prescription_Detail_Inner">
@@ -336,7 +299,7 @@ const History = () => {
                                                                                 </div>
                                                                                 <div style={{ display: 'flex', flexDirection: 'column' }}>
                                                                                     {pl.medicinePaymentStatusId.medicinePaymentStatusId === 1 ? <span><strong>Tiền thuốc: </strong><Badge bg="danger"> Chưa thanh toán</Badge></span> : <span><strong>Tiền thuốc: </strong><Badge bg="success"> Đã thanh toán</Badge></span>}
-                                                                                    {pl.servicePaymentStatusId.servicePaymentStatusId === 1 ? <span><strong>Tiền khám: </strong><Badge bg="danger"> Chưa thanh toán</Badge></span> : <span><strong>Tiền khám: </strong><Badge bg="success"> Đã thanh toán</Badge></span>}
+                                                                                    {/* {pl.servicePaymentStatusId.servicePaymentStatusId === 1 ? <span><strong>Tiền khám: </strong><Badge bg="danger"> Chưa thanh toán</Badge></span> : <span><strong>Tiền khám: </strong><Badge bg="success"> Đã thanh toán</Badge></span>} */}
                                                                                 </div>
                                                                             </div>
                                                                         </div>

@@ -63,8 +63,8 @@ const ConsultantChat = () => {
             <div className="consultant_wrapper">
                 <div>
                     <div className="consultant_header">
-                        <h4 className="text-center mb-3 mt-3">DOCTOR OPEN AI</h4>
-                        <img src={doctorai} alt="404" width={'20%'} />
+                        <img src={doctorai} alt="404" width={'5%'} />
+                        <h2 className="text-center mb-3 mt-3">DOCTOR OPEN AI</h2>
                     </div>
                     <div className="consultant_content">
                         {listMessage.length === 0 ?
@@ -74,28 +74,30 @@ const ConsultantChat = () => {
                                 </div>
                             </> :
                             <>
-                                {Object.values(reversedMessages).map((mes) => {
-                                    return <>
-                                        <div key={mes.chatgptConsultId}>
-                                            <MessageBox
-                                                position={'right'}
-                                                type={'text'}
-                                                // avatar={mes.avatar}
-                                                status={null}
-                                                text={mes.patientQuestion}
-                                                date={mes.createdDate}
-                                            />
-                                            <MessageBox
-                                                position={'left'}
-                                                type={'text'}
-                                                // avatar={mes.avatar}
-                                                status={null}
-                                                text={mes.chatgptConsultAnswer}
-                                                date={mes.createdDate} />
-                                        </div>
-                                    </>
-                                })}
-                                <div ref={messagesEndRef}></div>
+                                <div>
+                                    {Object.values(reversedMessages).map((mes) => {
+                                        return <>
+                                            <div key={mes.chatgptConsultId}>
+                                                <MessageBox
+                                                    position={'right'}
+                                                    type={'text'}
+                                                    // avatar={mes.avatar}
+                                                    status={null}
+                                                    text={mes.patientQuestion}
+                                                    date={mes.createdDate}
+                                                />
+                                                <MessageBox
+                                                    position={'left'}
+                                                    type={'text'}
+                                                    // avatar={mes.avatar}
+                                                    status={null}
+                                                    text={mes.chatgptConsultAnswer}
+                                                    date={mes.createdDate} />
+                                            </div>
+                                        </>
+                                    })}
+                                    <div ref={messagesEndRef}></div>
+                                </div>
                             </>
                         }
                     </div>

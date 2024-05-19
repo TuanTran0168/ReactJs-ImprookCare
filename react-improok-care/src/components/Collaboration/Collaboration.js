@@ -6,7 +6,7 @@ import appstore from "../../assets/images/appstore.svg"
 import setting from "../../assets/images/settings.png"
 import timetable from "../../assets/images/timetable.png"
 import phonecall from "../../assets/images/phone-call.png"
-import medicalapp from "../../assets/images/medical-app.png"
+import medicalapp from "../../assets/images/female_banner.png"
 import bannerheader from "../../assets/images/banner-header.png"
 import advice from "../../assets/images/advice.png"
 import managementapp from "../../assets/images/management-app.png"
@@ -127,7 +127,7 @@ const Collaboration = () => {
                         <h1>Ứng dụng <strong>Quản lý lịch khám</strong></h1>
                     </div>
                     <div className="CollabDoctor_Content_3_Content">
-                        <div className="CollabDoctor_Content_4_LeftContent">
+                        <div className="CollabDoctor_Content_3_LeftContent">
                             <img src={medicalapp} alt="Medical App" style={{ width: '100%' }} />
                         </div>
                         <div className="CollabDoctor_Content_3_RightContent">

@@ -1,10 +1,11 @@
 import { Button, Form, Modal, Table } from "react-bootstrap";
 import { useContext, useEffect } from 'react';
-import medicaltest from "../../assets/images/medical-test.png"
+// import medicaltest from "../../assets/images/medical-test.png"
 import { useState } from 'react';
 import Apis, { authApi, endpoints } from '../../configs/Apis';
 import { BookingManagementContext } from '../../App';
 import moment from "moment";
+import { MdMenu } from "react-icons/md";
 
 const CheckTestService = () => {
     const [booking,] = useContext(BookingManagementContext)
@@ -81,6 +82,7 @@ const CheckTestService = () => {
     const createPdf = async () => {
         try {
             let response = await Apis.post(endpoints['create-pdf-result'], {
+                "profilePatientId": testResultDetail?.bookingId.profilePatientId.profilePatientId,
                 "profilePatientName": testResultDetail?.bookingId.profilePatientId.name,
                 "profileDoctorName": testResultDetail?.bookingId.scheduleId.profileDoctorId.name,
                 "nurseName": testResultDetail?.userId === null ? "Chưa xét nghiệm" : `${testResultDetail?.userId.lastname} ${testResultDetail?.userId.firstname}`,
@@ -152,7 +154,7 @@ const CheckTestService = () => {
                                         <td>{tr.testResultDiagnosis}</td>
                                         <td>{tr.bookingId.scheduleId.profileDoctorId.specialtyId.specialtyName}</td>
                                         <td>{tr.bookingId.scheduleId.profileDoctorId.name}</td>
-                                        <td><Button variant="primary" onClick={() => loadTestResultDetail(tr.testResultId)}>Chi tiết</Button></td>
+                                        <td><Button variant="primary" onClick={() => loadTestResultDetail(tr.testResultId)}><MdMenu /></Button></td>
                                     </tr>
                                     : ""}
                             </>
@@ -196,7 +198,7 @@ const CheckTestService = () => {
                                         </Form.Select>
                                     </div>
                                 </div>
-                                <div className="test-body-image">
+                                {/* <div className="test-body-image">
                                     <h4>Kết quả</h4>
                                     <div className="test-image-choice">
                                         {testResultDetail?.testResultImage ? (
@@ -209,7 +211,7 @@ const CheckTestService = () => {
                                             </div>
                                         )}
                                     </div>
-                                </div>
+                                </div> */}
                                 <div className="test-body-pdf">
                                     <button className="create-pdf-butt" onClick={() => createPdf()}>Tạo PDF</button>
                                     {pdfUrl && (

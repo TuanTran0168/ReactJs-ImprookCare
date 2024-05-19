@@ -93,7 +93,7 @@ const Home = () => {
         <>
             <div className="Home_Wrapper">
                 <div className="Home_Header">
-                    <div>
+                    <div className="header-text">
                         <div className="Home_Content_1_Header">
                             <h3>Đặt khám bác sĩ</h3>
                             <h5>Đặt khám với hơn 500 bác sĩ đã kết nối chính thức với I'MPROOK CARE để có số thứ tự và khung giờ khám trước</h5>
@@ -102,6 +102,8 @@ const Home = () => {
                             <input type="text" placeholder="Tìm theo bác sĩ, chuyên khoa, triệu chứng,.." value={searchKw} onChange={(e) => setSearchKw(e.target.value)} onKeyDown={(event) => handleKeyPress(event)} />
                             <button onClick={search}><FcSearch /></button>
                         </div>
+                    </div>
+                    <div className="header-image">
                     </div>
                 </div>
                 <div className="Home_Content">

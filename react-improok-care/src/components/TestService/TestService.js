@@ -5,8 +5,8 @@ import { Button, Form } from 'react-bootstrap';
 import { useState } from 'react';
 import Apis, { authApi, endpoints } from '../../configs/Apis';
 import { BookingManagementContext } from '../../App';
-import { toast } from 'react-toastify';
 import { NavLink, Outlet, useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
 
 const TestService = () => {
     const [booking,] = useContext(BookingManagementContext)
@@ -51,7 +51,9 @@ const TestService = () => {
                 "testServiceId": testChoice === null ? "1" : testChoice,
                 "bookingId": booking.bookingId
             })
-            toast.success("Tạo xét nghiệm thành công!")
+            Swal.fire(
+                'Thành công', "Tạo xét nghiệm thành công!", 'success'
+            );
             console.log(res.data)
             loadTestResult()
         } catch (error) {

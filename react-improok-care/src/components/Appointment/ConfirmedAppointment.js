@@ -6,15 +6,18 @@ import { useNavigate } from "react-router-dom";
 import moment from "moment"
 import { FaVideo } from "react-icons/fa";
 import { MdMenu } from "react-icons/md";
+import Pagination from "../../utils/Pagination"
 
 const ConfirmedAppointment = () => {
     const [confirmedAppointment, setConfirmedAppointment] = useState([]);
     const [current_user,] = useContext(UserContext);
+    const [totalPages, setTotalPages] = useState('1');
+    const [selectedPage, setSelectedPage] = useState('1');
 
     const nav = useNavigate();
     // const [selectedBookingId, setSelectedBookingId] = useState("");
     // const [selectedProfilePatientName, setSelectedProfilePatientName] = useState("");
-    // const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(false);
 
     const loadConfirmedAppointment = async () => {
         try {
@@ -27,6 +30,28 @@ const ConfirmedAppointment = () => {
             })
             console.log(res.data.content)
             setConfirmedAppointment(res.data.content)
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    const loadConfirmedAppointmentPage = async (pageNumber) => {
+        try {
+            setLoading(true);
+            let e = endpoints['booking-user-view-page']
+            e += `?pageNumber=${pageNumber - 1}`
+            console.log(e)
+
+            let res = await authApi().post(e, {
+                "userId": current_user?.userId,
+                "bookingStatusId": "2"
+            })
+            setConfirmedAppointment(res.data.content)
+            setTotalPages(res.data.totalPages);
+            console.log(res.data.totalPages);
+            console.log(e);
+            setLoading(false);
+            console.log(res.data);
         } catch (error) {
             console.log(error)
         }
@@ -45,6 +70,14 @@ const ConfirmedAppointment = () => {
         evt.preventDefault();
         nav(`/appointmentdetail?bookingId=${bookingId}`)
     }
+
+    const pages = Array.from({ length: totalPages }, (_, index) => index + 1);
+    const handlePageChange = (pageNumber) => {
+        // TODO: Xử lý sự kiện khi người dùng chuyển trang
+        setSelectedPage(pageNumber);
+        loadConfirmedAppointmentPage(pageNumber);
+        console.log(`Chuyển đến trang ${pageNumber}`);
+    };
 
     return <>
         <div>
@@ -79,6 +112,9 @@ const ConfirmedAppointment = () => {
                         })}
                     </tbody>
                 </Table>
+                <Pagination pages={pages}
+                    selectedPage={selectedPage}
+                    handlePageChange={handlePageChange} />
             </div>
         </div>
     </>

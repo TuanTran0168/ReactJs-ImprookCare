@@ -10,6 +10,7 @@ import { toast } from "react-toastify";
 import Spinner from "../../layout/Spinner";
 import { AccountCircle, Facebook, Google, Lock, Person, Visibility, VisibilityOff } from "@mui/icons-material";
 import { InputGroup } from "react-bootstrap";
+import Swal from "sweetalert2";
 
 const Register = (props) => {
     const [current_user,] = useContext(UserContext)
@@ -68,11 +69,15 @@ const Register = (props) => {
                 if (res.status === 200) {
                     cookie.remove("register");
                     cookie.remove("phonenumber");
-                    toast.success("Đăng ký thành công!");
+                    Swal.fire(
+                        'Thành công', "Đăng ký thành công!", 'success'
+                    );
                     nav("/login");
                 }
                 else
-                    toast.error("Đăng ký thất bại!");
+                    Swal.fire(
+                        'Thất bại', "Đăng ký thất bại!", 'error'
+                    );
             } catch (error) {
                 console.log(error);
             }
@@ -81,7 +86,9 @@ const Register = (props) => {
         if (password === confirmPass)
             process();
         else
-            toast.warning("Mật khẩu không khớp!")
+            Swal.fire(
+                'Cảnh báo', "Mật khẩu không khớp!", 'warning'
+            );
     }
 
     const toggleShowPassword = () => {

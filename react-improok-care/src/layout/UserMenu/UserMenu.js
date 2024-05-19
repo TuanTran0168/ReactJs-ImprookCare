@@ -3,6 +3,7 @@ import { FaBell, FaCalendar, FaHistory, FaInfoCircle, FaWallet } from "react-ico
 import { IoIosChatboxes } from "react-icons/io";
 import { ImProfile } from "react-icons/im";
 import { MdLogout, MdMessage } from "react-icons/md";
+import { PiTestTubeFill } from "react-icons/pi";
 import { NavLink, useNavigate } from "react-router-dom";
 import { UserContext } from "../../App";
 import "./UserMenu.css"
@@ -46,6 +47,13 @@ const UserMenu = () => {
                     to="history">
                     <FaHistory className="icon" />
                     <span className="text">Lịch sử đơn thuốc</span>
+                </NavLink>
+                <NavLink
+                    activeClassName="active"
+                    onClick={() => handleItemClick("testhistory")}
+                    to="testhistory">
+                    <PiTestTubeFill className="icon" />
+                    <span className="text">Lịch sử xét nghiệm</span>
                 </NavLink>
                 <NavLink
                     activeClassName="active"

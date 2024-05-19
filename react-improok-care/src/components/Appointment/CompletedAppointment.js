@@ -5,15 +5,18 @@ import { authApi, endpoints } from "../../configs/Apis";
 import { useNavigate } from "react-router-dom";
 import moment from "moment";
 import { MdMenu } from "react-icons/md";
+import Pagination from "../../utils/Pagination"
 
 const CompletedAppointment = () => {
     const [completedAppointment, setCompletedAppointment] = useState([]);
     const [current_user,] = useContext(UserContext);
+    const [totalPages, setTotalPages] = useState('1');
+    const [selectedPage, setSelectedPage] = useState('1');
 
     const nav = useNavigate();
     // const [selectedBookingId, setSelectedBookingId] = useState("");
     // const [selectedProfilePatientName, setSelectedProfilePatientName] = useState("");
-    // const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(false);
 
     const loadCompletedAppointment = async () => {
         try {
@@ -31,6 +34,28 @@ const CompletedAppointment = () => {
         }
     }
 
+    const loadCompletedAppointmentPage = async (pageNumber) => {
+        try {
+            setLoading(true);
+            let e = endpoints['booking-user-view-page']
+            e += `?pageNumber=${pageNumber - 1}`
+            console.log(e)
+
+            let res = await authApi().post(e, {
+                "userId": current_user?.userId,
+                "bookingStatusId": "5&6"
+            })
+            setCompletedAppointment(res.data.content)
+            setTotalPages(res.data.totalPages);
+            console.log(res.data.totalPages);
+            console.log(e);
+            setLoading(false);
+            console.log(res.data);
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
     useEffect(() => {
         loadCompletedAppointment()
     }, [])
@@ -39,6 +64,14 @@ const CompletedAppointment = () => {
         evt.preventDefault();
         nav(`/appointmentdetail/?bookingId=${bookingId}`)
     }
+
+    const pages = Array.from({ length: totalPages }, (_, index) => index + 1);
+    const handlePageChange = (pageNumber) => {
+        // TODO: Xử lý sự kiện khi người dùng chuyển trang
+        setSelectedPage(pageNumber);
+        loadCompletedAppointmentPage(pageNumber);
+        console.log(`Chuyển đến trang ${pageNumber}`);
+    };
 
     return <>
         <div>
@@ -51,7 +84,7 @@ const CompletedAppointment = () => {
                             <th>Ngày</th>
                             <th>Khung giờ</th>
                             <th>Tình trạng</th>
-                            <th>Thao tác</th>
+                            <th>Chi tiết</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -71,6 +104,9 @@ const CompletedAppointment = () => {
                         })}
                     </tbody>
                 </Table>
+                <Pagination pages={pages}
+                    selectedPage={selectedPage}
+                    handlePageChange={handlePageChange} />
             </div>
         </div>
     </>

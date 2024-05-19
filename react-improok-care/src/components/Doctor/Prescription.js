@@ -259,8 +259,9 @@ const Prescription = () => {
                     },
                     prescriptionDetailDTO: pres
                 };
+                console.log("request", request)
                 let res = await authApi().post(endpoints['add-prescription'], request);
-                console.log(res.data);
+                console.log("res.data", res.data);
                 toast.success(res.data);
                 setLoading(false);
                 cookie.remove("pres");

@@ -59,7 +59,6 @@ const Login = () => {
                 setLoading(false)
                 console.log("Login", connectNoti);
                 if (res.status === 200)
-                    // toast.success("Đăng nhập thành công!");
                     Swal.fire({
                         text: "Đăng nhập thành công!",
                         icon: "success"
@@ -68,7 +67,6 @@ const Login = () => {
                 // connectNotification(clientStomp, data.userId);
             } catch (err) {
                 setLoading(false);
-                // toast.error("Sai tài khoản hoặc mật khẩu!");
                 Swal.fire({
                     text: "Sai tài khoản hoặc mật khẩu",
                     icon: "error",

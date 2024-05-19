@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 import { UserContext } from "../../App";
 import "./ForgetPassword.css"
 import { Lock, Password, Phone, Visibility, VisibilityOff } from "@mui/icons-material";
+import Swal from "sweetalert2";
 
 const ForgetPassword = () => {
     const [current_user,] = useContext(UserContext)
@@ -82,7 +83,9 @@ const ForgetPassword = () => {
             try {
                 setLoading(true)
                 if (code === '') {
-                    toast.warning("Vui lòng nhập OTP");
+                    Swal.fire(
+                        'Cảnh báo', "Vui lòng nhập mã OTP!", 'warning'
+                    );
                     setLoading(false);
                 }
                 console.log("code" + code)

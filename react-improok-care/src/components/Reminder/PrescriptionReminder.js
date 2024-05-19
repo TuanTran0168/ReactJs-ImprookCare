@@ -91,9 +91,48 @@ const PrescriptionReminder = () => {
         }
     }
 
+    // const addMedicalSchedule = async () => {
+    //     try {
+    //         const medicalReminderData = [];
+    //         Object.values(medicalReminder).forEach((mr, index) => {
+    //             const startDates = startDate[index] || currentFormattedDate;
+    //             // console.log(medicineTime)
+    //             const reminder = new Date(mr.timeReminderId.timeReminderValue)
+    //             // const year = reminder.getFullYear();
+    //             // const month = String(reminder.getMonth() + 1).padStart(2, '0');
+    //             // const day = String(reminder.getDate()).padStart(2, '0');
+    //             const hours = String(reminder.getHours()).padStart(2, '0');
+    //             const minutes = String(reminder.getMinutes()).padStart(2, '0');
+    //             // const seconds = String(reminder.getSeconds()).padStart(2, '0');
+    //             const formattedDate = `${hours}:${minutes}`;
+    //             const reminderTime = medicineTime[index] || formattedDate
+
+    //             const data = {
+    //                 medicalReminderId: mr.medicalReminderId,
+    //                 customTime: `${startDates} ${reminderTime}:00`,
+    //                 startDate: startDates,
+    //                 medicineName: mr.prescriptionDetailId.medicineId.medicineName,
+    //                 email: mr.prescriptionDetailId.prescriptionId.bookingId.profilePatientId.email
+    //             };
+    //             medicalReminderData.push(data);
+    //         });
+    //         console.log(medicalReminderData)
+    //         // medicalReminderData.forEach(async (m) => {
+    //         //     let res = await authApi().post(endpoints['add-medical-schedule'], {
+    //         //         medicalReminderId: m.medicalReminderId,
+    //         //         startDate: m.startDate,
+    //         //         customTime: m.customTime
+    //         //     });
+    //         //     console.log(res.data)
+    //         // });
+    //     } catch (error) {
+    //         console.log(error)
+    //     }
+    // }
+
     const addMedicalSchedule = async () => {
         try {
-            const medicalReminderData = [];
+            let medicalReminderData = [];
             Object.values(medicalReminder).forEach((mr, index) => {
                 const startDates = startDate[index] || currentFormattedDate;
                 // console.log(medicineTime)
@@ -117,14 +156,10 @@ const PrescriptionReminder = () => {
                 medicalReminderData.push(data);
             });
             console.log(medicalReminderData)
-            // medicalReminderData.forEach(async (m) => {
-            //     let res = await authApi().post(endpoints['add-medical-schedule'], {
-            //         medicalReminderId: m.medicalReminderId,
-            //         startDate: m.startDate,
-            //         customTime: m.customTime
-            //     });
-            //     console.log(res.data)
-            // });
+            let res = await authApi().post(endpoints['add-list-medical-schedule'], medicalReminder);
+            console.log(res.data)
+            medicalReminderData = [];
+            setShowModal(false)
         } catch (error) {
             console.log(error)
         }

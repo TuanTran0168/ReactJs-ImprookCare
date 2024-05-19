@@ -2,10 +2,10 @@ import { useEffect, useState } from "react";
 import { Badge, Button, Table } from "react-bootstrap";
 import { toast } from "react-toastify";
 import Apis, { authApi, endpoints } from "../../configs/Apis";
-import ModalNotification from "../../layout/Modal";
+// import ModalNotification from "../../layout/Modal";
 import moment from "moment"
 import Swal from "sweetalert2";
-
+import Pagination from "../../utils/Pagination"
 
 const NewBooking = (props) => {
     const [newBooking, setNewBooking] = useState([]);
@@ -13,6 +13,8 @@ const NewBooking = (props) => {
     const [title, setTitle] = useState('');
     const [bookingId, setBookingId] = useState(null);
     const [bookingAction, setBookingAction] = useState(null);
+    const [totalPages, setTotalPages] = useState('1');
+    const [selectedPage, setSelectedPage] = useState('1');
 
     const acceptBooking = (bookingId) => {
         const process = async () => {
@@ -89,6 +91,22 @@ const NewBooking = (props) => {
             console.log(error)
         }
     }
+
+    const loadNewBookingPage = async (pageNumber) => {
+        try {
+            let res = await authApi().post(endpoints['booking-doctor-view-page'], {
+                "profileDoctorId": props.profileDoctorId,
+                "bookingStatusId": "1",
+                "pageNumber": pageNumber - 1
+            })
+            console.log(res.data.content)
+            setNewBooking(res.data.content)
+            setTotalPages(res.data.totalPages);
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
     useEffect(() => {
         loadNewBooking()
         // loadWaitingBooking();
@@ -126,6 +144,14 @@ const NewBooking = (props) => {
             } else if (result.dismiss === Swal.DismissReason.cancel) {
             }
         });
+    };
+
+    const pages = Array.from({ length: totalPages }, (_, index) => index + 1);
+    const handlePageChange = (pageNumber) => {
+        // TODO: Xử lý sự kiện khi người dùng chuyển trang
+        setSelectedPage(pageNumber);
+        loadNewBookingPage(pageNumber);
+        console.log(`Chuyển đến trang ${pageNumber}`);
     };
 
     return <>
@@ -176,6 +202,9 @@ const NewBooking = (props) => {
                     // acceptBooking={() => acceptBooking(bookingId)}
                     // denyBooking={() => denyBooking(bookingId)}
                     bookingAction={bookingAction === "acceptBooking" ? () => acceptBooking(bookingId) : bookingAction === 'denyBooking' ? () => denyBooking(bookingId) : null} /> */}
+                <Pagination pages={pages}
+                    selectedPage={selectedPage}
+                    handlePageChange={handlePageChange} />
             </div>
         </div>
     </>

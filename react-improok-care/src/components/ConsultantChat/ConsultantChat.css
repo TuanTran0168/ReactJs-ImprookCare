@@ -1,7 +1,7 @@
 div.consultant_wrapper>div {
     display: flex;
     max-width: 85rem;
-    flex-wrap: wrap;
+    flex-direction: column;
     gap: 3rem;
     margin: auto;
     justify-content: center;
@@ -9,9 +9,10 @@ div.consultant_wrapper>div {
 
 div.consultant_header {
     display: flex;
-    flex-direction: column;
-    /* justify-content: center; */
+    /* flex-direction: column; */
+    justify-content: center;
     align-items: center;
+    gap: 1rem;
 }
 
 div.consultant_content {

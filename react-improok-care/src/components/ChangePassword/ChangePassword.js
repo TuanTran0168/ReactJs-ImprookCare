@@ -9,6 +9,7 @@ import { toast } from "react-toastify";
 import { Key, Lock, Visibility, VisibilityOff } from "@mui/icons-material";
 import cookie from "react-cookies";
 import { reConnectNotification } from "../../utils/WebSocket";
+import Swal from "sweetalert2";
 
 const ChangePassword = () => {
     const [current_user,] = useContext(UserContext);
@@ -57,7 +58,9 @@ const ChangePassword = () => {
                 });
 
                 if (res.data === "Đổi mật khẩu thành công!") {
-                    toast.success("Đổi mật khẩu thành công!")
+                    Swal.fire(
+                        'Thành công', "Đổi mật khẩu thành công!", 'success'
+                    );
                     nav("/");
                     console.log(res.data)
                 }
@@ -81,7 +84,9 @@ const ChangePassword = () => {
         if (newPassword === confirmNewpassword)
             process();
         else {
-            toast.error("Mật khẩu KHÔNG khớp!");
+            Swal.fire(
+                'Cảnh báo', "Mật khẩu không khớp!", 'warning'
+            );
         }
     }
 

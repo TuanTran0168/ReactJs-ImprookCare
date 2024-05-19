@@ -70,7 +70,7 @@ const AllUser = () => {
 
     useEffect(() => {
         loadUser();
-        loadUserPage();
+        // loadUserPage();
     }, [])
 
     const pages = Array.from({ length: totalPages }, (_, index) => index + 1);

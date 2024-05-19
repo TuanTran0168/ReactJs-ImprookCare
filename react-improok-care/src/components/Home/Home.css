@@ -22,13 +22,35 @@ div.Home_Header {
     margin-bottom: 3rem; */
     /* background-color: #ffffff;
     background-image: linear-gradient(180deg, #ffffff 0%, #91a6ff 74%); */
+    /* background-image: url(../../assets/images/male_banner.png);
+    background-repeat: no-repeat;
+    background-position: right;
+    background-size: 20%; */
     background: #183e9f;
     color: white;
     margin-top: 3rem;
+    height: 25rem;
+    align-items: center;
+    position: relative;
 }
 
-div.Home_Header>div {
-    padding-top: 2rem;
+div.header-image {
+    background-image: url(../../assets/images/female_banner.png);
+    background-repeat: no-repeat;
+    /* background-position: right; */
+    background-size: 100%;
+    color: white;
+    /* margin-top: 3rem; */
+    z-index: 99;
+    width: 320px;
+    height: 320px;
+    position: absolute;
+    right: 1rem;
+    top: 2rem;
+}
+
+div.Home_Header>div.header-text {
+    padding-top: 7rem;
     padding-left: 5rem;
     padding-bottom: 3rem;
     padding-right: 5rem;
@@ -57,6 +79,11 @@ div.Home_Content_1_Content {
     border-radius: 10rem;
     display: flex;
     align-items: center;
+    z-index: 999;
+}
+
+div.Home_Content_1_Header {
+    z-index: 999;
 }
 
 div.Home_Content_1_Content input {

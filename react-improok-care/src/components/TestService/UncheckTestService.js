@@ -1,6 +1,6 @@
 import { Button, Form, Modal, Table } from "react-bootstrap";
 import { useContext, useEffect } from 'react';
-import medicaltest from "../../assets/images/medical-test.png"
+// import medicaltest from "../../assets/images/medical-test.png"
 import { useState } from 'react';
 import Apis, { authApi, endpoints } from '../../configs/Apis';
 import { BookingManagementContext } from '../../App';
@@ -148,7 +148,7 @@ const UncheckTestService = () => {
                                         </Form.Select>
                                     </div>
                                 </div>
-                                <div className="test-body-image">
+                                {/* <div className="test-body-image">
                                     <h4>Kết quả</h4>
                                     <div className="Avatar_Choice">
                                         {testResultDetail?.testResultImage ? (
@@ -161,7 +161,7 @@ const UncheckTestService = () => {
                                             </div>
                                         )}
                                     </div>
-                                </div>
+                                </div> */}
                             </div>
                         </Modal.Body>
                         <Modal.Footer>

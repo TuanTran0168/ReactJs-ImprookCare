@@ -193,17 +193,23 @@ div.Booking_Content_4_Content {
 }
 
 div.Booking_Content_4_LeftContent {
-    width: 50%;
+    width: 40%;
 }
 
 div.Booking_Content_4_RightContent {
-    width: 50%;
+    width: 60%;
+}
+
+div.Booking_Content_4_RightContent>div:hover {
+    border-color: rgb(26 118 227);
+    cursor: pointer;
+    border-left-width: 4px
 }
 
 div.Booking_Content_5 {
     /* background-color: #06bcfb; */
-    /* background-image: linear-gradient(315deg, #4884ee 0%, #003366 74%);
-    margin-top: 3rem; */
+    /* background-image: linear-gradient(315deg, #4884ee 0%, #003366 74%); */
+    /* margin-top: 3rem; */
     /* background-color: #ffffff;
     background-image: linear-gradient(360deg, #ffffff 0%, #91a6ff 74%); */
     background: #183e9f;

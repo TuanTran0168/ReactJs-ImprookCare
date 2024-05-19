@@ -5,12 +5,16 @@ import Apis, { authApi, endpoints } from "../../configs/Apis";
 import { useNavigate } from "react-router-dom";
 import cookie from "react-cookies";
 import moment from "moment";
-import { MdMenu, MdPayments } from "react-icons/md";
+import { MdMenu } from "react-icons/md";
+import { FaWallet } from "react-icons/fa";
+import Pagination from "../../utils/Pagination"
 
 const PaidAppointment = () => {
     const [paidAppointment, setPaidAppointment] = useState([]);
     const [current_user,] = useContext(UserContext);
     const [loading, setLoading] = useState(false);
+    const [totalPages, setTotalPages] = useState('1');
+    const [selectedPage, setSelectedPage] = useState('1');
 
     const nav = useNavigate();
     // const [selectedBookingId, setSelectedBookingId] = useState("");
@@ -39,21 +43,33 @@ const PaidAppointment = () => {
             e += "?pageNumber=0"
             console.log(e)
 
-            let res1 = await authApi().post(e, {
+            let res = await authApi().post(e, {
                 "userId": current_user?.userId,
-                "bookingStatusId": "5"
+                "bookingStatusId": "5&6"
             })
+            setPaidAppointment(res.data.content)
+        } catch (error) {
+            console.log(error)
+        }
+    }
 
-            let res2 = await authApi().post(e, {
+    const loadPaidAppointmentPage = async (pageNumber) => {
+        try {
+            setLoading(true);
+            let e = endpoints['booking-user-view-page']
+            e += `?pageNumber=${pageNumber - 1}`
+            console.log(e)
+
+            let res = await authApi().post(e, {
                 "userId": current_user?.userId,
-                "bookingStatusId": "6"
+                "bookingStatusId": "5&6"
             })
-
-            console.log(res1.data.content)
-            console.log(res2.data.content)
-
-            const bookings = [...res1.data.content, ...res2.data.content]
-            setPaidAppointment(bookings)
+            setPaidAppointment(res.data.content)
+            setTotalPages(res.data.totalPages);
+            console.log(res.data.totalPages);
+            console.log(e);
+            setLoading(false);
+            console.log(res.data);
         } catch (error) {
             console.log(error)
         }
@@ -85,6 +101,14 @@ const PaidAppointment = () => {
         }
     }
 
+    const pages = Array.from({ length: totalPages }, (_, index) => index + 1);
+    const handlePageChange = (pageNumber) => {
+        // TODO: Xử lý sự kiện khi người dùng chuyển trang
+        setSelectedPage(pageNumber);
+        loadPaidAppointmentPage(pageNumber);
+        console.log(`Chuyển đến trang ${pageNumber}`);
+    };
+
     return <>
         <div>
             <div>
@@ -112,12 +136,15 @@ const PaidAppointment = () => {
                                     <td>{timeBegin} - {timeEnd}</td>
                                     <td><Badge bg="secondary">{pa.statusId.statusValue}</Badge></td>
                                     <td><Button variant="primary" onClick={(e) => viewBookingDetail(e, pa.bookingId)}><MdMenu /></Button></td>
-                                    <td><Button variant="primary" onClick={() => servicePayment(pa.scheduleId.profileDoctorId.bookingPrice, pa.profilePatientId.name, pa.bookingId)}><MdPayments /></Button></td>
+                                    <td><Button variant="primary" onClick={() => servicePayment(pa.scheduleId.profileDoctorId.bookingPrice, pa.profilePatientId.name, pa.bookingId)}><FaWallet /></Button></td>
                                 </tr>
                             </>
                         })}
                     </tbody>
                 </Table>
+                <Pagination pages={pages}
+                    selectedPage={selectedPage}
+                    handlePageChange={handlePageChange} />
             </div>
         </div>
     </>

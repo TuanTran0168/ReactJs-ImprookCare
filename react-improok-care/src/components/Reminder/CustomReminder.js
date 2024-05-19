@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Form } from "react-bootstrap";
 import { authApi, endpoints } from "../../configs/Apis";
-import { toast } from "react-toastify";
+import Swal from "sweetalert2";
 
 const CustomReminder = () => {
     const [medicineName, setMedicineName] = useState('');
@@ -31,7 +31,9 @@ const CustomReminder = () => {
                 "email": email
             })
             console.log(res.data)
-            toast.success("Tạo lịch nhắc thành công!")
+            Swal.fire(
+                'Thành công', "Tạo lịch nhắc thành công!", 'success'
+            );
         } catch (error) {
             console.log(error)
         }

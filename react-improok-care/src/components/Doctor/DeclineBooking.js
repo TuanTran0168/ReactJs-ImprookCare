@@ -2,9 +2,13 @@ import { useEffect, useState } from "react";
 import { Badge, Table } from "react-bootstrap";
 import { authApi, endpoints } from "../../configs/Apis";
 import moment from "moment"
+import Pagination from "../../utils/Pagination"
 
 const DeclineBooking = (props) => {
     const [declineBooking, setDeclineBooking] = useState([]);
+    const [totalPages, setTotalPages] = useState('1');
+    const [selectedPage, setSelectedPage] = useState('1');
+
     const loadDeclineBooking = async () => {
         try {
             let res = await authApi().post(endpoints['booking-doctor-view-page'], {
@@ -20,9 +24,33 @@ const DeclineBooking = (props) => {
         }
     }
 
+    const loadDeclineBookingPage = async (pageNumber) => {
+        try {
+            let res = await authApi().post(endpoints['booking-doctor-view-page'], {
+
+                "profileDoctorId": props.profileDoctorId,
+                "bookingStatusId": "3",
+                "pageNumber": pageNumber - 1
+            })
+            console.log(res.data.content)
+            setDeclineBooking(res.data.content)
+            setTotalPages(res.data.totalPages);
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
     useEffect(() => {
         loadDeclineBooking()
     }, [props.profileDoctorId])
+
+    const pages = Array.from({ length: totalPages }, (_, index) => index + 1);
+    const handlePageChange = (pageNumber) => {
+        // TODO: Xử lý sự kiện khi người dùng chuyển trang
+        setSelectedPage(pageNumber);
+        loadDeclineBookingPage(pageNumber);
+        console.log(`Chuyển đến trang ${pageNumber}`);
+    };
 
     return <>
         <div>
@@ -53,6 +81,9 @@ const DeclineBooking = (props) => {
                         })}
                     </tbody>
                 </Table>
+                <Pagination pages={pages}
+                    selectedPage={selectedPage}
+                    handlePageChange={handlePageChange} />
             </div>
         </div>
     </>

@@ -6,6 +6,7 @@ import cookie from "react-cookies"
 import Apis, { authApi, endpoints } from "../../configs/Apis";
 import moment from "moment";
 import { FaBookMedical, FaVideo } from "react-icons/fa";
+import Pagination from "../../utils/Pagination"
 
 const AcceptBooking = (props) => {
     const [allowBooking, setAllowBooking] = useState([]);
@@ -21,6 +22,9 @@ const AcceptBooking = (props) => {
     const [selectedBookingId, setSelectedBookingId] = useState("");
     const [selectedProfilePatientName, setSelectedProfilePatientName] = useState("");
     const [loading, setLoading] = useState(false);
+    const [totalPages, setTotalPages] = useState('1');
+    const [selectedPage, setSelectedPage] = useState('1');
+
 
     const removePres = () => {
         cookie.remove("pres");
@@ -35,6 +39,21 @@ const AcceptBooking = (props) => {
             })
             console.log(res.data.content)
             setAllowBooking(res.data.content)
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    const loadAllowBookingPage = async (pageNumber) => {
+        try {
+            let res = await authApi().post(endpoints['booking-doctor-view-page'], {
+                "profileDoctorId": props.profileDoctorId,
+                "bookingStatusId": "2",
+                "pageNumber": pageNumber - 1
+            })
+            console.log(res.data.content)
+            setAllowBooking(res.data.content)
+            setTotalPages(res.data.totalPages)
         } catch (error) {
             console.log(error)
         }
@@ -94,6 +113,14 @@ const AcceptBooking = (props) => {
         loadDoctorById()
     }, [props.profileDoctorId])
 
+    const pages = Array.from({ length: totalPages }, (_, index) => index + 1);
+    const handlePageChange = (pageNumber) => {
+        // TODO: Xử lý sự kiện khi người dùng chuyển trang
+        setSelectedPage(pageNumber);
+        loadAllowBookingPage(pageNumber);
+        console.log(`Chuyển đến trang ${pageNumber}`);
+    };
+
     return <>
         <div>
             <div>
@@ -131,6 +158,9 @@ const AcceptBooking = (props) => {
                         })}
                     </tbody>
                 </Table>
+                <Pagination pages={pages}
+                    selectedPage={selectedPage}
+                    handlePageChange={handlePageChange} />
             </div>
         </div>
     </>
