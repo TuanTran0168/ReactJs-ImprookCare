@@ -5,6 +5,7 @@ import { Button, Form, Table } from "react-bootstrap";
 import { Autocomplete, Stack, TextField } from "@mui/material";
 import cookie from "react-cookies"
 import { toast } from "react-toastify";
+import Swal from "sweetalert2";
 
 const UpdatePrescription = () => {
     const { bookingId } = useParams();
@@ -149,14 +150,29 @@ const UpdatePrescription = () => {
                     },
                     prescriptionDetailDTO: prescriptionDetailObject
                 };
-                console.log(request)
-                let res = await authApi().post(endpoints['update-prescription'], request);
-                console.log(res.data);
-                toast.success(res.data);
-                setLoading(false);
+                const hasEmptyMedicalReminder = Object.values(prescriptionDetailObject).some(detail => {
+                    return Object.keys(detail.medicalReminderDTO).length === 0;
+                });
+
+                if (hasEmptyMedicalReminder) {
+                    Swal.fire(
+                        'Thất bại', "Cần chỉ định thời gian uống cho tất cả thuốc", 'error'
+                    );
+                    return;
+                } else {
+                    console.log(request)
+                    let res = await authApi().post(endpoints['update-prescription'], request);
+                    console.log(res.data);
+                    Swal.fire(
+                        'Thành công', "Cập nhật đơn thuốc thành công!", 'success'
+                    );
+                    setLoading(false);
+                }
             } catch (error) {
                 console.log(error);
-                toast.error("Có lỗi xảy ra!")
+                Swal.fire(
+                    'Thất bại', "Có lỗi xảy ra!", 'error'
+                );
             }
         }
         process();

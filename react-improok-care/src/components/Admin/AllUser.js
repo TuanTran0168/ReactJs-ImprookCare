@@ -70,7 +70,6 @@ const AllUser = () => {
 
     useEffect(() => {
         loadUser();
-        // loadUserPage();
     }, [])
 
     const pages = Array.from({ length: totalPages }, (_, index) => index + 1);
@@ -122,7 +121,7 @@ const AllUser = () => {
                                 <th>Ngày sinh</th>
                                 <th>Giới tính</th>
                                 <th>Vai trò</th>
-                                <th>Thao tác</th>
+                                <th>Cập nhật</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -139,11 +138,7 @@ const AllUser = () => {
                                         <td>{formattedDate}</td>
                                         <td>{u.gender === true ? 'Nam' : 'Nữ'}</td>
                                         <td>{u.roleId.roleName.substring(5)}</td>
-                                        <td>
-                                            <Button variant="success" onClick={(e) => {
-                                                // handleOptionClickAndUpdateUser(e, u.userId)
-                                                nav(url);
-                                            }}>Cập nhật</Button>
+                                        <td><Button variant="success" onClick={() => nav(url)}>Cập nhật</Button>
                                         </td>
                                     </tr>
                                 </>

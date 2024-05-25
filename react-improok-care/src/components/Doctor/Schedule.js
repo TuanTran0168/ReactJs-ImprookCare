@@ -6,6 +6,7 @@ import { Form } from "react-bootstrap";
 import Apis, { authApi, endpoints } from "../../configs/Apis";
 import { toast } from "react-toastify";
 import Spinner from "../../layout/Spinner";
+import Swal from "sweetalert2";
 
 const Schedule = () => {
     const [current_user,] = useContext(UserContext);
@@ -253,11 +254,15 @@ const Schedule = () => {
                     });
                     console.log(res.data);
                 }
-                toast.success("Tạo lịch khám thành công!")
+                Swal.fire(
+                    'Thành công', "Tạo lịch khám thành công!", 'success'
+                );
                 setLoading(false);
             } catch (error) {
                 console.log(error);
-                toast.error("Có lỗi xảy ra!")
+                Swal.fire(
+                    'Thất bại', "Có lỗi xảy ra!", 'error'
+                );
             }
         }
         process();

@@ -1,13 +1,14 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Form } from "react-bootstrap";
+import { UserContext } from "../../App";
 import { authApi, endpoints } from "../../configs/Apis";
 import Swal from "sweetalert2";
 
 const CustomReminder = () => {
+    const [current_user,] = useContext(UserContext);
     const [medicineName, setMedicineName] = useState('');
     const [email, setEmail] = useState('');
     const [medicineTime, setMedicineTime] = useState();
-
     const currentDate = new Date();
     const currentFormattedDate = currentDate.toISOString().split('T')[0];
     const currentTime = currentDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
@@ -15,20 +16,27 @@ const CustomReminder = () => {
     console.log(currentTime)
     console.log(medicineTime)
 
+    const getCurrentFormattedDate = () => {
+        const currentDate = new Date();
+        const currentFormattedDate = currentDate.toISOString().split('T')[0];
+        return currentFormattedDate;
+    }
+
     const saveCustomReminder = async () => {
         try {
-            const dateInput = document.getElementById('doB');
+            const dateInput = document.getElementById('dateInput');
             const selectedDate = dateInput.value;
             const remindDate = new Date(selectedDate).toISOString().split('T')[0];
             console.log(remindDate)
-            console.log(remindDate + " " + medicineTime + ":00")
-            const customTime = `${remindDate} ${medicineTime}:00`;
+            // console.log(remindDate + " " + medicineTime + ":00")
+            const customTime = `${remindDate} ${medicineTime ? medicineTime : currentTime}:00`;
             console.log(customTime)
             let res = await authApi().post(endpoints['add-medical-schedule'], {
                 "customTime": customTime,
                 "startDate": remindDate,
                 "medicineName": medicineName,
-                "email": email
+                "email": email,
+                "userId": current_user?.userId
             })
             console.log(res.data)
             Swal.fire(
@@ -37,6 +45,13 @@ const CustomReminder = () => {
         } catch (error) {
             console.log(error)
         }
+    }
+
+    const cancelCustomReminder = () => {
+        setMedicineName('');
+        setEmail('');
+        const currentFormattedDate = getCurrentFormattedDate();
+        document.getElementById('dateInput').value = currentFormattedDate;
     }
 
     return (
@@ -55,14 +70,14 @@ const CustomReminder = () => {
                         </div>
                         <div className="Profile_Email">
                             <Form.Label style={{ width: "30%" }}>Ngày bắt đầu</Form.Label>
-                            <Form.Control type="Date" id="doB" defaultValue={currentFormattedDate} />
+                            <Form.Control type="Date" id="dateInput" defaultValue={currentFormattedDate} />
                         </div>
                         <div className="Profile_Email">
                             <Form.Label style={{ width: "30%" }}>Email</Form.Label>
                             <Form.Control type="text" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Email" required />
                         </div>
                         <div className="Update_Button">
-                            <button type="button">Hủy</button>
+                            <button type="button" onClick={() => cancelCustomReminder()}>Hủy</button>
                             <button type="button" onClick={() => saveCustomReminder()}>Lưu</button>
                         </div>
                     </div>

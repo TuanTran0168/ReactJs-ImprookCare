@@ -132,10 +132,10 @@ const BookingManagement = () => {
                         <DeclineBooking profileDoctorId={selectedProfileDoctorId} />
                     }
                 </>
-            case "cancelled":
-                return <>
-                    <div>Nội dung cho Đã hủy</div>
-                </>
+            // case "cancelled":
+            //     return <>
+            //         <div>Nội dung cho Đã hủy</div>
+            //     </>
             case "completed":
                 return <>
                     {selectedProfileDoctorId === "" ? <h2>Vui lòng chọn bác sĩ</h2> :

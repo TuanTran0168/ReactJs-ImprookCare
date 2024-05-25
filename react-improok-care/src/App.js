@@ -78,6 +78,7 @@ import Reminder from "./components/Reminder/Reminder";
 import PrescriptionReminder from "./components/Reminder/PrescriptionReminder";
 import CustomReminder from "./components/Reminder/CustomReminder";
 import TestHistory from "./components/TestHistory/TestHistory";
+import ReminderList from "./components/Reminder/ReminderList";
 
 export const UserContext = createContext();
 export const BookingManagementContext = createContext();
@@ -133,6 +134,7 @@ const App = () => {
                   <Route path='reminder' element={<Reminder />} >
                     <Route path='prescriptionreminder' element={<PrescriptionReminder />} />
                     <Route path='customreminder' element={<CustomReminder />} />
+                    <Route path='reminderlist' element={<ReminderList />} />
                   </Route>
                   <Route path='profile' element={<Profile />} />
                   <Route path='message' element={<Message />} />
@@ -147,6 +149,7 @@ const App = () => {
                   <Route path='doctormessage' element={<DoctorMessage />} />
                   <Route path='videocall' element={<VideoCall />} />
                   <Route path='updateprescription/:bookingId' element={<UpdatePrescription />} />
+                  <Route path='reexamination' element={<ReExamination />} />
                   <Route path='examination' element={<Examination />}>
                     <Route path='prescription' element={<Prescription />} />
                     <Route path='prescriptionhistory' element={<PrescriptionHistory />} />

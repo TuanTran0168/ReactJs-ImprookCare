@@ -136,7 +136,6 @@ const ReExamination = () => {
         setTimeEnd(newValue);
     };
 
-
     return (<>
         <div className="re-examination-wrapper">
             <div className="re-examination">

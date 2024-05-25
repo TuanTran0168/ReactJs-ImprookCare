@@ -12,7 +12,6 @@ const AllMedicine = () => {
     const [searchFromPrice, setSearchFromPrice] = useState(null);
     const [searchToPrice, setSearchToPrice] = useState(null);
     const [medicineCategories, setMedicineCategories] = useState([]);
-
     const [selectedPage, setSelectedPage] = useState('1');
     const [totalMedicinePages, setTotalMedicinePages] = useState('1');
     const [medicineList, setMedicineList] = useState([]);
@@ -81,7 +80,6 @@ const AllMedicine = () => {
 
     useEffect(() => {
         loadMedicine();
-        // loadMedicinePage();
     }, [])
 
     useEffect(() => {
@@ -127,7 +125,7 @@ const AllMedicine = () => {
                                 <th>Liều lượng</th>
                                 <th>Đơn giá</th>
                                 <th>Loại</th>
-                                <th>Thao tác</th>
+                                <th>Cập nhật</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -143,10 +141,7 @@ const AllMedicine = () => {
                                         <td>{m.dosage}</td>
                                         <td>{m.unitPrice}</td>
                                         <td>{m.categoryId.categoryName}</td>
-                                        <td>
-                                            <Button variant="success" onClick={(e) => {
-                                                nav(url)
-                                            }}>Cập nhật</Button>
+                                        <td><Button variant="success" onClick={() => nav(url)}>Cập nhật</Button>
                                         </td>
                                     </tr>
                                 </>

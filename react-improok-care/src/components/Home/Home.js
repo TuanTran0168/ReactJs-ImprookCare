@@ -20,7 +20,6 @@ import { reConnectNotification } from "../../utils/WebSocket";
 const Home = () => {
     const [searchKw, setSearchKw] = useState('');
     const [current_user,] = useContext(UserContext);
-
     const [webSocket,] = useContext(WebSocketContext);
 
     const nav = useNavigate();

@@ -3,6 +3,7 @@ import { Button, Form, Table } from "react-bootstrap";
 import Pagination from "../../utils/Pagination"
 import Apis, { authApi, endpoints } from "../../configs/Apis";
 import { toast } from "react-toastify";
+import Swal from "sweetalert2";
 
 const MedicineCategory = () => {
     const [medicineCategoryName, setMedicineCategoryName] = useState('');
@@ -49,7 +50,9 @@ const MedicineCategory = () => {
             try {
                 setLoading(true)
                 if (medicineCategoryName === '') {
-                    toast.warning("Vui lòng nhập tên thuốc");
+                    Swal.fire(
+                        'Cảnh báo', "Bạn chưa nhập tên thuốc!", 'warning'
+                    );
                     setLoading(false);
                     return
                 }
@@ -145,7 +148,6 @@ const MedicineCategory = () => {
 
     useEffect(() => {
         loadMedicineCategories();
-        // loadMedicineCategoriesPage();
     }, [])
 
     return (

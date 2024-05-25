@@ -156,7 +156,7 @@ const ForgetPassword = () => {
     }
 
     return <>
-        {successVerification === true ?
+        {successVerification === false ?
             <>
                 <div className="ForgetPassword_Wrapper">
                     <div className="ForgetPassword_Content">
@@ -195,7 +195,7 @@ const ForgetPassword = () => {
                                                         <InputGroup className="ForgetPassword_User_Input">
                                                             <InputGroup.Text><Phone /></InputGroup.Text>
                                                             <Form.Control
-                                                                placeholder="Username/Phone"
+                                                                placeholder="Tài khoản"
                                                                 aria-label="Username"
                                                                 aria-describedby="basic-addon1"
                                                                 id="phoneNumberInput"

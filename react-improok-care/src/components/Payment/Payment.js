@@ -24,7 +24,7 @@ const Payment = () => {
             cookie.remove("socket");
             reConnectNotification(false, current_user?.userId);
         }
-    }, [bookingId]);
+    }, [current_user]);
 
     const validSignature = async (bookingId) => {
         try {
@@ -125,7 +125,7 @@ const Payment = () => {
                 </div>
                 <div className="form-group">
                     <label>Mã ngân hàng thanh toán:</label>
-                    <label>{signatureValid.vnp_BankTranNo}</label>
+                    <label>{signatureValid.vnp_BankCode}</label>
                 </div>
                 <div className="form-group">
                     <label>Thời gian thanh toán:</label>

@@ -4,11 +4,11 @@ import { UserContext } from "../../App";
 import "./Profile.css";
 import { Button, Form } from "react-bootstrap";
 import Apis, { authApi, endpoints } from "../../configs/Apis";
-import { toast } from "react-toastify";
 import printer from "../../assets/images/printer.png";
 import profileicon from "../../assets/images/profile-icon.png";
 import profile404 from "../../assets/images/profile.png";
 import moment from "moment";
+import Swal from "sweetalert2";
 
 const Profile = () => {
     const [current_user,] = useContext(UserContext);
@@ -54,8 +54,6 @@ const Profile = () => {
     const [checkProfileInfo, setCheckProfileInfo] = useState(true)
 
     // const formattedDate = new Date(current_user.birthday).toISOString().substring(0, 10);
-    // console.log(typeof (current_birthday))
-    // console.log(typeof (current_user.birthday))
     // const formattedDate = current_user.birthDate.toISOString();
     // const formattedDate = new Date(current_birthday).toISOString();
 
@@ -183,13 +181,17 @@ const Profile = () => {
                     "userId": current_user?.userId
                 });
                 console.log(res.data);
-                toast.success(res.data);
+                Swal.fire(
+                    'Thành công', res.data, 'success'
+                );
                 setLoading(false);
                 setAddProfileInfo(false);
                 loadProfilePatient();
             } catch (error) {
                 console.log(error);
-                toast.error("Có lỗi xảy ra!")
+                Swal.fire(
+                    'Thất bại', "Có lỗi xảy ra!", 'error'
+                );
             }
         }
         process();
@@ -229,12 +231,16 @@ const Profile = () => {
                     "relationship": updateRelationship === undefined ? profile.relationship : updateRelationship
                 });
                 console.log(res.data);
-                toast.success(res.data)
+                Swal.fire(
+                    'Thành công', res.data, 'success'
+                );
                 setLoading(false);
                 setCheckProfileInfo(!checkProfileInfo);
             } catch (error) {
                 console.log(error);
-                toast.error("Có lỗi xảy ra!")
+                Swal.fire(
+                    'Thất bại', "Có lỗi xảy ra!", 'error'
+                );
             }
         }
         process();
@@ -242,7 +248,6 @@ const Profile = () => {
 
     // const formattedDate = new Date(profile.birthday);
     // formattedDate.setHours(formattedDate.getHours() + 7);
-
     // const formattedDateTime = formattedDate.toISOString().substring(0, 10);
 
     const addProfileClick = () => {
