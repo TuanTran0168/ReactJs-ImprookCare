@@ -7,6 +7,7 @@ import cookie from "react-cookies";
 import { toast } from "react-toastify";
 import avatar_user from "../../assets/images/user.png"
 import moment from "moment";
+import Swal from "sweetalert2";
 
 const Personal = () => {
     const [current_user, dispatch] = useContext(UserContext);
@@ -99,7 +100,9 @@ const Personal = () => {
                         "payload": update_User.data
                     });
 
-                    toast.success("Cập nhật thành công!")
+                    Swal.fire(
+                        'Thành công', "Cập nhật thành công!", 'success'
+                    );
 
                     setUser(update_User.data);
                     setLoading(false);

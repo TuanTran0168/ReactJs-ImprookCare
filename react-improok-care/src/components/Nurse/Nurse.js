@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 import NurseMenu from "../../layout/NurseLayout/NurseMenu";
 import cookie from "react-cookies";
 import { reConnectNotification } from "../../utils/WebSocket";
+import Swal from "sweetalert2";
 
 const Nurse = () => {
     const [current_user,] = useContext(UserContext);
@@ -25,7 +26,9 @@ const Nurse = () => {
     const nurseAuth = (current_user) => {
         if (isNurse === 0) {
             if (current_user !== null && current_user?.roleId.roleId !== 4) {
-                toast.error("Bạn không có quyền truy cập!")
+                Swal.fire(
+                    'Thất bại', "Bạn không có quyền truy cập!", 'error'
+                );
                 isNurse = 1;
                 nav('/');
             }

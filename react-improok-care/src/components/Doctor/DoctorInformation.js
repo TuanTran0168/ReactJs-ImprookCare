@@ -8,6 +8,7 @@ import cookie from "react-cookies";
 import { toast } from "react-toastify";
 import avatar_user from "../../assets/images/user.png"
 import moment from 'moment';
+import Swal from "sweetalert2";
 
 const DoctorInformation = () => {
     const [current_user, dispatch] = useContext(UserContext);
@@ -27,7 +28,9 @@ const DoctorInformation = () => {
     const doctorAuth = (current_user) => {
         if (isDoctor === 0) {
             if (current_user !== null && current_user?.roleId.roleId !== 2) {
-                toast.error("Bạn không có quyền truy cập!")
+                Swal.fire(
+                    'Thất bại', "Bạn không có quyền truy cập!", 'error'
+                );
                 isDoctor = 1;
                 nav('/');
             }
@@ -119,7 +122,9 @@ const DoctorInformation = () => {
                         "payload": update_User.data
                     });
 
-                    toast.success("Cập nhật thành công!")
+                    Swal.fire(
+                        'Thành công', "Cập nhật thành công!", 'success'
+                    );
 
                     setUser(update_User.data);
                     setLoading(false);

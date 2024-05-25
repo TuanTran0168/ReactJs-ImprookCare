@@ -6,7 +6,6 @@ import Apis, { endpoints } from "../../configs/Apis";
 import { Navigate, useNavigate, Link } from "react-router-dom"
 import { UserContext } from "../../App";
 import cookie from "react-cookies"
-import { toast } from "react-toastify";
 import Spinner from "../../layout/Spinner";
 import { AccountCircle, Facebook, Google, Lock, Person, Visibility, VisibilityOff } from "@mui/icons-material";
 import { InputGroup } from "react-bootstrap";
@@ -99,12 +98,12 @@ const Register = (props) => {
         setShowConfirmPassword(!showConfirmPassword);
     };
 
-    // // const change = (evt, field) => {
-    // //     // setUser({ ...user, [field]: evt.target.value })
-    // //     setUser(current => {
-    // //         return { ...current, [field]: evt.target.value }
-    // //     })
-    // // }
+    // const change = (evt, field) => {
+    //     // setUser({ ...user, [field]: evt.target.value })
+    //     setUser(current => {
+    //         return { ...current, [field]: evt.target.value }
+    //     })
+    // }
 
     if (current_user !== null)
         return <Navigate to="/" />

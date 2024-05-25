@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { Badge, Button, Table } from "react-bootstrap";
-import { toast } from "react-toastify";
 import Apis, { authApi, endpoints } from "../../configs/Apis";
 // import ModalNotification from "../../layout/Modal";
 import moment from "moment"
@@ -9,10 +8,10 @@ import Pagination from "../../utils/Pagination"
 
 const NewBooking = (props) => {
     const [newBooking, setNewBooking] = useState([]);
-    const [showModal, setShowModal] = useState(false);
-    const [title, setTitle] = useState('');
-    const [bookingId, setBookingId] = useState(null);
-    const [bookingAction, setBookingAction] = useState(null);
+    // const [showModal, setShowModal] = useState(false);
+    // const [title, setTitle] = useState('');
+    // const [bookingId, setBookingId] = useState(null);
+    // const [bookingAction, setBookingAction] = useState(null);
     const [totalPages, setTotalPages] = useState('1');
     const [selectedPage, setSelectedPage] = useState('1');
 
@@ -28,7 +27,6 @@ const NewBooking = (props) => {
                 loadNewBooking();
                 console.log(requestBody)
                 if (res.status === 200) {
-                    // toast.success(res.data);
                     let link = `http://localhost:3000/zego/?roomID=${res.data.linkVideoCall}`
                     let mes = await Apis.post(endpoints['send-custom-email'], {
                         "mailTo": "2051052125thai@ou.edu.vn",
@@ -38,7 +36,9 @@ const NewBooking = (props) => {
                     console.log(mes.data);
                 }
                 else {
-                    toast.error(res.data);
+                    Swal.fire(
+                        'Thất bại', res.data, 'error'
+                    );
                 }
                 console.log(res.data);
             } catch (error) {
@@ -59,7 +59,6 @@ const NewBooking = (props) => {
                 })
                 loadNewBooking();
                 if (res.data === "Từ chối thành công lịch đặt khám!") {
-                    // toast.success(res.data);
                     let mes = await Apis.post(endpoints['send-custom-email'], {
                         "mailTo": "2051050549tuan@ou.edu.vn",
                         "mailSubject": "Từ chối lịch khám",
@@ -68,7 +67,9 @@ const NewBooking = (props) => {
                     console.log(mes.data);
                 }
                 else {
-                    toast.error(res.data);
+                    Swal.fire(
+                        'Thất bại', res.data, 'error'
+                    );
                 }
                 console.log(res.data);
             } catch (error) {

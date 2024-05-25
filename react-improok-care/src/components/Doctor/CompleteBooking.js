@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Badge, Button, Form, Modal, Table } from "react-bootstrap";
 import Apis, { authApi, endpoints } from "../../configs/Apis";
 import { Autocomplete, Stack, TextField } from "@mui/material";
@@ -8,15 +8,24 @@ import moment from "moment";
 import { FaEdit } from "react-icons/fa";
 import { IoArrowBackCircle } from "react-icons/io5";
 import Pagination from "../../utils/Pagination"
+import { BookingManagementContext } from "../../App";
 
 const CompleteBooking = (props) => {
     const [completeBooking, setCompleteBooking] = useState([]);
+    const [, dispatchBooking] = useContext(BookingManagementContext)
     const [showModal, setShowModal] = useState(false)
     const [pres, setPres] = useState([])
     const [prescription, setPrescription] = useState([])
     const [medicineList, setMedicineList] = useState([])
     const [totalPages, setTotalPages] = useState('1');
     const [selectedPage, setSelectedPage] = useState('1');
+    const [bookingInfo, setBookingInfo] = useState({
+        bookingId: null,
+        profilePatientId: null,
+        profileDoctorId: null,
+        profilePatientName: null,
+        profileDoctorName: null
+    })
 
     const nav = useNavigate()
 
@@ -124,6 +133,29 @@ const CompleteBooking = (props) => {
         console.log(`Chuyển đến trang ${pageNumber}`);
     };
 
+    const reexamination = async (bookingId, profileDoctorName, profilePatientName, profilePatientId, profileDoctorId) => {
+        try {
+            const updatedBookingInfo = {
+                bookingId: bookingId,
+                profilePatientId: profilePatientId,
+                profileDoctorId: profileDoctorId,
+                profilePatientName: profilePatientName,
+                profileDoctorName: profileDoctorName
+            };
+
+            setBookingInfo(updatedBookingInfo);
+            dispatchBooking({
+                type: "booking",
+                payload: updatedBookingInfo
+            });
+            cookie.save("bookingInfo", updatedBookingInfo);
+            console.log(bookingInfo);
+            nav('/doctor/reexamination')
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
     return <>
         <div>
             <div>
@@ -150,7 +182,7 @@ const CompleteBooking = (props) => {
                                     <td>{moment(cb[2]).format('DD-MM-YYYY')}</td>
                                     <td>{timeBegin} - {timeEnd}</td>
                                     <td><Badge bg="warning">{cb[5]}</Badge></td>
-                                    <td><Button variant="primary"><IoArrowBackCircle /></Button></td>
+                                    <td><Button variant="primary" onClick={() => reexamination(cb[0], cb[1], cb[6], cb[10].profilePatientId, cb[11].profileDoctorId)}><IoArrowBackCircle /></Button></td>
                                     <td><Button variant="primary" onClick={() => handleEditPrescription(cb[0])}><FaEdit /></Button></td>
                                 </tr>
                             </>

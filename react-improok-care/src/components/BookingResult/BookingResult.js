@@ -6,7 +6,8 @@ import cookie from "react-cookies";
 import Apis, { authApi, endpoints } from "../../configs/Apis";
 import { Link } from "react-router-dom";
 import success from "../../assets/images/success.png"
-import { toast } from "react-toastify";
+import moment from "moment";
+import Swal from "sweetalert2";
 
 const BookingResult = () => {
     const [bookingResult,] = useContext(BookingResultContext);
@@ -29,7 +30,6 @@ const BookingResult = () => {
                 console.log(res.data[0]);
                 const formattedDate = new Date(res.data[0][6]);
                 formattedDate.setHours(formattedDate.getHours() + 7);
-
                 const formattedDateTime = formattedDate.toISOString().substring(0, 10);
                 setBirthday(formattedDateTime);
                 setPrice(res.data[0][3])
@@ -46,15 +46,16 @@ const BookingResult = () => {
             setLoading(true);
             let res = await Apis.post(endpoints['vnpay-payment'], {
                 "amount": price,
-                "orderInfor": "Service Payment: " + patientName + " đã thanh toán tiền khám thành công ",
+                "orderInfor": patientName + " đã thanh toán tiền khám thành công ",
                 "returnUrl": "http://localhost:3000/payment"
             });
             window.location.href = res.data;
-            // toast.success(res.data);
             setLoading(false);
             console.log(res.data);
         } catch (error) {
-            toast.error(error);
+            Swal.fire(
+                'Thất bại', "Có lỗi xảy ra!", 'error'
+            );
             console.log(error);
         }
     }
@@ -73,7 +74,7 @@ const BookingResult = () => {
                         <div style={{ fontSize: '1.1rem', fontWeight: '600' }}>Thông tin đặt khám</div>
                         <div className="BookingResult_In4_1">
                             <span>Ngày khám</span>
-                            <span>{bookingDetail[4]}</span>
+                            <span>{moment(bookingDetail[4]).format('DD-MM-YYYY')}</span>
                         </div>
                         <div className="BookingResult_In4_2">
                             <span>Chuyên khoa</span>
@@ -93,7 +94,7 @@ const BookingResult = () => {
                         <div className="BookingPatient_In4_2">
                             <span>Ngày sinh</span>
                             {/* <span>{bookingDetail[6]?.substring(0, 10)}</span> */}
-                            <span>{birthday}</span>
+                            <span>{moment(birthday).format('DD-MM-YYYY')}</span>
                         </div>
                         <div className="BookingPatient_In4_3">
                             <span>Giới tính</span>

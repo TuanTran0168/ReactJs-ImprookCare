@@ -46,3 +46,7 @@ div.reminder_menu>div>a {
 .active .text {
     color: white;
 }
+
+div.reminder-list-header>h3 {
+    color: #183e9f;
+}

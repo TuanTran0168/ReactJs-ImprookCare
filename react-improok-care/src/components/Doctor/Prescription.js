@@ -5,8 +5,8 @@ import "./Prescription.css";
 import { Button, Form, Table } from "react-bootstrap";
 import cookie from "react-cookies"
 import Apis, { authApi, endpoints } from "../../configs/Apis";
-import { toast } from "react-toastify";
 import { Autocomplete, Stack, TextField } from "@mui/material";
+import Swal from "sweetalert2";
 
 const Prescription = () => {
     const [current_user, dispatch] = useContext(UserContext);
@@ -65,19 +65,6 @@ const Prescription = () => {
     //         setBookingPrice(booking.bookingPrice);
     // }, [])
 
-    useEffect(() => {
-        const loadMedicineCategories = async () => {
-            try {
-                let res = await Apis.get(endpoints['medicine-categories'])
-                setMedicineCategories(res.data);
-                console.log(res.data);
-            } catch (error) {
-                console.log(error);
-            }
-        }
-        loadMedicineCategories();
-    }, [])
-
     const loadMedicine = async () => {
         try {
             setLoading(true);
@@ -87,46 +74,6 @@ const Prescription = () => {
             console.log(res.data);
         } catch (error) {
             console.log(error);
-        }
-    }
-
-    const loadMedicinePage = async (pageNumber) => {
-        try {
-            setLoading(true);
-            let e = `${endpoints['search-medicines']}`;
-            // let pageNumber = document.getElementsByClassName("active").id;
-            console.log(pageNumber)
-            if (pageNumber !== null && !isNaN(pageNumber)) {
-                e += `?pageNumber=${pageNumber - 1}&`
-            }
-            else {
-                e += `?`
-            }
-            let medicineName = searchMedicineName;
-            let fromPrice = searchFromPrice;
-            let toPrice = searchToPrice;
-            let categoryId = searchCategory;
-            if (medicineName !== null)
-                e += `medicineName=${medicineName}&`
-            if (fromPrice !== null)
-                e += `fromPrice=${fromPrice}&`
-            if (toPrice !== null)
-                e += `toPrice=${toPrice}&`
-            if (categoryId !== null && categoryId !== "TẤT CẢ DANH MỤC")
-                e += `categoryId=${categoryId}`
-            // let url = `/users/${pageNumber}`
-            console.log(e);
-            let res = await Apis.get(e);
-            setMedicineList(res.data.content);
-            // setUrlUser(e);
-            setTotalMedicinePages(res.data.totalPages);
-            console.log(res.data.totalPages);
-            console.log(e);
-            // navigate(url);
-            setLoading(false);
-            console.log(res.data);
-        } catch (error) {
-            console.log(error)
         }
     }
 
@@ -219,14 +166,6 @@ const Prescription = () => {
     //     cookie.remove("pres");
     // }
 
-    // const medicinePages = Array.from({ length: totalMedicinePages }, (_, index) => index + 1);
-    // const handleMedicinePageChange = (pageNumber) => {
-    //     // TODO: Xử lý sự kiện khi người dùng chuyển trang
-    //     setSelectedPage(pageNumber);
-    //     loadMedicinePage(pageNumber);
-    //     console.log(`Chuyển đến trang ${pageNumber}`);
-    // };
-
     // useEffect(() => {
     //     const handlePageShow = (event) => {
     //         if (event.persisted) {
@@ -259,18 +198,33 @@ const Prescription = () => {
                     },
                     prescriptionDetailDTO: pres
                 };
-                console.log("request", request)
-                let res = await authApi().post(endpoints['add-prescription'], request);
-                console.log("res.data", res.data);
-                toast.success(res.data);
-                setLoading(false);
-                cookie.remove("pres");
-                setDiagnosis('');
-                setSymptom('');
-                setPres([]);
+                const hasEmptyMedicalReminder = Object.values(pres).some(detail => {
+                    return Object.keys(detail.medicalReminderDTO).length === 0;
+                });
+
+                if (hasEmptyMedicalReminder) {
+                    Swal.fire(
+                        'Thất bại', "Cần chỉ định thời gian uống cho tất cả thuốc", 'error'
+                    );
+                    return
+                } else {
+                    console.log("request", request)
+                    let res = await authApi().post(endpoints['add-prescription'], request);
+                    console.log("res.data", res.data);
+                    Swal.fire(
+                        'Thành công', res.data, 'success'
+                    );
+                    setLoading(false);
+                    cookie.remove("pres");
+                    setDiagnosis('');
+                    setSymptom('');
+                    setPres([]);
+                }
             } catch (error) {
                 console.log(error);
-                toast.error("Có lỗi xảy ra!")
+                Swal.fire(
+                    'Thất bại', "Có lỗi xảy ra!", 'error'
+                );
             }
         }
         process();
@@ -307,7 +261,6 @@ const Prescription = () => {
                 timeReminderId: time
             };
         }
-
         setPres(updatedPres);
         cookie.save('pres', updatedPres);
         console.log(updatedPres);
@@ -344,11 +297,11 @@ const Prescription = () => {
                         </div>
                         <div className="Symptom">
                             <Form.Label style={{ width: "40%" }}>Triệu chứng</Form.Label>
-                            <Form.Control type="Text" defaultValue={diagnosis} onChange={(e) => setDiagnosis(e.target.value)} placeholder="Nhập triệu chứng..." required />
+                            <Form.Control type="Text" defaultValue={symptom} onChange={(e) => setSymptom(e.target.value)} placeholder="Nhập triệu chứng..." />
                         </div>
                         <div className="Diagnosis">
                             <Form.Label style={{ width: "40%" }}>Chuẩn đoán</Form.Label>
-                            <Form.Control type="Text" defaultValue={symptom} onChange={(e) => setSymptom(e.target.value)} placeholder="Nhập chuẩn đoán..." required />
+                            <Form.Control type="Text" defaultValue={diagnosis} onChange={(e) => setDiagnosis(e.target.value)} placeholder="Nhập chuẩn đoán..." />
                         </div>
                     </div>
                     <div className="Prescription_Right_Body_2">

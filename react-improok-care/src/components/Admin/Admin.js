@@ -26,6 +26,7 @@ import UpdateUser from "./UpdateUser";
 import UpdateMedicine from "./UpdateMedicine";
 import { reConnectNotification } from "../../utils/WebSocket";
 import cookie from "react-cookies";
+import Swal from "sweetalert2";
 
 const Admin = () => {
     const [current_user,] = useContext(UserContext);
@@ -143,7 +144,9 @@ const Admin = () => {
     const adminAuth = (current_user) => {
         if (isAdmin === 0) {
             if (current_user !== null && current_user.roleId.roleId !== 1) {
-                toast.error("Bạn không có quyền truy cập!")
+                Swal.fire(
+                    'Thất bại', "Bạn không có quyền truy cập!", 'error'
+                );
                 isAdmin = 1;
                 navigate('/')
             }

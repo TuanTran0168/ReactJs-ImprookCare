@@ -90,7 +90,7 @@ const PaidAppointment = () => {
             cookie.save('bookingresult', bookingId)
             let res = await Apis.post(endpoints['vnpay-payment'], {
                 "amount": price,
-                "orderInfor": "Service Payment: " + patientName + " đã thanh toán tiền khám thành công ",
+                "orderInfor": patientName + " đã thanh toán tiền khám thành công ",
                 "returnUrl": "http://localhost:3000/payment"
             });
             window.location.href = res.data;

@@ -32,6 +32,12 @@ const Reminder = () => {
                                 to="customreminder">
                                 <span className="text">Tùy chỉnh</span>
                             </NavLink>
+                            <NavLink
+                                activeClassName="active"
+                                onClick={() => handleItemClick("reminderlist")}
+                                to="reminderlist">
+                                <span className="text">Danh sách nhắc uống</span>
+                            </NavLink>
                         </div>
                     </div>
                     <Outlet />

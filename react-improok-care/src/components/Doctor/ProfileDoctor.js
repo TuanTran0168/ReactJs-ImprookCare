@@ -4,10 +4,10 @@ import { UserContext } from "../../App";
 import "./ProfileDoctor.css";
 import { Form } from "react-bootstrap";
 import Apis, { authApi, endpoints } from "../../configs/Apis";
-import { toast } from "react-toastify";
 import printer from "../../assets/images/printer.png"
 import profileicon from "../../assets/images/profile-icon.png"
 import profile404 from "../../assets/images/profile.png"
+import Swal from "sweetalert2";
 
 const ProfileDoctor = () => {
     const [current_user,] = useContext(UserContext);
@@ -155,12 +155,16 @@ const ProfileDoctor = () => {
                     "specialtyId": selectedSpecialty
                 });
                 console.log(res.data);
-                toast.success(res.data)
+                Swal.fire(
+                    "Thành công", res.data, "success"
+                )
                 setLoading(false);
                 setAddProfileInfo(false);
             } catch (error) {
                 console.log(error);
-                toast.error("Có lỗi xảy ra!")
+                Swal.fire(
+                    "Thất bại", "Có lỗi xảy ra!", "error"
+                )
             }
         }
         process();
@@ -197,12 +201,16 @@ const ProfileDoctor = () => {
                     "specialtyId": selectedSpecialty === undefined ? profile.specialtyId : selectedSpecialty
                 });
                 console.log(res.data);
-                toast.success(res.data);
+                Swal.fire(
+                    "Thành công", res.data, "success"
+                )
                 setLoading(false);
                 setCheckProfileInfo(!checkProfileInfo);
             } catch (error) {
                 console.log(error);
-                toast.error("Có lỗi xảy ra!")
+                Swal.fire(
+                    "Thất bại", "Có lỗi xảy ra!", "error"
+                )
             }
         }
         process();

@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 import DoctorMenu from "../../layout/DoctorLayout/DoctorMenu";
 import cookie from "react-cookies";
 import { reConnectNotification } from "../../utils/WebSocket";
+import Swal from "sweetalert2";
 
 const Doctor = () => {
     const [current_user,] = useContext(UserContext);
@@ -25,7 +26,9 @@ const Doctor = () => {
     const doctorAuth = (current_user) => {
         if (isDoctor === 0) {
             if (current_user !== null && current_user?.roleId.roleId !== 2) {
-                toast.error("Bạn không có quyền truy cập!")
+                Swal.fire(
+                    'Thất bại', "Bạn chưa có quyền truy cập!", 'error'
+                );
                 isDoctor = 1;
                 nav('/');
             }

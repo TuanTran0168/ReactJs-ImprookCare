@@ -183,7 +183,6 @@ const History = () => {
 
     useEffect(() => {
         loadPrescription();
-        // loadPrescriptionPage();
     }, [])
 
     return <>
@@ -257,8 +256,8 @@ const History = () => {
                                                                     id="panel1a-header"
                                                                     className="Prescription_Item"
                                                                     onClick={(e) => loadPrescriptionDetail(e, pl)}>
-                                                                    <Typography>Đơn thuốc: {pl.prescriptionId}</Typography>
-                                                                    <Typography>Chuẩn đoán: {pl.diagnosis}</Typography>
+                                                                    <Typography sx={{ width: '33%', flexShrink: 0 }}>Bác sĩ: {pl.bookingId.scheduleId.profileDoctorId.name}</Typography>
+                                                                    <Typography><Badge bg="primary">{pl.diagnosis}</Badge></Typography>
                                                                     {/* {(pl.medicinePaymentStatusId.medicinePaymentStatusId === 2 && pl.servicePaymentStatusId.servicePaymentStatusId === 2) ?
                                                                         <>
                                                                             <Typography><Badge bg="success">Đã thanh toán</Badge></Typography>
@@ -268,7 +267,7 @@ const History = () => {
                                                                 </AccordionSummary>
                                                                 <AccordionDetails className="Prescription_Detail">
                                                                     <div className="Prescription_Detail_Inner">
-                                                                        <h4 className="text-center mb-3 mt-3">ĐƠN THUỐC {pl.prescriptionId}</h4>
+                                                                        <h4 className="text-center mb-3 mt-3">Đơn thuốc</h4>
                                                                         <div className="Prescription_Infomation">
                                                                             <div className="Diagonsis_Symptoms">
                                                                                 <div>
@@ -316,8 +315,8 @@ const History = () => {
                                                                             </thead>
                                                                             <tbody>
                                                                                 {/* {Object.values(prescriptionDetail).forEach((presd) => {
-                                                                                tempTotal += presd.quantity * presd.unitPrice;
-                                                                            })} */}
+                                                                                    tempTotal += presd.quantity * presd.unitPrice;
+                                                                                })} */}
                                                                                 {Object.values(prescriptionDetail).map(presd => {
                                                                                     tempTotal += presd.prescriptionDetail.quantity * presd.prescriptionDetail.unitPrice
                                                                                     const timeReminderNames = presd.timeReminders.map(timeReminder => timeReminder.timeReminderId.timeReminderName);

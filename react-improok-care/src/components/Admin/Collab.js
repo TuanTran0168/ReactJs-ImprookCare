@@ -54,6 +54,7 @@ const Collab = () => {
         loadCollabDoctorPage(pageNumber);
         console.log(`Chuyển đến trang ${pageNumber}`);
     };
+
     const acceptCollabDoctor = (evt, collabId) => {
         evt.preventDefault();
 
@@ -121,8 +122,7 @@ const Collab = () => {
     }
 
     useEffect(() => {
-        loadCollabDoctor();
-        loadCollabDoctorPage();
+        loadCollabDoctor()
     }, [])
 
     return (
@@ -178,13 +178,13 @@ const Collab = () => {
                                         </tbody>
                                     </Table>
                                     {/* <div className="Page_Nav">
-                                                {collabDoctorPages.map((page) => (
-                                                    <button id={`${page}`} key={page} onClick={() => handleCollabDoctorPageChange(page)}
-                                                        className={page === selectedPage ? 'active' : ''}>
-                                                        {page}
-                                                    </button>
-                                                ))}
-                                            </div> */}
+                                        {collabDoctorPages.map((page) => (
+                                            <button id={`${page}`} key={page} onClick={() => handleCollabDoctorPageChange(page)}
+                                                className={page === selectedPage ? 'active' : ''}>
+                                                {page}
+                                            </button>
+                                        ))}
+                                    </div> */}
                                     <Pagination pages={collabDoctorPages}
                                         selectedPage={selectedPage}
                                         handlePageChange={handleCollabDoctorPageChange} />
