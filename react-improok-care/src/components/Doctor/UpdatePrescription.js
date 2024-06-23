@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import { Button, Form, Table } from "react-bootstrap";
 import { Autocomplete, Stack, TextField } from "@mui/material";
 import cookie from "react-cookies"
-import { toast } from "react-toastify";
 import Swal from "sweetalert2";
 
 const UpdatePrescription = () => {
@@ -15,6 +14,7 @@ const UpdatePrescription = () => {
     const [loading, setLoading] = useState(false)
     const [diagnosis, setDiagnosis] = useState('')
     const [symptom, setSymptom] = useState('')
+    const [notes, setNotes] = useState('')
 
     useEffect(() => {
         const loadPrescriptionDetailByBooking = async () => {
@@ -146,7 +146,8 @@ const UpdatePrescription = () => {
                         "diagnosis": diagnosis !== "" ? diagnosis : prescription?.diagnosis,
                         "symptom": symptom !== "" ? symptom : prescription?.symptoms,
                         "servicePrice": prescription?.bookingId?.scheduleId.profileDoctorId.bookingPrice,
-                        "bookingId": prescription?.bookingId?.bookingId
+                        "bookingId": prescription?.bookingId?.bookingId,
+                        "notes": notes !== "" ? notes : prescription?.notes
                     },
                     prescriptionDetailDTO: prescriptionDetailObject
                 };
@@ -185,29 +186,35 @@ const UpdatePrescription = () => {
                     <h3 className="text-center mb-4">THÔNG TIN ĐƠN THUỐC</h3>
                 </div>
                 <div className="Prescription_Right_Body_1">
-                    <div className="Patient_Name">
-                        <Form.Label style={{ width: "40%" }}>Bệnh nhân</Form.Label>
-                        <Form.Control type="text" value={prescription?.bookingId?.profilePatientId.name} disabled />
+                    <div className="Prescription_Info_1">
+                        <div className="Patient_Name">
+                            <Form.Label style={{ width: "40%" }}>Bệnh nhân</Form.Label>
+                            <Form.Control type="text" value={prescription?.bookingId?.profilePatientId.name} disabled />
+                        </div>
+                        <div className="Doctor_Name">
+                            <Form.Label style={{ width: "40%" }}>Bác sĩ</Form.Label>
+                            <Form.Control type="text" value={prescription?.bookingId?.scheduleId.profileDoctorId.name} disabled />
+                        </div>
+                        <div className="Create_Date">
+                            <Form.Label style={{ width: "40%" }}>Ngày lập</Form.Label>
+                            <Form.Control type="date" value={prescription?.createdDate?.substring(0, 10)} disabled />
+                        </div>
+                        <div className="Booking_Price">
+                            <Form.Label style={{ width: "40%" }}>Phí khám</Form.Label>
+                            <Form.Control type="Text" value={prescription?.bookingId?.scheduleId.profileDoctorId.bookingPrice} disabled />
+                        </div>
+                        <div className="Symptom">
+                            <Form.Label style={{ width: "40%" }}>Triệu chứng</Form.Label>
+                            <Form.Control type="Text" defaultValue={prescription?.symptoms} onChange={(e) => setSymptom(e.target.value)} placeholder="Nhập triệu chứng..." required />
+                        </div>
+                        <div className="Diagnosis">
+                            <Form.Label style={{ width: "40%" }}>Chuẩn đoán</Form.Label>
+                            <Form.Control type="Text" defaultValue={prescription?.diagnosis} onChange={(e) => setDiagnosis(e.target.value)} placeholder="Nhập chẩn đoán..." required />
+                        </div>
                     </div>
-                    <div className="Doctor_Name">
-                        <Form.Label style={{ width: "40%" }}>Bác sĩ</Form.Label>
-                        <Form.Control type="text" value={prescription?.bookingId?.scheduleId.profileDoctorId.name} disabled />
-                    </div>
-                    <div className="Create_Date">
-                        <Form.Label style={{ width: "40%" }}>Ngày lập</Form.Label>
-                        <Form.Control type="date" value={prescription?.createdDate?.substring(0, 10)} disabled />
-                    </div>
-                    <div className="Booking_Price">
-                        <Form.Label style={{ width: "40%" }}>Phí khám</Form.Label>
-                        <Form.Control type="Text" value={prescription?.bookingId?.scheduleId.profileDoctorId.bookingPrice} disabled />
-                    </div>
-                    <div className="Symptom">
-                        <Form.Label style={{ width: "40%" }}>Triệu chứng</Form.Label>
-                        <Form.Control type="Text" defaultValue={prescription?.symptoms} onChange={(e) => setSymptom(e.target.value)} placeholder="Nhập triệu chứng..." required />
-                    </div>
-                    <div className="Diagnosis">
-                        <Form.Label style={{ width: "40%" }}>Chuẩn đoán</Form.Label>
-                        <Form.Control type="Text" defaultValue={prescription?.diagnosis} onChange={(e) => setDiagnosis(e.target.value)} placeholder="Nhập chẩn đoán..." required />
+                    <div className="Notes">
+                        <Form.Label style={{ width: "40%" }}>Ghi chú</Form.Label>
+                        <Form.Control as="textarea" aria-label="With textarea" defaultValue={prescription?.notes} onChange={(e) => setNotes(e.target.value)} placeholder="Nhập ghi chú..." required />
                     </div>
                 </div>
                 <div className="Prescription_Right_Body_2">

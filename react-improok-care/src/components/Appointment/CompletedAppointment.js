@@ -29,6 +29,7 @@ const CompletedAppointment = () => {
             })
             console.log(res.data.content)
             setCompletedAppointment(res.data.content)
+            setTotalPages(res.data.totalPages);
         } catch (error) {
             console.log(error)
         }

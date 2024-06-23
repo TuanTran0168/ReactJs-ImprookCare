@@ -12,7 +12,7 @@ import Swal from "sweetalert2";
 
 const Profile = () => {
     const [current_user,] = useContext(UserContext);
-    const [gender, setGender] = useState()
+    const [gender, setGender] = useState(true)
     const [loading, setLoading] = useState(true)
 
     const [q] = useSearchParams();
@@ -58,7 +58,7 @@ const Profile = () => {
     // const formattedDate = new Date(current_birthday).toISOString();
 
     const currentDate = new Date();
-    const currentFormattedDate = currentDate.toISOString().split('T')[0];
+    const [currentFormattedDate, setCurrentFormattedDate] = useState(currentDate.toISOString().split('T')[0]);
 
     const [lockProfile, setLockProfile] = useState([])
 
@@ -305,6 +305,21 @@ const Profile = () => {
             return <Navigate to={next} />
     }
 
+    const autoFill = () => {
+        try {
+            setName(current_user?.lastname + " " + current_user?.firstname)
+            setPhonenumber(current_user?.username)
+            setEmail(current_user?.email)
+            if (current_user?.gender === 1)
+                setGender(true)
+            else
+                setGender(false)
+            setCurrentFormattedDate(current_user?.birthday.toISOString().split('T')[0])
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
     return <>
         <div className="Profile_Wrapper">
             <div className="Profile">
@@ -541,9 +556,15 @@ const Profile = () => {
                                         <div className="Profile_Gender">
                                             <Form.Label style={{ width: "22%" }}>Giới tính</Form.Label>
                                             <div className="Profile_Gender_Tick">
-                                                <Form.Check type="radio" label="Nam" name="genderOption" defaultChecked onChange={() => setGender(true)} />
-                                                <Form.Check type="radio" label="Nữ" name="genderOption" onChange={() => setGender(false)} />
+                                                {gender === true ? <>
+                                                    <Form.Check type="radio" label="Nam" name="genderOption" defaultChecked onChange={() => setGender(true)} />
+                                                    <Form.Check type="radio" label="Nữ" name="genderOption" onChange={() => setGender(false)} />
+                                                </> : <>
+                                                    <Form.Check type="radio" label="Nam" name="genderOption" onChange={() => setGender(true)} />
+                                                    <Form.Check type="radio" label="Nữ" name="genderOption" defaultChecked onChange={() => setGender(false)} />
+                                                </>}
                                             </div>
+
                                         </div>
                                         <div className="Profile_Birthday">
                                             <Form.Label style={{ width: "30%" }}>Ngày sinh</Form.Label>
@@ -563,6 +584,7 @@ const Profile = () => {
                                         <div className="Update_Button">
                                             <button type="button" onClick={exitAddProfileClick}>Thoát</button>
                                             <Button type="submit">Thêm hồ sơ mới</Button>
+                                            <button type="button" onClick={autoFill}>Tự động điền</button>
                                         </div>
                                     </Form>
                                 </div>

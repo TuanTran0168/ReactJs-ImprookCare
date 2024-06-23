@@ -1,54 +1,54 @@
 import './ReExamination.css'
-import 'react-datetime-picker/dist/DateTimePicker.css';
+import 'react-datetime-picker/dist/DateTimePicker.css'
 import 'react-big-calendar/lib/css/react-big-calendar.css'
 import { Calendar, momentLocalizer } from 'react-big-calendar'
-import DateTimePicker from 'react-datetime-picker';
+import DateTimePicker from 'react-datetime-picker'
 import { Button, Form, Modal } from 'react-bootstrap'
-import { DndProvider } from 'react-dnd';
-import { HTML5Backend } from 'react-dnd-html5-backend';
+import { DndProvider } from 'react-dnd'
+import { HTML5Backend } from 'react-dnd-html5-backend'
 import moment from 'moment'
-import { useState } from 'react';
-import { authApi, endpoints } from '../../configs/Apis';
-import { useContext } from 'react';
-import { BookingManagementContext } from '../../App';
-import { useEffect } from 'react';
+import { useState } from 'react'
+import { authApi, endpoints } from '../../configs/Apis'
+import { useContext } from 'react'
+import { BookingManagementContext } from '../../App'
+import { useEffect } from 'react'
 
 const ReExamination = () => {
-    const [booking,] = useContext(BookingManagementContext);
+    const [booking,] = useContext(BookingManagementContext)
     const localizer = momentLocalizer(moment)
     const [events, setEvents] = useState([]);
-    const [showModal, setShowModal] = useState(false);
-    const [timeBegin, setTimeBegin] = useState(null);
-    const [timeEnd, setTimeEnd] = useState(new Date());
-    const [minDate, setMinDate] = useState('');
+    const [showModal, setShowModal] = useState(false)
+    const [timeBegin, setTimeBegin] = useState(null)
+    const [timeEnd, setTimeEnd] = useState(new Date())
+    const [minDate, setMinDate] = useState('')
 
-    const [timeSlotId, setTimeSlotId] = useState(null);
-    const [loading, setLoading] = useState(false);
+    const [timeSlotId, setTimeSlotId] = useState(null)
+    const [loading, setLoading] = useState(false)
 
-    const [selectedEvent, setSelectedEvent] = useState(null);
-    const [note, setNote] = useState('');
+    const [selectedEvent, setSelectedEvent] = useState(null)
+    const [note, setNote] = useState('')
+
+    const loadAll = async () => {
+        try {
+            let res = await authApi().get(endpoints['load-custom-timeslot'](booking.profileDoctorId))
+            console.log(res.data)
+            const newEvents = res.data.map((result) => ({
+                id: result.timeSlotId,
+                title: result.note,
+                start: new Date(result.timeBegin),
+                end: new Date(result.timeEnd),
+            }));
+            setEvents(newEvents)
+            console.log(events)
+        } catch (error) {
+            console.log(error)
+        }
+    }
 
     useEffect(() => {
-        setEvents([])
         setLoading(true)
-        const today = new Date().toISOString().split("T")[0];
-        setMinDate(today);
-        const loadAll = async () => {
-            try {
-                let res = await authApi().get(endpoints['load-custom-timeslot'](booking.profileDoctorId))
-                console.log(res.data)
-                const newEvents = res.data.map((result) => ({
-                    id: result.timeSlotId,
-                    title: result.note,
-                    start: new Date(result.timeBegin),
-                    end: new Date(result.timeEnd),
-                }));
-                setEvents(newEvents);
-                console.log(events)
-            } catch (error) {
-                console.log(error);
-            }
-        }
+        const today = new Date().toISOString().split("T")[0]
+        setMinDate(today)
         loadAll()
         setLoading(false)
     }, []);
@@ -56,8 +56,8 @@ const ReExamination = () => {
     const formats = {
         timeGutterFormat: 'HH:mm',
         eventTimeRangeFormat: ({ start, end }) => {
-            const startTime = moment(start).format('HH:mm');
-            const endTime = moment(end).format('HH:mm');
+            const startTime = moment(start).format('HH:mm')
+            const endTime = moment(end).format('HH:mm')
             return `${startTime} - ${endTime}`;
         },
     };
@@ -122,18 +122,19 @@ const ReExamination = () => {
                 })
                 console.log(res.data)
             }
+            loadAll()
             setShowModal(false)
             setNote('')
-            setSelectedEvent(null);
+            setSelectedEvent(null)
         }
     }
 
     const onTimeBeginChange = (newValue) => {
-        setTimeBegin(newValue);
+        setTimeBegin(newValue)
     };
 
     const onTimeEndChange = (newValue) => {
-        setTimeEnd(newValue);
+        setTimeEnd(newValue)
     };
 
     return (<>

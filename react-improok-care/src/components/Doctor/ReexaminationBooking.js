@@ -36,6 +36,7 @@ const ReexaminationBooking = (props) => {
             })
             console.log(res.data.content)
             setReexaminationBooking(res.data.content)
+            setTotalPages(res.data.totalPages)
         } catch (error) {
             console.log(error)
         }

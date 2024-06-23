@@ -48,6 +48,8 @@ const PaidAppointment = () => {
                 "bookingStatusId": "5&6"
             })
             setPaidAppointment(res.data.content)
+            setTotalPages(res.data.totalPages)
+            console.log(res.data.content)
         } catch (error) {
             console.log(error)
         }

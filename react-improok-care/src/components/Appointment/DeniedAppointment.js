@@ -29,6 +29,7 @@ const DeniedAppointment = () => {
             })
             console.log(res.data.content)
             setDeniedAppointment(res.data.content)
+            setTotalPages(res.data.totalPages);
         } catch (error) {
             console.log(error)
         }

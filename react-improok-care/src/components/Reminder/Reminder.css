@@ -50,3 +50,15 @@ div.reminder_menu>div>a {
 div.reminder-list-header>h3 {
     color: #183e9f;
 }
+
+div.prescription-reminder {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+div.prescription-reminder>div {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}

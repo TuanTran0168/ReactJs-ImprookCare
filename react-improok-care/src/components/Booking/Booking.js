@@ -104,6 +104,8 @@ const Booking = () => {
                         <button onClick={search}><FcSearch /></button>
                     </div>
                 </div>
+                <div className="header-image">
+                </div>
             </div>
             <div className="Booking_Content">
                 <div className="Booking_Content_2">
