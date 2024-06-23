@@ -30,6 +30,7 @@ const Prescription = () => {
     const [diagnosis, setDiagnosis] = useState('')
     const [symptom, setSymptom] = useState('')
     const [usageInstruction, setUsageInstruction] = useState(null);
+    const [notes, setNotes] = useState('')
 
     const [pres, setPres] = useState(cookie.load("pres") || null)
 
@@ -194,7 +195,8 @@ const Prescription = () => {
                         "diagnosis": diagnosis,
                         "symptom": symptom,
                         "servicePrice": bookingPrice,
-                        "bookingId": bookingId
+                        "bookingId": bookingId,
+                        "notes": notes
                     },
                     prescriptionDetailDTO: pres
                 };
@@ -218,6 +220,7 @@ const Prescription = () => {
                     cookie.remove("pres");
                     setDiagnosis('');
                     setSymptom('');
+                    setNotes('');
                     setPres([]);
                 }
             } catch (error) {
@@ -279,29 +282,35 @@ const Prescription = () => {
                         <h3 className="text-center mb-4">THÔNG TIN ĐƠN THUỐC</h3>
                     </div>
                     <div className="Prescription_Right_Body_1">
-                        <div className="Patient_Name">
-                            <Form.Label style={{ width: "40%" }}>Bệnh nhân</Form.Label>
-                            <Form.Control type="text" value={profilePatientName} disabled />
+                        <div className="Prescription_Info_1">
+                            <div className="Patient_Name">
+                                <Form.Label style={{ width: "40%" }}>Bệnh nhân</Form.Label>
+                                <Form.Control type="text" value={profilePatientName} disabled />
+                            </div>
+                            <div className="Doctor_Name">
+                                <Form.Label style={{ width: "40%" }}>Bác sĩ</Form.Label>
+                                <Form.Control type="text" value={profileDoctorName} disabled />
+                            </div>
+                            <div className="Create_Date">
+                                <Form.Label style={{ width: "40%" }}>Ngày lập</Form.Label>
+                                <Form.Control type="date" value={currentFormattedDate} disabled />
+                            </div>
+                            <div className="Booking_Price">
+                                <Form.Label style={{ width: "40%" }}>Phí khám</Form.Label>
+                                <Form.Control type="Text" value={bookingPrice.toLocaleString('vi-VN') + ' VNĐ'} disabled />
+                            </div>
+                            <div className="Symptom">
+                                <Form.Label style={{ width: "40%" }}>Triệu chứng</Form.Label>
+                                <Form.Control type="Text" defaultValue={symptom} onChange={(e) => setSymptom(e.target.value)} placeholder="Nhập triệu chứng..." />
+                            </div>
+                            <div className="Diagnosis">
+                                <Form.Label style={{ width: "40%" }}>Chuẩn đoán</Form.Label>
+                                <Form.Control type="Text" defaultValue={diagnosis} onChange={(e) => setDiagnosis(e.target.value)} placeholder="Nhập chuẩn đoán..." />
+                            </div>
                         </div>
-                        <div className="Doctor_Name">
-                            <Form.Label style={{ width: "40%" }}>Bác sĩ</Form.Label>
-                            <Form.Control type="text" value={profileDoctorName} disabled />
-                        </div>
-                        <div className="Create_Date">
-                            <Form.Label style={{ width: "40%" }}>Ngày lập</Form.Label>
-                            <Form.Control type="date" value={currentFormattedDate} disabled />
-                        </div>
-                        <div className="Booking_Price">
-                            <Form.Label style={{ width: "40%" }}>Phí khám</Form.Label>
-                            <Form.Control type="Text" value={bookingPrice.toLocaleString('vi-VN') + ' VNĐ'} disabled />
-                        </div>
-                        <div className="Symptom">
-                            <Form.Label style={{ width: "40%" }}>Triệu chứng</Form.Label>
-                            <Form.Control type="Text" defaultValue={symptom} onChange={(e) => setSymptom(e.target.value)} placeholder="Nhập triệu chứng..." />
-                        </div>
-                        <div className="Diagnosis">
-                            <Form.Label style={{ width: "40%" }}>Chuẩn đoán</Form.Label>
-                            <Form.Control type="Text" defaultValue={diagnosis} onChange={(e) => setDiagnosis(e.target.value)} placeholder="Nhập chuẩn đoán..." />
+                        <div className="Notes">
+                            <Form.Label style={{ width: "40%" }}>Ghi chú</Form.Label>
+                            <Form.Control as="textarea" aria-label="With textarea" defaultValue={notes} onChange={(e) => setNotes(e.target.value)} placeholder="Nhập ghi chú..." />
                         </div>
                     </div>
                     <div className="Prescription_Right_Body_2">

@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { Badge, Button, Table } from "react-bootstrap";
+import { Badge, Button, Form, Modal, Table } from "react-bootstrap";
 import { UserContext } from "../../App";
 import "./History.css";
 import Apis, { authApi, endpoints } from "../../configs/Apis";
@@ -15,6 +15,7 @@ import { toast } from "react-toastify";
 import reminder from "../../assets/images/reminder.png";
 import Pagination from "../../utils/Pagination";
 import moment from "moment"
+import Swal from "sweetalert2";
 
 const History = () => {
     const [current_user,] = useContext(UserContext);
@@ -28,6 +29,19 @@ const History = () => {
     const [prescriptionList, setPrescriptionList] = useState([]);
     const [prescriptionDetail, setPrescriptionDetail] = useState([]);
     const [total, setTotal] = useState(null);
+
+    const [showModal, setShowModal] = useState(false)
+
+    const [medicalScheduleList, setMedicalScheduleList] = useState([]);
+
+    const [medicalReminder, setMedicalReminder] = useState([])
+    const [medicineName, setMedicineName] = useState('');
+    const [email, setEmail] = useState('');
+    const [medicineTime, setMedicineTime] = useState([]);
+    const [startDate, setStartDate] = useState([]);
+
+    const currentDate = new Date();
+    const currentFormattedDate = currentDate.toISOString().split('T')[0];
 
     const loadProfilePatient = async () => {
         try {
@@ -185,6 +199,93 @@ const History = () => {
         loadPrescription();
     }, [])
 
+    const handleShowModal = (pl) => {
+        const swalWithBootstrapButtons = Swal.mixin({
+            customClass: {
+                confirmButton: 'btn btn-success mr-2',
+                cancelButton: 'btn btn-danger',
+            },
+            buttonsStyling: false
+        });
+
+        swalWithBootstrapButtons.fire({
+            title: "Nhắc uống thuốc đã được tạo. Bạn có muốn tạo nhắc uống thuốc mới?",
+            text: "Bạn sẽ không thể hoàn tác tác vụ này!",
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonText: "Xem nhắc uống thuốc cũ",
+            cancelButtonText: "Tạo nhắc uống thuốc mới",
+        }).then((result) => {
+            if (result.isConfirmed) {
+                handleMedicalScheduleClick(pl)
+            } else if (result.dismiss === Swal.DismissReason.cancel) {
+
+            }
+        });
+    };
+
+    const getMedicalScheduleList = async (pl) => {
+        try {
+            let res = await authApi().get(endpoints['medical-schedule'](pl.prescriptionId))
+            console.log(pl.prescriptionId)
+            console.log(res.data)
+            setMedicalScheduleList(res.data)
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    const handleMedicalScheduleClick = (pl) => {
+        let url = `/user/medicalschedule/prescription/${pl.prescriptionId}`;
+        window.open(url, "_blank");
+    };
+
+    const loadMedicalReminder = async (pl) => {
+        try {
+            let res = await authApi().get(endpoints['medical-reminder'](pl.prescriptionId))
+            setMedicalReminder(res.data);
+            console.log(res.data);
+            setShowModal(true)
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    const addMedicalSchedule = async () => {
+        try {
+            let medicalReminderData = [];
+            Object.values(medicalReminder).forEach((mr, index) => {
+                const startDates = startDate[index] || currentFormattedDate;
+                // console.log(medicineTime)
+                const reminder = new Date(mr.timeReminderId.timeReminderValue)
+                const hours = String(reminder.getHours()).padStart(2, '0');
+                const minutes = String(reminder.getMinutes()).padStart(2, '0');
+                const formattedDate = `${hours}:${minutes}`;
+                const reminderTime = medicineTime[index] || formattedDate
+
+                const data = {
+                    medicalReminderId: mr.medicalReminderId.toString(),
+                    customTime: `${startDates} ${reminderTime}:00`,
+                    startDate: startDates,
+                    medicineName: mr.prescriptionDetailId.medicineId.medicineName,
+                    email: mr.prescriptionDetailId.prescriptionId.bookingId.profilePatientId.email,
+                    userId: current_user?.userId.toString()
+                };
+                medicalReminderData.push(data);
+            });
+            console.log(medicalReminderData)
+            let res = await authApi().post(endpoints['add-list-medical-schedule'], medicalReminderData);
+            console.log(res.data)
+            medicalReminderData = [];
+            setShowModal(false)
+            Swal.fire(
+                'Thành công', "Tạo nhắc uống thuốc thành công!", 'success'
+            );
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
     return <>
         <div className="History_Wrapper">
             <div className="History">
@@ -255,7 +356,11 @@ const History = () => {
                                                                     aria-controls="panel1a-content"
                                                                     id="panel1a-header"
                                                                     className="Prescription_Item"
-                                                                    onClick={(e) => loadPrescriptionDetail(e, pl)}>
+                                                                    onClick={(e) => {
+                                                                        loadPrescriptionDetail(e, pl);
+                                                                        getMedicalScheduleList(pl)
+                                                                    }
+                                                                    }>
                                                                     <Typography sx={{ width: '33%', flexShrink: 0 }}>Bác sĩ: {pl.bookingId.scheduleId.profileDoctorId.name}</Typography>
                                                                     <Typography><Badge bg="primary">{pl.diagnosis}</Badge></Typography>
                                                                     {/* {(pl.medicinePaymentStatusId.medicinePaymentStatusId === 2 && pl.servicePaymentStatusId.servicePaymentStatusId === 2) ?
@@ -358,10 +463,68 @@ const History = () => {
                                                                             <span>{tempTotal} VNĐ</span>
                                                                         </div>
                                                                         <div className="Payment_Button">
+                                                                            {medicalScheduleList.length === 0 ? <Button variant="primary" onClick={() => {
+                                                                                loadMedicalReminder(pl);
+                                                                                setShowModal(true)
+                                                                            }}>Tạo nhắc uống thuốc</Button> : <Button variant="primary" onClick={() => handleShowModal(pl)}>Xem nhắc uống thuốc</Button>}
                                                                             {pl.medicinePaymentStatusId.medicinePaymentStatusId === 1 ? <Button variant="warning" onClick={(e) => prescriptionPayment(e, tempTotal, pl.bookingId.profilePatientId.name, pl.prescriptionId)}>Thanh toán tiền thuốc</Button> : <Button variant="secondary" style={{ cursor: "not-allowed" }}>Thanh toán tiền thuốc</Button>}
                                                                         </div>
                                                                     </div>
                                                                 </AccordionDetails>
+                                                                {showModal && (
+                                                                    <Modal fullscreen={true} show={showModal} onHide={() => setShowModal(false)}
+                                                                        style={{ display: 'block', backgroundColor: 'rgba(0.0.0.0.5)', position: 'fixed', top: 0, bottom: 0, left: 0, right: 0, zIndex: 9999 }}
+                                                                    >
+                                                                        <Modal.Header closeButton>
+                                                                            <Modal.Title>Nhắc uống thuốc</Modal.Title>
+                                                                        </Modal.Header>
+                                                                        <Modal.Body>
+                                                                            <div className="Profile_Right_Content">
+                                                                                {Object.values(medicalReminder).map((mr, index) => {
+                                                                                    const reminder = new Date(mr.timeReminderId.timeReminderValue)
+                                                                                    const reminderTime = reminder.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                                                                                    return (
+                                                                                        <>
+                                                                                            <div className="Profile_Name">
+                                                                                                <Form.Label style={{ width: "30%" }}>Tên thuốc</Form.Label>
+                                                                                                <Form.Control value={mr.prescriptionDetailId.medicineId.medicineName} placeholder="Tên thuốc" disabled />
+                                                                                            </div>
+                                                                                            <div className="Profile_Phonenumber">
+                                                                                                <Form.Label style={{ width: "30%" }}>Thời gian uống</Form.Label>
+                                                                                                <Form.Control type="Time" defaultValue={reminderTime}
+                                                                                                    onChange={(e) => {
+                                                                                                        const updateMedicineTime = [...medicineTime];
+                                                                                                        updateMedicineTime[index] = e.target.value;
+                                                                                                        setMedicineTime(updateMedicineTime)
+                                                                                                    }}
+                                                                                                />
+                                                                                            </div>
+                                                                                            <div className="Profile_Email">
+                                                                                                <Form.Label style={{ width: "30%" }}>Ngày bắt đầu</Form.Label>
+                                                                                                <Form.Control type="Date" id="doB"
+                                                                                                    defaultValue={startDate[index] || currentFormattedDate}
+                                                                                                    onChange={(e) => {
+                                                                                                        const updatedStartDates = [...startDate];
+                                                                                                        updatedStartDates[index] = e.target.value;
+                                                                                                        setStartDate(updatedStartDates);
+                                                                                                    }}
+                                                                                                />
+                                                                                            </div>
+                                                                                            <div className="Profile_Email">
+                                                                                                <Form.Label style={{ width: "30%" }}>Email</Form.Label>
+                                                                                                <Form.Control type="text" defaultValue={mr.prescriptionDetailId.prescriptionId.bookingId.profilePatientId.email} onChange={(e) => setEmail(e.target.value)} placeholder="Email" disabled />
+                                                                                            </div>
+                                                                                        </>
+                                                                                    )
+                                                                                })}
+                                                                            </div>
+                                                                        </Modal.Body>
+                                                                        <Modal.Footer>
+                                                                            <Button variant="secondary" onClick={() => setShowModal(false)}>Đóng</Button>
+                                                                            <Button variant="primary" onClick={() => addMedicalSchedule()}>Lưu</Button>
+                                                                        </Modal.Footer>
+                                                                    </Modal>
+                                                                )}
                                                             </Accordion>
                                                         </>
                                                     })}

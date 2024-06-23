@@ -17,14 +17,20 @@ div.Prescription_Right {
 
 div.Prescription_Right_Body_1 {
     display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+div.Prescription_Right_Body_1>div.Prescription_Info_1 {
+    display: flex;
     flex-wrap: wrap;
     gap: 2rem;
 }
 
-div.Prescription_Right_Body_1 > div {
+div.Prescription_Right_Body_1>div.Prescription_Info_1>div {
     width: 48%;
     display: flex;
-    align=items: center;
+    align-items: center;
     justify-content: center;
     gap: 2rem;
 }

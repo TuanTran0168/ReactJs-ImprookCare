@@ -88,6 +88,7 @@ const NewBooking = (props) => {
             })
             console.log(res.data.content)
             setNewBooking(res.data.content)
+            setTotalPages(res.data.totalPages)
         } catch (error) {
             console.log(error)
         }

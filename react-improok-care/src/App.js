@@ -79,6 +79,7 @@ import PrescriptionReminder from "./components/Reminder/PrescriptionReminder";
 import CustomReminder from "./components/Reminder/CustomReminder";
 import TestHistory from "./components/TestHistory/TestHistory";
 import ReminderList from "./components/Reminder/ReminderList";
+import MedicalSchedule from "./components/History/MedicalSchedule";
 
 export const UserContext = createContext();
 export const BookingManagementContext = createContext();
@@ -129,6 +130,7 @@ const App = () => {
                     <Route path='completed' element={<CompletedAppointment />} />
                   </Route>
                   <Route path='history' element={<History />} />
+                  <Route path='medicalschedule/prescription/:prescriptionId' element={<MedicalSchedule />} />
                   <Route path='testhistory' element={<TestHistory />} />
                   <Route path='paymenthistory' element={<PaymentHistory />} />
                   <Route path='reminder' element={<Reminder />} >

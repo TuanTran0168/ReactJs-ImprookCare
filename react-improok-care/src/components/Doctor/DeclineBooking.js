@@ -19,6 +19,7 @@ const DeclineBooking = (props) => {
             })
             console.log(res.data.content)
             setDeclineBooking(res.data.content)
+            setTotalPages(res.data.totalPages)
         } catch (error) {
             console.log(error)
         }

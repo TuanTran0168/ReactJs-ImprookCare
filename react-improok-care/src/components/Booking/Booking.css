@@ -18,10 +18,13 @@ div.Booking_Content_1 {
     background: #183e9f;
     color: white;
     margin-top: 3rem;
+    height: 25rem;
+    align-items: center;
+    position: relative;
 }
 
 div.Booking_Content_1>div {
-    padding-top: 2rem;
+    padding-top: 7rem;
     padding-left: 5rem;
     padding-bottom: 3rem;
     padding-right: 5rem;

@@ -30,6 +30,7 @@ const ConfirmedAppointment = () => {
             })
             console.log(res.data.content)
             setConfirmedAppointment(res.data.content)
+            setTotalPages(res.data.totalPages);
         } catch (error) {
             console.log(error)
         }

@@ -29,37 +29,36 @@ const CustomSchedule = () => {
     const [timeSlotId, setTimeSlotId] = useState(null);
     const [selectedEvent, setSelectedEvent] = useState(null);
 
+    const loadAll = async () => {
+        try {
+            let res = await Apis.get(endpoints['load-profile-doctor-by-userId'](current_user?.userId));
+            setProfileDoctorByUserId(res.data);
+            if (res.data.length === 0) {
+                toast.info("Vui lòng tạo hồ sơ trước khi đăng ký lịch khám!");
+                nav('/profiledoctor');
+            }
+            if (res.data[0] !== undefined) {
+                setSeletedProfileDoctorId(res.data[0].profileDoctorId)
+            }
+            console.log(res.data);
+            let ses = await authApi().get(endpoints['load-custom-timeslot'](res.data[0].profileDoctorId))
+            console.log(ses.data)
+            const newEvents = ses.data.map((result) => ({
+                id: result.timeSlotId,
+                title: result.note,
+                start: new Date(result.timeBegin),
+                end: new Date(result.timeEnd),
+            }));
+            setEvents(newEvents);
+            console.log(events)
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
     useEffect(() => {
-        setEvents([])
-        setLoading(true)
         const today = new Date().toISOString().split("T")[0];
         setMinDate(today);
-        const loadAll = async () => {
-            try {
-                let res = await Apis.get(endpoints['load-profile-doctor-by-userId'](current_user?.userId));
-                setProfileDoctorByUserId(res.data);
-                if (res.data.length === 0) {
-                    toast.info("Vui lòng tạo hồ sơ trước khi đăng ký lịch khám!");
-                    nav('/profiledoctor');
-                }
-                if (res.data[0] !== undefined) {
-                    setSeletedProfileDoctorId(res.data[0].profileDoctorId)
-                }
-                console.log(res.data);
-                let ses = await authApi().get(endpoints['load-custom-timeslot'](res.data[0].profileDoctorId))
-                console.log(ses.data)
-                const newEvents = ses.data.map((result) => ({
-                    id: result.timeSlotId,
-                    title: result.note,
-                    start: new Date(result.timeBegin),
-                    end: new Date(result.timeEnd),
-                }));
-                setEvents(newEvents);
-                console.log(events)
-            } catch (error) {
-                console.log(error);
-            }
-        }
         loadAll()
         setLoading(false)
         console.log(value, timeBegin, timeEnd, formattedTime)
@@ -144,13 +143,15 @@ const CustomSchedule = () => {
                 );
                 setEvents(updatedEvents);
                 console.log(timeSlotId, timeBegin, timeEnd, note)
-                let res = await authApi().post(endpoints['edit-timeslot'], {
-                    "timeSlotId": timeSlotId,
-                    "timeBegin": moment(timeBegin).format("YYYY-MM-DD HH:mm:ss"),
-                    "timeEnd": moment(timeEnd).format("YYYY-MM-DD HH:mm:ss"),
-                    "note": note
-                })
-                console.log(res.data)
+                if (timeSlotId) {
+                    let res = await authApi().post(endpoints['edit-timeslot'], {
+                        "timeSlotId": timeSlotId,
+                        "timeBegin": moment(timeBegin).format("YYYY-MM-DD HH:mm:ss"),
+                        "timeEnd": moment(timeEnd).format("YYYY-MM-DD HH:mm:ss"),
+                        "note": note
+                    })
+                    console.log(res.data)
+                }
             }
             else {
                 const newEvent = {
@@ -159,7 +160,6 @@ const CustomSchedule = () => {
                     end: timeEnd
                 }
                 console.log(newEvent)
-                console.log()
                 setEvents([...events, newEvent])
                 console.log(timeBegin, timeEnd)
                 console.log(moment(timeBegin).format("YYYY-MM-DD HH:mm:ss"), moment(timeEnd).format("YYYY-MM-DD HH:mm:ss"))
@@ -171,6 +171,7 @@ const CustomSchedule = () => {
                 })
                 console.log(res.data)
             }
+            loadAll()
             setShowModal(false)
             setNote('')
             setSelectedEvent(null);

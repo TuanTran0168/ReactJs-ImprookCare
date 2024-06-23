@@ -132,15 +132,7 @@ const BookingDetail = () => {
                 if (res.data.length !== 0) {
                     cookie.save('bookingresult', res.data.bookingId);
                     setBookingResultList(res.data);
-                    let mes = await Apis.post(endpoints['send-custom-email'], {
-                        "mailTo": "2051050549tuan@ou.edu.vn",
-                        "mailSubject": "Xác nhận đặt khám",
-                        "mailContent": "Bạn đã đặt khám thành công tại hệ thống I'MPROOKCARE"
-                    })
-                    console.log(mes.data);
-
                     const bookingId = res.data.bookingId
-
                     dispatchBookingResult({
                         "type": "booking",
                         "payload": bookingId
@@ -152,6 +144,7 @@ const BookingDetail = () => {
                         'Thành công', "Đặt lịch thành công!", 'success'
                     );
                     setLoading(false)
+                    sendMail()
                 }
                 else {
                     Swal.fire(
@@ -165,6 +158,20 @@ const BookingDetail = () => {
             }
         }
         process();
+    }
+
+    const sendMail = async () => {
+        try {
+            let res = await Apis.post(endpoints['send-custom-email'], {
+                "mailTo": "2051050549tuan@ou.edu.vn",
+                "mailSubject": "Xác nhận đặt khám",
+                "mailContent": "Bạn đã đặt khám thành công tại hệ thống I'MPROOKCARE"
+            })
+            console.log(res.data);
+
+        } catch (error) {
+            console.log(error)
+        }
     }
 
     useEffect(() => {
