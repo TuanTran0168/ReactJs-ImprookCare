@@ -98,6 +98,12 @@ const Appointment = () => {
                         </NavLink>
                         <NavLink
                             activeClassName="active"
+                            onClick={() => handleItemClick("completed")}
+                            to="completed">
+                            <span className="text">Đã khám</span>
+                        </NavLink>
+                        <NavLink
+                            activeClassName="active"
                             onClick={() => handleItemClick("denied")}
                             to="denied">
                             <span className="text">Đã từ chối</span>
@@ -107,12 +113,6 @@ const Appointment = () => {
                             onClick={() => handleItemClick("canceled")}
                             to="canceled">
                             <span className="text">Đã hủy</span>
-                        </NavLink>
-                        <NavLink
-                            activeClassName="active"
-                            onClick={() => handleItemClick("completed")}
-                            to="completed">
-                            <span className="text">Đã khám</span>
                         </NavLink>
                     </div>
                 </div>

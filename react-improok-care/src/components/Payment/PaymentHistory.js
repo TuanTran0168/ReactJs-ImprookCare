@@ -9,6 +9,7 @@ import { authApi, endpoints } from "../../configs/Apis";
 import { Badge, Button, Modal, Table } from "react-bootstrap";
 import success from "../../assets/images/success.png"
 import { MdMenu } from "react-icons/md"
+import moment from "moment"
 
 const PaymentHistory = () => {
     const [current_user,] = useContext(UserContext);
@@ -184,7 +185,8 @@ const PaymentHistory = () => {
                                                                                 </div>
                                                                                 <div className="form-group">
                                                                                     <label>Thời gian thanh toán:</label>
-                                                                                    <label>{paymentDetail.vnpPaydate}</label>
+                                                                                    {/* <label>{paymentDetail.vnpPaydate}</label> */}
+                                                                                    <label>{moment(paymentDetail.vnpPaydate, "YYYYMMDDHHmmss").format("DD-MM-YYYY HH:mm:ss")}</label>
                                                                                 </div>
                                                                                 <div className="form-group">
                                                                                     <label>Tình trạng giao dịch:</label>

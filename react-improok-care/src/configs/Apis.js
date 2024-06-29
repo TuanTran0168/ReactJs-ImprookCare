@@ -124,7 +124,8 @@ export const endpoints = {
     "load-medical-schedule": (userId) => `${SERVER_CONTEXT}/api/auth/user/${userId}/medical-schedule/`,
     "load-medical-schedule-detail": (medicalScheduleId) => `${SERVER_CONTEXT}/api/auth/medical-schedule/${medicalScheduleId}/`,
     "delete-medical-schedule-id": (medicalScheduleId) => `${SERVER_CONTEXT}/api/auth/hard-delete/medical-schedule/${medicalScheduleId}/`,
-    "delete-medical-schedule-prescription-id": (prescriptionId) => `${SERVER_CONTEXT}/api/auth/prescriptionId/${prescriptionId}/hard-delete/medical-schedule/`
+    "delete-medical-schedule-prescription-id": (prescriptionId) => `${SERVER_CONTEXT}/api/auth/prescriptionId/${prescriptionId}/hard-delete/medical-schedule/`,
+    "get-payment-by-booking": (bookingId) => `${SERVER_CONTEXT}/api/auth/booking/${bookingId}/payment-history/`
 
     /*
     http://localhost:2024/IMPROOK_CARE/api/public/processReturnVNPAY/?vnp_Amount=13840000&vnp_BankCode=NCB&vnp_BankTranNo=VNP14141795&vnp_CardType=ATM&vnp_OrderInfo=Tuan+Tran+rich+kid+VN+pay%3A65331993&vnp_PayDate=20231013170840&vnp_ResponseCode=00&vnp_TmnCode=86LMDA46&vnp_TransactionNo=14141795&vnp_TransactionStatus=00&vnp_TxnRef=65331993&vnp_SecureHash=259b02cb3fcbe959cf2de9ff1d57d6febeb16c70dbe697248c0cb1f70e7383f9e865e6ba1b8435b30578ab5c645cc79a704986c7f2002bb6ea691a45d2e6adf3

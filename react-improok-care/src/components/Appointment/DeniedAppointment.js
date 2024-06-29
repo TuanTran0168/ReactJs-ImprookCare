@@ -63,7 +63,7 @@ const DeniedAppointment = () => {
 
     const viewBookingDetail = (evt, bookingId) => {
         evt.preventDefault();
-        nav(`/appointmentdetail?bookingId=${bookingId}`)
+        nav(`/appointmentdetail/?bookingId=${bookingId}`)
     }
 
     const pages = Array.from({ length: totalPages }, (_, index) => index + 1);

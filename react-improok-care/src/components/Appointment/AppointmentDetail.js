@@ -1,13 +1,16 @@
 import { useEffect, useState } from "react";
-import { authApi, endpoints } from "../../configs/Apis";
+import Apis, { authApi, endpoints } from "../../configs/Apis";
 import { Badge } from "react-bootstrap";
 import "./AppointmentDetail.css"
 import { useSearchParams } from "react-router-dom";
 import moment from "moment";
+import Swal from "sweetalert2";
 
 const AppointmentDetail = () => {
     const [bookingDetail, setBookingDetail] = useState([]);
     const [q] = useSearchParams();
+    const [loading, setLoading] = useState(false)
+
     const viewBookingDetail = async () => {
         try {
             let bookingId = q.get('bookingId')
@@ -41,6 +44,28 @@ const AppointmentDetail = () => {
         process();
     }
 
+    const refund = async () => {
+        try {
+            setLoading(true);
+            let bookingId = q.get('bookingId')
+            let uri = "Bệnh nhân " + bookingDetail[5] + " đã được hoàn tiền thành công "
+            let encoded = encodeURIComponent(uri)
+            let res = await Apis.post(endpoints['vnpay-payment'], {
+                "amount": bookingDetail[3],
+                "orderInfor": encoded,
+                "returnUrl": `http://localhost:3000/refund/?bookingId=${bookingId}`
+            });
+            window.location.href = res.data;
+            setLoading(false);
+            console.log(res.data);
+        } catch (error) {
+            Swal.fire(
+                'Thất bại', "Có lỗi xảy ra!", 'error'
+            );
+            console.log(error);
+        }
+    }
+
     useEffect(() => {
         viewBookingDetail()
     }, [])
@@ -69,7 +94,7 @@ const AppointmentDetail = () => {
                     </div>
                     <div className="Booking_In4_3">
                         <span>Phí khám</span>
-                        <span>{bookingDetail[3]?.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}</span>
+                        <span>{bookingDetail[3]} VNĐ</span>
                     </div>
                 </div>
                 <div className="Patient_In4">
@@ -107,7 +132,7 @@ const AppointmentDetail = () => {
                     </div>
                 </div>
                 <div className="Cancel_Button">
-                    {bookingDetail[12]?.statusValue === "Đã khám xong" || bookingDetail[12]?.statusValue === "Đã xác nhận" ? '' : <button type="button" onClick={(evt) => cancelBooking(evt)}>Hủy lịch</button>}
+                    {bookingDetail[12]?.statusValue === "Đã khám xong" || bookingDetail[12]?.statusValue === "Đã xác nhận" ? '' : bookingDetail[12]?.statusValue === "Chưa thanh toán" || bookingDetail[12]?.statusValue === "Tái khám" ? <button type="button" onClick={(evt) => cancelBooking(evt)}>Hủy lịch</button> : <button type="button" onClick={(evt) => { cancelBooking(evt); refund() }}>Hủy lịch & Hoàn tiền</button>}
                 </div>
             </div>
         </div>

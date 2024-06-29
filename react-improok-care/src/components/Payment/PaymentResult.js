@@ -7,6 +7,7 @@ import { Badge } from "react-bootstrap";
 import { UserContext } from "../../App";
 import cookie from "react-cookies";
 import { reConnectNotification } from "../../utils/WebSocket";
+import moment from "moment";
 
 function PaymentResult() {
     const [current_user,] = useContext(UserContext)
@@ -140,7 +141,7 @@ function PaymentResult() {
                 </div>
                 <div className="form-group">
                     <label>Thời gian thanh toán:</label>
-                    <label>{payDate}</label>
+                    <label>{moment(payDate, "YYYYMMDDHHmmss").format("DD-MM-YYYY HH:mm:ss")}</label>
                 </div>
                 <div className="form-group">
                     <label>Tình trạng giao dịch:</label>

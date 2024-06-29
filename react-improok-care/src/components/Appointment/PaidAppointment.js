@@ -83,17 +83,19 @@ const PaidAppointment = () => {
 
     const viewBookingDetail = (evt, bookingId) => {
         evt.preventDefault();
-        nav(`/appointmentdetail?bookingId=${bookingId}`)
+        nav(`/appointmentdetail/?bookingId=${bookingId}`)
     }
 
     const servicePayment = async (price, patientName, bookingId) => {
         try {
             setLoading(true);
             cookie.save('bookingresult', bookingId)
+            let uri = patientName + " đã thanh toán tiền khám thành công"
+            let encoded = encodeURIComponent(uri)
             let res = await Apis.post(endpoints['vnpay-payment'], {
                 "amount": price,
-                "orderInfor": patientName + " đã thanh toán tiền khám thành công ",
-                "returnUrl": "http://localhost:3000/payment"
+                "orderInfor": encoded,
+                "returnUrl": "http://localhost:3000/payment/"
             });
             window.location.href = res.data;
             setLoading(false);

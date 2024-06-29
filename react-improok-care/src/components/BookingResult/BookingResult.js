@@ -44,10 +44,12 @@ const BookingResult = () => {
     const servicePayment = async () => {
         try {
             setLoading(true);
+            let uri = patientName + " đã thanh toán tiền khám thành công "
+            let encoded = encodeURIComponent(uri)
             let res = await Apis.post(endpoints['vnpay-payment'], {
                 "amount": price,
-                "orderInfor": patientName + " đã thanh toán tiền khám thành công ",
-                "returnUrl": "http://localhost:3000/payment"
+                "orderInfor": encoded,
+                "returnUrl": "http://localhost:3000/payment/"
             });
             window.location.href = res.data;
             setLoading(false);
