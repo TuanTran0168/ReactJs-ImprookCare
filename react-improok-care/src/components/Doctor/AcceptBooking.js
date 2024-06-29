@@ -7,6 +7,7 @@ import Apis, { authApi, endpoints } from "../../configs/Apis";
 import moment from "moment";
 import { FaBookMedical, FaVideo } from "react-icons/fa";
 import Pagination from "../../utils/Pagination"
+import Swal from "sweetalert2";
 
 const AcceptBooking = (props) => {
     const [allowBooking, setAllowBooking] = useState([]);
@@ -121,6 +122,42 @@ const AcceptBooking = (props) => {
         console.log(`Chuyển đến trang ${pageNumber}`);
     };
 
+    const cancelBooking = async (bookingId) => {
+        try {
+            const requestBody = bookingId.toString()
+            let res = await authApi().post(endpoints['cancel-booking'], requestBody, {
+                headers: {
+                    'Content-Type': 'text/plain'
+                }
+            })
+            console.log(res.data);
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    const refund = async (bookingId, name, price) => {
+        try {
+            setLoading(true);
+            // let bookingId = q.get('bookingId')
+            let uri = "Bệnh nhân " + name + " đã được hoàn tiền thành công "
+            let encoded = encodeURIComponent(uri)
+            let res = await Apis.post(endpoints['vnpay-payment'], {
+                "amount": price,
+                "orderInfor": encoded,
+                "returnUrl": `http://localhost:3000/refund/?bookingId=${bookingId}`
+            });
+            window.location.href = res.data;
+            setLoading(false);
+            console.log(res.data);
+        } catch (error) {
+            Swal.fire(
+                'Thất bại', "Có lỗi xảy ra!", 'error'
+            );
+            console.log(error);
+        }
+    }
+
     return <>
         <div>
             <div>
@@ -134,6 +171,7 @@ const AcceptBooking = (props) => {
                             <th>Tình trạng</th>
                             <th>Khám bệnh</th>
                             <th>Meeting</th>
+                            <th>Hủy & Hoàn tiền</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -153,6 +191,7 @@ const AcceptBooking = (props) => {
                                     <td><Button variant="primary" onClick={(e) => handleCreatePrescription(e, ab[0], ab[6], ab[10].profilePatientId, ab[11].profileDoctorId)}><Link to='/doctor/examination/prescription' class="toPrescription" onClick={() => removePres()}><FaBookMedical /></Link></Button></td>
                                     {/* <td><Button variant="primary"><Link to={`/zego/?roomID=${ab[9]}`} class="toPrescription">Meeting</Link></Button></td> */}
                                     <td><Button variant="primary" onClick={() => handleMeetingClick(ab[9])}><FaVideo /></Button></td>
+                                    <td><Button variant="primary" onClick={() => { cancelBooking(ab[0]); refund(ab[0], name, ab[11].bookingPrice) }}>Hủy & Hoàn tiền</Button></td>
                                 </tr>
                             </>
                         })}

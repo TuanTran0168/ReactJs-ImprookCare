@@ -80,6 +80,7 @@ import CustomReminder from "./components/Reminder/CustomReminder";
 import TestHistory from "./components/TestHistory/TestHistory";
 import ReminderList from "./components/Reminder/ReminderList";
 import MedicalSchedule from "./components/History/MedicalSchedule";
+import Refund from "./components/Payment/Refund";
 
 export const UserContext = createContext();
 export const BookingManagementContext = createContext();
@@ -116,6 +117,7 @@ const App = () => {
                 <Route path='/booking/doctor/:profileDoctorId' element={<BookingDetail />} />
                 <Route path='/paymentresult' element={<PaymentResult />} />
                 <Route path='/payment' element={<Payment />} />
+                <Route path='/refund' element={<Refund />} />
                 <Route path='/search' element={<Search />} />
                 <Route path='/zego' element={<ZegoVideo />} />
                 <Route path='/appointmentdetail' element={<AppointmentDetail />} />

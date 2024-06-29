@@ -1,24 +1,25 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import Apis, { authApi, endpoints } from "../../configs/Apis";
-import "./Payment.css";
+import "./Refund.css";
 import success from "../../assets/images/success.png"
 import { Badge } from "react-bootstrap";
-import { BookingResultContext, UserContext } from "../../App";
+import { UserContext } from "../../App";
 import cookie from "react-cookies";
 import { reConnectNotification } from "../../utils/WebSocket";
 import moment from "moment";
 
-const Payment = () => {
+const Refund = () => {
     const [current_user,] = useContext(UserContext)
     const [signatureValid, setSignatureValid] = useState([]);
-    const [bookingResult,] = useContext(BookingResultContext)
-    const [bookingId, setBookingId] = useState(cookie.load('bookingresult'))
+    // const [bookingResult,] = useContext(BookingResultContext)
+    // const [bookingId, setBookingId] = useState(cookie.load('bookingresult'))
 
     const [q] = useSearchParams();
 
     useEffect(() => {
-        validSignature(bookingResult);
+        // validSignature(bookingResult);
+        getPaymentHistory()
         let client = cookie.load("socket")
         console.log("Client", client?.connected);
         if (current_user && client) {
@@ -26,6 +27,17 @@ const Payment = () => {
             reConnectNotification(false, current_user?.userId);
         }
     }, [current_user]);
+
+    const getPaymentHistory = async () => {
+        try {
+            let bookingId = q.get('bookingId')
+            let res = await authApi().get(endpoints['get-payment-by-booking'](bookingId))
+            console.log(res.data)
+            validSignature(bookingId)
+        } catch (error) {
+            console.log(error)
+        }
+    }
 
     const validSignature = async (bookingId) => {
         try {
@@ -62,35 +74,6 @@ const Payment = () => {
         }
     };
 
-    // const checkPayment = async () => {
-    //     try {
-    //         console.log(q.get("vnp_OrderInfo"));
-    //         let payStatus = q.get("vnp_OrderInfo").sublet(0, 1);
-    //         let prescriptionId = q.get("vnp_OrderInfo").split("-")[1];
-    //         let paymentTxnRef = q.get("vnp_TxnRef");
-    //         console.log(payStatus);
-    //         console.log(prescriptionId);
-    //         if (payStatus === "1") {
-    //             let res = await authApi().post(endpoints['pay-service'], {
-    //                 "service_payment_TxnRef": paymentTxnRef,
-    //                 "prescriptionId": prescriptionId
-    //             });
-    //             console.log(res.data)
-    //         }
-    //         else if (payStatus === "2") {
-    //             let res = await authApi().post(endpoints['pay-medicine'], {
-    //                 "medicine_payment_TxnRef": paymentTxnRef,
-    //                 "prescriptionId": prescriptionId
-    //             });
-    //             console.log(res.data)
-    //         } else {
-    //             console.log("Có lỗi xảy ra!");
-    //         }
-    //     } catch (error) {
-    //         console.log(error)
-    //     }
-    // }
-
     useEffect(() => {
         // addPayment();
     }, [])
@@ -98,14 +81,14 @@ const Payment = () => {
     return (
         <div className="Payment_Result_Wrapper">
             <div className="Payment_Result_Header">
-                <h3 className="text-muted">KẾT QUẢ THANH TOÁN</h3>
+                <h3 className="text-muted">KẾT QUẢ HOÀN TIỀN</h3>
                 <div className="Payment_Result_Image">
                     <img src={success} alt="success" width={"20%"} />
                 </div>
             </div>
             <div className="Payment_Result_Content">
                 <div className="form-group">
-                    <label>Mã giao dịch thanh toán:</label>
+                    <label>Mã giao dịch hoàn tiền:</label>
                     <label>{signatureValid.vnp_TxnRef}</label>
                 </div>
                 <div className="form-group">
@@ -126,11 +109,11 @@ const Payment = () => {
                     <label>{signatureValid.vnp_TransactionNo}</label>
                 </div>
                 <div className="form-group">
-                    <label>Mã ngân hàng thanh toán:</label>
+                    <label>Mã ngân hàng:</label>
                     <label>{signatureValid.vnp_BankCode}</label>
                 </div>
                 <div className="form-group">
-                    <label>Thời gian thanh toán:</label>
+                    <label>Thời gian:</label>
                     <label><label>{moment(signatureValid.vnp_PayDate, "YYYYMMDDHHmmss").format("DD-MM-YYYY HH:mm:ss")}</label></label>
                 </div>
                 <div className="form-group">
@@ -155,4 +138,4 @@ const Payment = () => {
     );
 }
 
-export default Payment;
+export default Refund;

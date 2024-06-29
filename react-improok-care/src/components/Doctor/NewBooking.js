@@ -14,6 +14,7 @@ const NewBooking = (props) => {
     // const [bookingAction, setBookingAction] = useState(null);
     const [totalPages, setTotalPages] = useState('1');
     const [selectedPage, setSelectedPage] = useState('1');
+    const [loading, setLoading] = useState(false)
 
     const acceptBooking = (bookingId) => {
         const process = async () => {
@@ -121,7 +122,7 @@ const NewBooking = (props) => {
     //     setShowModal(true);
     // };
 
-    const handleShowModal = (title, buttText, cfmText, action, bookingId) => {
+    const handleShowModal = (title, buttText, cfmText, action, bookingId, name, price) => {
         const swalWithBootstrapButtons = Swal.mixin({
             customClass: {
                 confirmButton: 'btn btn-success mr-2',
@@ -143,6 +144,10 @@ const NewBooking = (props) => {
                 swalWithBootstrapButtons.fire(
                     'Thành công', cfmText, 'success'
                 );
+                if (buttText === "Từ chối") {
+                    cancelBooking(bookingId)
+                    refund(bookingId, name, price)
+                }
             } else if (result.dismiss === Swal.DismissReason.cancel) {
             }
         });
@@ -155,6 +160,42 @@ const NewBooking = (props) => {
         loadNewBookingPage(pageNumber);
         console.log(`Chuyển đến trang ${pageNumber}`);
     };
+
+    const cancelBooking = async (bookingId) => {
+        try {
+            const requestBody = bookingId.toString()
+            let res = await authApi().post(endpoints['cancel-booking'], requestBody, {
+                headers: {
+                    'Content-Type': 'text/plain'
+                }
+            })
+            console.log(res.data);
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    const refund = async (bookingId, name, price) => {
+        try {
+            setLoading(true);
+            // let bookingId = q.get('bookingId')
+            let uri = "Bệnh nhân " + name + " đã được hoàn tiền thành công "
+            let encoded = encodeURIComponent(uri)
+            let res = await Apis.post(endpoints['vnpay-payment'], {
+                "amount": price,
+                "orderInfor": encoded,
+                "returnUrl": `http://localhost:3000/refund/?bookingId=${bookingId}`
+            });
+            window.location.href = res.data;
+            setLoading(false);
+            console.log(res.data);
+        } catch (error) {
+            Swal.fire(
+                'Thất bại', "Có lỗi xảy ra!", 'error'
+            );
+            console.log(error);
+        }
+    }
 
     return <>
         <div>
@@ -190,7 +231,7 @@ const NewBooking = (props) => {
                                         <Button variant="danger"
                                             // onClick={(evt) => denyBooking(evt, nb[0])}
                                             // onClick={() => handleShowModal(nb[0], 'Bạn có chắc muốn từ chối lịch khám?', "denyBooking")}
-                                            onClick={() => handleShowModal("Bạn có chắc chắc muốn từ chối lịch khám?", "Từ chối", "Từ chối thành công lịch khám", denyBooking, nb[0])}
+                                            onClick={() => handleShowModal("Bạn có chắc chắc muốn từ chối lịch khám?", "Từ chối", "Từ chối thành công lịch khám", denyBooking, nb[0], nb[6], nb[11].bookingPrice)}
                                         >Từ chối</Button>
                                     </td>
                                 </tr>
